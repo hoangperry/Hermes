@@ -37,7 +37,7 @@ protractor protractor_conf.js
 
 You can change [my_config.js]() adapt with your requirement.
 Example:
-```json
+```node
 const CustomRegexForm = require("./custom_steps/CustomRegexForm")
 
 module.exports = {
@@ -90,4 +90,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[DPS](https://www.dps.com.vn/)
