@@ -1,0 +1,1412 @@
+2019-09-10 16:37:20,619 - ERROR - HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3606c50>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7ff0e3606c50>: Failed to establish a new connection: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3606c50>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 417, in get_house_type
+    headers=APIConfig.RealEstateClassifier.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3606c50>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+2019-09-10 16:39:31,691 - ERROR - HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3438c50>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7ff0e3438c50>: Failed to establish a new connection: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3438c50>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3438c50>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+2019-09-10 16:41:42,763 - ERROR - HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3208a20>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7ff0e3208a20>: Failed to establish a new connection: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3208a20>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 417, in get_house_type
+    headers=APIConfig.RealEstateClassifier.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3208a20>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+2019-09-10 16:43:53,835 - ERROR - HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3216128>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7ff0e3216128>: Failed to establish a new connection: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3216128>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3216128>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+2019-09-10 16:46:04,907 - ERROR - HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e30b8c88>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7ff0e30b8c88>: Failed to establish a new connection: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e30b8c88>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 417, in get_house_type
+    headers=APIConfig.RealEstateClassifier.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.1.11', port=8114): Max retries exceeded with url: /document-classifier/real-estate/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e30b8c88>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+2019-09-10 16:48:15,979 - ERROR - HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3042390>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+TimeoutError: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7ff0e3042390>: Failed to establish a new connection: [Errno 110] Connection timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3042390>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.1.11', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff0e3042390>: Failed to establish a new connection: [Errno 110] Connection timed out',))
+2019-09-10 16:48:26,851 - ERROR - Time out exception: Message: 
+
+2019-09-10 16:57:24,817 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f3e0e209da0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f3e0e209da0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f3e0e209da0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f3e0e209da0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:02:50,892 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f28ca49def0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f28ca49def0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f28ca49def0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f28ca49def0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:03:15,873 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087b8cf28>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087b8cf28>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087b8cf28>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087b8cf28>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:03:29,560 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:03:29,648 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796f710>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f608796f710>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796f710>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796f710>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:03:41,678 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:03:41,763 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979438>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087979438>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979438>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979438>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:03:53,825 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:03:53,941 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796ff28>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f608796ff28>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796ff28>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796ff28>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:04:05,992 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:04:06,075 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979c50>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087979c50>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979c50>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979c50>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:04:18,157 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:04:18,238 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087908f98>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087908f98>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087908f98>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087908f98>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:04:30,399 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:04:30,480 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979fd0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087979fd0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979fd0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087979fd0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:04:42,660 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:04:42,767 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796f438>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f608796f438>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796f438>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f608796f438>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:04:54,943 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:04:55,031 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087913c88>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087913c88>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087913c88>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087913c88>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:05:07,200 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:05:07,283 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087913780>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087913780>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087913780>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087913780>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:05:19,378 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:05:19,460 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087908be0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6087908be0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087908be0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6087908be0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:22:56,264 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:22:56,359 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f21d0140eb8>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f21d0140eb8>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f21d0140eb8>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f21d0140eb8>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:33:40,624 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:41:34,835 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:41:34,923 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fbd2062f9e8>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fbd2062f9e8>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fbd2062f9e8>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fbd2062f9e8>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:42:36,488 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:42:36,577 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8e1aa35a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f8e1aa35a20>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8e1aa35a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8e1aa35a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
+2019-09-10 17:47:37,126 - ERROR - Time out exception: Message: 
+
+2019-09-10 17:47:37,219 - ERROR - HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fcfa49c4a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1254, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1300, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1249, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1036, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 974, in send
+    self.connect()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fcfa49c4a20>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/tindang/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fcfa49c4a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tindang/dps-web-crawler/application/common/entity/realestate_normalizer.py", line 358, in get_address
+    headers=APIConfig.PredictAddressFromText.headers)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/tindang/.local/lib/python3.6/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='42.117.7.106', port=8111): Max retries exceeded with url: /rest/api/query/parse-address-multi (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fcfa49c4a20>: Failed to establish a new connection: [Errno 111] Connection refused',))

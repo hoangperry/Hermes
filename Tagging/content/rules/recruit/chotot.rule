@@ -1,0 +1,46 @@
+domain => chotot.com
+homepage => https://www.chotot.com/toan-quoc/nguoi-tim-viec
+
+name => strong._2HUuTsr1DEbkOSHHhDmPrJ
+age => null
+birthday => null
+gender => null
+
+address => div.media.margin-top-05 div.media-body
+province => null
+district => null
+
+contact_phone => a#call_phone_btn attr:href
+contact_email => null
+
+level => null
+major => null
+
+timework => null
+expected_job => null
+expected_salary_text => span.oRSYZ0HPb2tHhHjpVp_2o
+
+cv_dir => null
+create_date => null
+
+title => h1.AdItem__Title-fFamiu
+content => p._1No0Ndy5xkVdszNItBaiuv
+
+allow_pattern => .*nguoi-tim-viec/\d+\.htm
+
+# prefix and table
+table => div._2E8caC-j61im7lRi5lExI9
+pre_name => null
+pre_gender => Giới tính:
+pre_birthday => null
+pre_level => null
+pre_major => Ngành nghề:
+pre_timework => Loại công việc:
+pre_expected_job => null
+pre_salary_text => null
+pre_address => null
+
+use_selenium => True
+
+pre_email => null
+pre_age => Tuổi:

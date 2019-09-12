@@ -1,0 +1,41 @@
+domain => bannhasg.com
+
+allow_pattern => .*pr\d{5,}\.htm$
+
+use_selenium => False
+
+title => h1
+posted_date => table#tbl3 tr:nth-of-type(5) td:nth-of-type(2)
+
+description => div.text
+price => null
+
+address => div.box_detail h2
+
+total_area => null
+
+description_table => table#tbl3 tr
+contact_table => table#tbl2 tr
+
+pre_direction => Hướng nhà
+pre_legal_status => null
+pre_location => null
+pre_total_area => Diện tích
+pre_total_area_width => null
+pre_total_area_length => null
+pre_construction_area => null
+pre_area_ilegal_recognized => null
+
+pre_floors => null
+pre_bedrooms => null
+pre_bathrooms => null
+
+pre_contact_name => Tên liên lạc
+pre_contact_phone => Mobile
+pre_contact_address => Địa chỉ
+pre_contact_email => Email
+
+contact_name => null
+contact_phone => null
+contact_email => null
+contact_address => null

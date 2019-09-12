@@ -1,0 +1,20 @@
+domain => baoquocte.vn
+homepage => https://baoquocte.vn/
+
+
+category => h2.TabTitleHome li:nth-of-type(2) a
+
+title => h1.titleDetailNews
+posted_date => div.dateUp span.format_date
+
+description => h3.f-16
+pre_description_regex => null
+
+content => div.viewsDtailContent > p:not(:nth-last-of-type(-n+2))
+
+author =>b.emty
+
+tags => ul.tagsCould a
+tags_sep => null
+
+allow_pattern => .*\d{5,}\.html$

@@ -1,0 +1,19 @@
+domain => news.zing.vn
+homepage => https://news.zing.vn/
+
+category => p.the-article-category
+
+title => h1.the-article-title
+
+description => p.the-article-summary
+pre_description_regex => null
+
+content => div.the-article-body > p
+
+author => null
+posted_date => li.the-article-publish
+
+tags => span.news-tags-item > a
+tags_sep => null
+
+allow_pattern => .*\d{7,}\.htm$

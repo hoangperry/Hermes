@@ -1,0 +1,17 @@
+domain => baodansinh.vn
+homepage => http://baodansinh.vn/
+
+category => .beakcump a:last-of-type
+posted_date => .date
+
+title => h1
+description => .grid640 h2
+pre_description_regex => null
+content => #content_detail_news p:not(p[style])
+
+author => #content_detail_news p:last-of-type
+
+tags => .tag_detail a
+tags_sep => null
+
+allow_pattern =>  .*\d{5}\.html$

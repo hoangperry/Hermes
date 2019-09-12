@@ -1,0 +1,19 @@
+domain => baovephapluat.vn
+homepage => https://baovephapluat.vn/
+
+category => span.head > a:first-child
+posted_date => div.lbPublishedDate
+
+title => h1.post-title
+
+description => div.post-summary > h2
+pre_description_regex => ^(\(BVPL\) - )
+
+content => div.noidung > p
+
+author => div.tacgia
+
+tags => div.post-tag a
+tags_sep => null
+
+allow_pattern => .*(baovephapluat\.vn\/).*\d{5}\.html$

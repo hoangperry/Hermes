@@ -1,0 +1,17 @@
+domain => vtv.vn
+homepage => https://vtv.vn/
+
+category => .tenmuc a
+posted_date => span[class="time"]
+
+title => h1.title_detail
+description => h2.sapo
+pre_description_regex => null
+content => div#entry-body p:not(:last-of-type)
+
+author => p.author
+
+tags => .news_keyword a
+tags_sep => null
+
+allow_pattern =>  .*\d{17}\.htm$

@@ -1,0 +1,41 @@
+domain => propzy.vn
+
+allow_pattern => .*\d{5,}$
+
+use_selenium => False
+
+title => h1
+posted_date => null
+
+description => div.bl-info p
+price => div.div-price span.span-price
+
+address => null
+
+total_area => div.div-price span.span-acreage
+
+description_table => div.bl-elements span
+contact_table => null
+
+pre_direction => Hướng:
+pre_legal_status => Giấy tờ:
+pre_location => null
+pre_total_area => null
+pre_total_area_width => Chiều rộng:
+pre_total_area_length => Chiều dài:
+pre_construction_area => null
+pre_area_ilegal_recognized => null
+
+pre_floors => Tầng:
+pre_bedrooms => Phòng ngủ:
+pre_bathrooms => Phòng tắm:
+
+pre_contact_name => null
+pre_contact_phone => null
+pre_contact_address => null
+pre_contact_email => null
+
+contact_name => null
+contact_phone => null
+contact_email => null
+contact_address => null

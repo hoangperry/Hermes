@@ -1,0 +1,41 @@
+domain => nhadat.net
+
+allow_pattern => .*\d{8,}.*
+
+use_selenium => False
+
+title => h1
+posted_date => div.contact_sent b:nth-of-type(1)
+
+description => p.text
+price => div.title-lg span.price_top
+
+address => div.adrest
+
+total_area => div.title-lg span.area_top
+
+description_table => div.Main_features > div
+contact_table => null
+
+pre_direction => Hướng
+pre_legal_status => Pháp lý
+pre_location => null
+pre_total_area => Diện tích đất
+pre_total_area_width => null
+pre_total_area_length => null
+pre_construction_area => Diện tích sử dụng
+pre_area_ilegal_recognized => null
+
+pre_floors => Số tầng
+pre_bedrooms => Số phòng ngủ
+pre_bathrooms => Nhà vệ sinh
+
+pre_contact_name => null
+pre_contact_phone => null
+pre_contact_address => null
+pre_contact_email => null
+
+contact_name => input#_post_user_name attr:value
+contact_phone => input#_post_user_phone attr:value
+contact_email => input#_post_user_email attr:value
+contact_address => null

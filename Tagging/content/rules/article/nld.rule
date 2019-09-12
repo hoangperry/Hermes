@@ -1,0 +1,19 @@
+domain => nld.com.vn
+homepage => https://nld.com.vn/
+
+category => li.cat span
+posted_date => p.ngayxuatban
+
+title => div#ctl00_IDContent_ctl00_divContent h1
+
+description => h2.sapo
+pre_description_regex => ^(\(NL\u0110O\) - )
+
+content => #divNewsContent p
+
+author => div.nguon-tin-detail
+
+tags => div.tagdetail a
+tags_sep => null
+
+allow_pattern => .*\d{17,}\.htm$

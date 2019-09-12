@@ -1,0 +1,17 @@
+domain => antt.vn
+homepage => http://antt.vn/
+
+category => .list_bread_detail:nth-of-type(2) span
+posted_date => .clearfix.mar_bottom15 .fontantt:first-of-type span
+
+title => .title_detail
+description => sapo_news
+pre_description_regex => null
+content => #main-detail p[style$="justify;"]
+
+author => #main-detail p:last-of-type
+
+tags => .tag_detail a
+tags_sep => null
+
+allow_pattern => .*\d{6}\.htm$

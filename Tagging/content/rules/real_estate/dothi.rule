@@ -1,0 +1,35 @@
+domain => dothi.net
+allow_pattern => .*pr\d{6,}\.htm$
+
+use_selenium => False
+title => h1
+posted_date => table#tbl1 tr:nth-of-type(3)
+description => div.pd-desc-content
+price => span.spanprice
+address => div#ContentPlaceHolder1_ProductDetail1_divlocation
+total_area => div#ContentPlaceHolder1_ProductDetail1_divprice span:nth-of-type(2)
+
+description_table => table#tbl1 tr
+
+pre_direction => Hướng nhà
+pre_legal_status => Pháp lý
+pre_location => null
+pre_total_area => null
+pre_total_area_width => null
+pre_total_area_length => null
+pre_construction_area => null
+pre_area_ilegal_recognized => Đường vào
+
+pre_floors => Số tầng
+pre_bedrooms => null
+pre_bathrooms => null
+
+contact_table => table#tbl2 tr
+pre_contact_name => Tên liên lạc
+pre_contact_phone => Di động
+pre_contact_address => null
+pre_contact_email => Email
+
+contact_name => null
+contact_phone => null
+contact_email => null

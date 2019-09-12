@@ -1,0 +1,41 @@
+domain => nhadat24h.net
+
+allow_pattern => .*ID\d{6,}$
+
+use_selenium => False
+
+title => h1
+posted_date => null
+
+description => div#ContentPlaceHolder1_ctl00_divContent > p
+price => div.dv-tb-tsbds tr:nth-of-type(1)
+
+address => label#ContentPlaceHolder1_ctl00_lbTinhThanh
+
+total_area => label#ContentPlaceHolder1_ctl00_lbDienTich
+
+description_table => div.dv-tb-tsbds tr
+contact_table => null
+
+pre_direction => Hướng
+pre_legal_status => Pháp lý
+pre_location => null
+pre_total_area => Diện Tích
+pre_total_area_width => null
+pre_total_area_length => null
+pre_construction_area => null
+pre_area_ilegal_recognized => Đường vào
+
+pre_floors => Số lầu
+pre_bedrooms => Số phòng ngủ
+pre_bathrooms => null
+
+pre_contact_name => null
+pre_contact_phone => null
+pre_contact_address => null
+pre_contact_email => null
+
+contact_name => label#lbHoTen
+contact_phone => a#viewmobinumber
+contact_email => null
+contact_address => a.popup-gmaps

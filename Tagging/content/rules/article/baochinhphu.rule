@@ -1,0 +1,17 @@
+domain => baochinhphu.vn
+homepage => http://baochinhphu.vn/
+
+category => .breadcrums a:nth-of-type(2)
+posted_date => .meta
+
+title => h1
+description => summary
+pre_description_regex => ^( ?\(Chinhphu\.vn\) ?– ?)
+content => .article-body p:nth-of-type(n+1)
+
+author => div[style="text-align: right;"] strong
+
+tags => null
+tags_sep => null
+
+allow_pattern =>  .*\/\d{6}\.vgp$

@@ -1,0 +1,37 @@
+domain => nhadatvanminh.com.vn
+allow_pattern => .*\.html$
+
+use_selenium => False
+title => div.pm-title
+posted_date => div.prd-more-info > div:nth-of-type(3)
+description => div.pm-desc
+price => div.kqchitiet span.gia-title:nth-of-type(1)
+address => div.div-hold > div:nth-of-type(2) > div:nth-of-type(2)
+total_area => div.kqchitiet span.gia-title:nth-of-type(1)
+
+description_table => div.div-hold > div:nth-of-type(2) > div
+pre_direction => Hướng nhà
+pre_legal_status => Pháp lý
+pre_location => Hướng
+pre_total_area => AreaTotalPrefix
+pre_total_area_width => Chiều ngang
+pre_total_area_length => Chiều dài
+pre_construction_area => AreaConstructionPrefix
+pre_area_ilegal_recognized => AreaIlegalRecognizedPrefix
+
+pre_floors => Số tầng
+pre_bedrooms => Số phòng ngủ
+pre_bathrooms => Số toilet
+
+contact_table => div#divCustomerInfo > div
+pre_contact_name => Tên liên lạc
+pre_contact_phone => Mobile
+pre_contact_address => Địa chỉ
+pre_contact_email => Email
+
+contact_name => null
+contact_phone => null
+contact_email => null
+
+select_element => select#ddlSortReult
+select_value => 1

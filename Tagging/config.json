@@ -1,0 +1,18 @@
+{
+    "real_estate": {
+        "classifier_url": "http://42.117.7.106:8114/document-classifier/real-estate/",
+        "classifier_header": {
+            "Content-Type": "application/json",
+            "Authorization": "Token 78c30d151382c93ae3e216acdff4e614d8032aeb"
+        },
+        "predict_address_url": "http://42.117.7.106:8111/rest/api/query/parse-address-multi",
+        "predict_address_header": {
+            "Content-Type": "application/json"
+        },
+        "predict_address_key": "82439b4bedd036231e6d6b7413b0229eec5e587a"
+    },
+    "news": {
+    },
+    "consumer_receiver_topic": "bds",
+    "producer_sender_topic": "bds_filled"
+}

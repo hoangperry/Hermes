@@ -1,0 +1,46 @@
+domain => vieclam.tv
+homepage => https://vieclam.tv/timungvien/
+
+name => .uv-chitiet tr:nth-of-type(1) > td:nth-of-type(2)
+age => null
+birthday => .uv-chitiet table tr:nth-of-type(2) > td:nth-of-type(2)
+gender => .uv-chitiet table tr:nth-of-type(3) td:nth-of-type(2)
+
+address => #main-left div:nth-of-type(12) tr:nth-of-type(5) td:nth-of-type(2)
+province => null
+district => null
+
+contact_phone => #main-left div:nth-of-type(17) tr:nth-of-type(3) td:nth-of-type(2)
+contact_email => #main-left div:nth-of-type(17) tr:nth-of-type(2) td:nth-of-type(2)
+
+level => #main-left div:nth-of-type(8) tr:nth-of-type(1) td:nth-of-type(2)
+major => #main-left div:nth-of-type(8) tr:nth-of-type(2) td:nth-of-type(2)
+
+timework => #main-left div:nth-of-type(12) tr:nth-of-type(4) td:nth-of-type(2)
+expected_job => #main-left div:nth-of-type(12) tr:nth-of-type(3) td:nth-of-type(2)
+expected_salary_text => #main-left div:nth-of-type(12) tr:nth-of-type(6) td:nth-of-type(2)
+
+cv_dir => null
+create_date => null
+
+title => null
+content => .mota-cv:nth-of-type(3) td:nth-of-type(2)
+
+allow_pattern => .*\/ungvien\/uv.*
+
+# prefix and table
+table => null
+pre_name => null
+pre_gender => null
+pre_birthday => null
+pre_level => null
+pre_major => null
+pre_timework => null
+pre_expected_job => null
+pre_salary_text => null
+pre_address => null
+
+use_selenium => False
+
+pre_email => Email
+pre_age => Tuổi:
