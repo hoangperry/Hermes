@@ -1,1 +1,0 @@
-[2019-09-09 10:19:07,542] INFO Got user-level KeeperException when processing sessionid:0x100000ced000000 type:setData cxid:0x40 zxid:0x1d txntype:-1 reqpath:n/a Error Path:/config/topics/bds Error:KeeperErrorCode = NoNode for /config/topics/bds (org.apache.zookeeper.server.PrepRequestProcessor)

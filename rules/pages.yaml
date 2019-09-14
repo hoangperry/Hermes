@@ -1,0 +1,9 @@
+alonhadat.com.vn:
+  allow_pattern: .*\d{4,}\.html$
+  start_urls: [https://alonhadat.com.vn/]
+  start_script: null
+
+bannhasg.com:
+  allow_pattern: .*pr\d{5,}\.htm$
+  start_urls: [https://alonhadat.com.vn/]
+
