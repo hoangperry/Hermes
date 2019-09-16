@@ -61,13 +61,17 @@ class Property:
     pre_floors = pre_bedrooms = pre_bathrooms = None
     pre_contact_name = pre_contact_phone = pre_contact_address = pre_contact_email = None
 
-    def __init__(self, **kwargs):
+    def set_dict(self, **kwargs):
         for key, value in kwargs.items():
-            try:
-                self.__getattribute__(key)
-                self.__setattr__(key, value)
-            except KeyError:
-                pass
+            self.__setattr__(key, value)
+
+    def optimize_dict(self):
+        ob_dict = dict()
+        for key, value in self.__dict__.items():
+            if not key.startswith("pre_") and not key.endswith("_table"):
+                ob_dict[key] = value
+
+        return ob_dict
 
     def is_valid(self):
         if self.title is not None:

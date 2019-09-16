@@ -77,17 +77,19 @@ class ContentUtils:
         if date equals "Hôm nay", "n giờ trước", "n phút trước",... => today
         :return:
         """
-        now = datetime.now()
-        if "hôm qua" in self.content:
-            return datetime(now.year, now.month - 1, now.day)
-        elif "hôm nay" in self.content or re.match(".*\d+.*(phút|giờ|giây) trước.*"):
-            return datetime(now.year, now.month, now.day)
-        else:
-            dates = extractor.get_dates(self.content)
-            if dates is not None:
-                return dates[0]
+        if self.content is not None:
+            now = datetime.now()
+            if "hôm qua" in self.content:
+                return datetime(now.year, now.month - 1, now.day)
+            elif "hôm nay" in self.content or re.match(".*\d+.*(phút|giờ|giây) trước.*", self.content):
+                return datetime(now.year, now.month, now.day)
             else:
-                return None
+                dates = extractor.get_dates(self.content)
+                if dates is not None:
+                    return dates[0]
+                else:
+                    return None
+        return None
 
     def get_email(self):
         """
@@ -356,37 +358,39 @@ class PropertyNormalizer:
             response = requests.post(APIConfig.PredictAddressFromText.url,
                                      data=json.dumps(data),
                                      headers=APIConfig.PredictAddressFromText.headers)
-            results = response.json()
 
-            dict_results = results
+            if response.ok:
+                results = response.json()
 
-            results = dict_to_object(results)
+                dict_results = results
 
-            if 'province' in dict_results and results.province is not None:
-                # add to property
-                self.property.province_name = results.province.name
-                self.property.province_id = results.province.id
+                results = dict_to_object(results)
 
-            if 'district' in dict_results and results.district is not None:
-                self.property.district_name = results.district.name
-                self.property.district_id = results.district.id
+                if 'province' in dict_results and results.province is not None:
+                    # add to property
+                    self.property.province_name = results.province.name
+                    self.property.province_id = results.province.id
 
-            if 'ward' in dict_results and results.ward is not None:
-                self.property.ward_name = results.ward.name
-                self.property.ward_id = results.ward.id
+                if 'district' in dict_results and results.district is not None:
+                    self.property.district_name = results.district.name
+                    self.property.district_id = results.district.id
 
-            if 'street' in dict_results and results.street is not None:
-                self.property.street_name = results.street.name
-                self.property.street_id = results.street.id
+                if 'ward' in dict_results and results.ward is not None:
+                    self.property.ward_name = results.ward.name
+                    self.property.ward_id = results.ward.id
 
-            # add addressnumber
-            if 'houseNumber' in dict_results:
-                self.property.address_number = results.houseNumber
+                if 'street' in dict_results and results.street is not None:
+                    self.property.street_name = results.street.name
+                    self.property.street_id = results.street.id
 
-            if 'apartment' in dict_results and results.apartment is not None:
-                # and project (apartment)
-                self.property.project_name = results.apartment.name
-                self.property.project_id = results.apartment.id
+                # add addressnumber
+                if 'houseNumber' in dict_results:
+                    self.property.address_number = results.houseNumber
+
+                if 'apartment' in dict_results and results.apartment is not None:
+                    # and project (apartment)
+                    self.property.project_name = results.apartment.name
+                    self.property.project_id = results.apartment.id
         except Exception as ex:
             logger.error_log.exception(str(ex))
 
@@ -512,7 +516,7 @@ def get_price(text: str):
                 text = re.sub("[^0-9\.]+", '', text)
 
                 return to_float(text)
-            except ValueError:
+            except Exception:
                 return None
 
 

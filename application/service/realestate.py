@@ -1,28 +1,26 @@
+import datetime
 import json
 
+from application.common.helpers import logger
 from application.common.helpers.url import UrlFormatter
 from application.common.entity.realestate_normalizer import PropertyNormalizer
 import application.common.crawler.scrapping as scrapping
 from application.model.real_estate import Property
-import application.common.content.text as text
 from application.common.helpers.rule import RuleLoader
-from kafka import KafkaConsumer, KafkaProducer
 
 with open('config.json') as f:
     crawler_config = json.load(f)
 
 
 class RealEstateExtractService:
-    def __init__(self, selenium_driver, rule_dir):
+    def __init__(self, selenium_driver, rule_dir, kafka_consumer_bsd_link, kafka_object_producer, object_topic):
         self.wrapSeleniumDriver = scrapping.WebDriverWrapper(selenium_driver)
         self.dict_rules = RuleLoader(rule_dir).load()
         self.url = None
         self.domain = None
-        try:
-            self.kafka_consumer_bsd_link = KafkaConsumer(crawler_config['consumer_receiver_topic'])
-            self.kafka_producer_bsd_tagging = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-        except Exception:
-            raise Exception("Kafka service hasn't been started! ")
+        self.kafka_consumer_bsd_link = kafka_consumer_bsd_link
+        self.object_topic = object_topic
+        self.kafka_object_producer = kafka_object_producer
 
     def start_listening_data_link(self):
         print("RealEstateExtractService was started!!!")
@@ -31,22 +29,36 @@ class RealEstateExtractService:
             self.set_page(url)
             dbfield = self.get_data_field()
             result = self.normalize_data(dbfield)
-            self.kafka_producer_bsd_tagging.send(crawler_config['producer_sender_topic'], result)
+            self.kafka_object_producer.send(crawler_config['producer_sender_topic'], result)
             self.clear_url_data()
 
     def set_page(self, url):
         self.url = url
         self.domain = UrlFormatter(url=url).get_domain()
 
+    def scrape_page_streaming(self):
+        logger.info_log.info("Start streaming")
+        for msg in self.kafka_consumer_bsd_link:
+            url = str(msg.value, "utf-8")
+            logger.info_log.info("Scrape {}".format(url))
+            self.set_page(url)
+            dbfield = self.get_data_field()
+            result = self.normalize_data(dbfield)
+            result = result.optimize_dict()
+            # result_dict = result.__dict__
+            self.kafka_object_producer.send(self.object_topic, result)
+            self.clear_url_data()
+
     def get_data_field(self):
         if not self.url:
             raise ConnectionAbortedError("Page is not exist!", self.url)
 
         rule = self.dict_rules[self.domain]
+        self.wrapSeleniumDriver.use_selenium(rule['use_selenium'])
         self.wrapSeleniumDriver.get(self.url)
         return self.wrapSeleniumDriver.scrape_elements(rule=rule)
 
-    def normalize_data(self, dbfield):
+    def normalize_data(self, result):
         """
         Example dictionary
             'domain' (140719183137008) = {str} 'alonhadat.com.vn'
@@ -78,38 +90,40 @@ class RealEstateExtractService:
             'contact_name' (140719183127728) = {str} 'div.content > div.name'
             'contact_phone' (140719183127856) = {str} 'div.content > div.fone'
             'contact_email' (140719183130288) = {str} 'null'
-        :param dbfield: Array
+        :param result: Array
         :return:
         """
-        prop = Property(title=dbfield['title'],
-                        price=dbfield['price'],
-                        description=dbfield['description'],
-                        total_area=dbfield['total_area'],
-                        address=dbfield['address'],
-                        contact_phone=dbfield['contact_phone'],
-                        contact_name=dbfield['contact_name'],
+        prop = Property()
+        prop.set_dict(title=result['title'],
+                        price=result['price'],
+                        description=result['description'],
+                        total_area=result['total_area'],
+                        address=result['address'],
+                        contact_phone=result['contact_phone'],
+                        contact_name=result['contact_name'],
                         source=self.url,
-                        url_hash=text.encode(self.url, algorithm='md5'),
-                        domain=UrlFormatter(url=self.url).get_domain(),
-                        pre_direction=dbfield['pre_direction'],
-                        pre_legal_status=dbfield['pre_legal_status'],
-                        pre_location=dbfield['pre_location'],
-                        pre_total_area=dbfield['pre_total_area'],
-                        pre_total_area_width=dbfield['pre_total_area_width'],
-                        pre_total_area_length=dbfield['pre_total_area_length'],
-                        pre_construction_area=dbfield['pre_construction_area'],
-                        pre_area_ilegal_recognized=dbfield['pre_area_ilegal_recognized'],
-                        pre_floors=dbfield['pre_floors'],
-                        pre_bedrooms=dbfield['pre_bedrooms'],
-                        pre_bathrooms=dbfield['pre_bathrooms'],
-                        pre_contact_name=dbfield['pre_contact_name'],
-                        pre_contact_phone=dbfield['pre_contact_phone'],
-                        pre_contact_address=dbfield['pre_contact_address'],
-                        pre_contact_email=dbfield['pre_contact_email'],
-                        contact_table=dbfield['contact_table'],
-                        description_table=dbfield['description_table'])
-        result = PropertyNormalizer(prop).normalize().__dict__
-        return result
+                        domain=self.domain,
+                        updated_date=datetime.datetime.now(),
+                        pre_direction=result['pre_direction'],
+                        pre_legal_status=result['pre_legal_status'],
+                        pre_location=result['pre_location'],
+                        pre_total_area=result['pre_total_area'],
+                        pre_total_area_width=result['pre_total_area_width'],
+                        pre_total_area_length=result['pre_total_area_length'],
+                        pre_construction_area=result['pre_construction_area'],
+                        pre_area_ilegal_recognized=result['pre_area_ilegal_recognized'],
+                        pre_floors=result['pre_floors'],
+                        pre_bedrooms=result['pre_bedrooms'],
+                        pre_bathrooms=result['pre_bathrooms'],
+                        pre_contact_name=result['pre_contact_name'],
+                        pre_contact_phone=result['pre_contact_phone'],
+                        pre_contact_address=result['pre_contact_address'],
+                        pre_contact_email=result['pre_contact_email'],
+                        contact_table=result['contact_table'],
+                        description_table=result['description_table'])
+
+        prop = PropertyNormalizer(prop).normalize()
+        return prop
 
     def clear_url_data(self):
         self.url = None,

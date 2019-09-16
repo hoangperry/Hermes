@@ -1,7 +1,7 @@
 domain => batdongsan.com.vn
 allow_pattern => .*pr\d+$
 
-use_selenium => True
+use_selenium => False
 title => div.pm-title
 posted_date => div.prd-more-info > div:nth-of-type(3)
 description => div.pm-desc

@@ -1,13 +1,11 @@
 import os
-
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from selenium import webdriver
 import urllib.parse
 import re
-
+import time
 from selenium.common.exceptions import TimeoutException, WebDriverException
-
 from application.common.helpers import logger
 from application.common.helpers.url import UrlFormatter
 from selenium.webdriver.chrome.options import Options
@@ -100,10 +98,11 @@ class WebDriverWrapper:
                 logger.error_log.exception("Cannot open browser {}".format(ex))
                 self.close_browser()
 
-    def get(self, url):
+    def get(self, url, wait=0):
         """
         Get html from web url
         :param url:
+        :param wait:
         :return:
         """
 
@@ -120,6 +119,7 @@ class WebDriverWrapper:
             try:
                 self.driver.get(url)
                 self.wait.until(EC.visibility_of_element_located((By.TAG_NAME, 'h1')))
+                time.sleep(wait)
                 text = self.driver.page_source
             except TimeoutException as ex:
                 logger.error_log.error("Time out exception: {}".format(ex))

@@ -1,9 +1,21 @@
+batdongsan.com:
+  allow_pattern: .*pr\d+$
+  start_urls: ["https://batdongsan.com.vn/nha-dat-ban", "https://batdongsan.com.vn/nha-dat-cho-thue"]
+  select_element: select#ddlSortReult
+  select_value: 1
+  start_script: null
+
 alonhadat.com.vn:
   allow_pattern: .*\d{4,}\.html$
   start_urls: [https://alonhadat.com.vn/]
+  select_element: null
+  select_value: null
   start_script: null
 
 bannhasg.com:
   allow_pattern: .*pr\d{5,}\.htm$
   start_urls: [https://alonhadat.com.vn/]
+  select_element: null
+  select_value: null
+  start_script: null
 

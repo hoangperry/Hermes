@@ -33,8 +33,6 @@ def to_float(s, max_length=5):
 
         return float(s)
     except Exception as ex:
-        logger.error_log.exception(str(ex))
-        logger.error_log.error(s)
         return None
 
 
@@ -42,6 +40,4 @@ def to_int(s):
     try:
         return int(s)
     except Exception as ex:
-        logger.error_log.exception(str(ex))
-        logger.error_log.error(s)
         return None
