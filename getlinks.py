@@ -10,7 +10,6 @@ import time
 from selenium.webdriver.support.ui import Select
 
 
-
 if __name__ == "__main__":
 
     # time.sleep(120)
