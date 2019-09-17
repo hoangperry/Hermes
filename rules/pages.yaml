@@ -14,8 +14,49 @@ alonhadat.com.vn:
 
 bannhasg.com:
   allow_pattern: .*pr\d{5,}\.htm$
-  start_urls: [https://alonhadat.com.vn/]
+  start_urls: [http://bannhasg.com/]
   select_element: null
   select_value: null
   start_script: null
 
+nha.chotot.com:
+  allow_pattern: .*\d+\.htm$
+  start_urls: [https://nha.chotot.com/?page=1&f=p]
+  select_element: null
+  select_value: null
+  start_script: null
+
+diaoconline.vn:
+  allow_pattern: .*\d+\.htm$
+  start_urls: [http://diaoconline.vn/sieu-thi/loc/?tindang=1]
+  select_element: null
+  select_value: null
+  start_script: null
+
+dothi.net:
+  allow_pattern: .*pr\d{6,}\.htm$
+  start_urls: [https://dothi.net/]
+  select_element: null
+  select_value: null
+  start_script: null
+
+mogi.vn:
+  allow_pattern: .*id\d{5,}$
+  start_urls: ["https://mogi.vn/mua-nha-dat", "https://mogi.vn/thue-nha-dat"]
+  select_element: null
+  select_value: null
+  start_script: null
+
+nhabansg.vn:
+  allow_pattern: .*nb\d+\.html$
+  start_urls: [https://nhabansg.vn/]
+  select_element: null
+  select_value: null
+  start_script: null
+
+nhadat.net:
+  allow_pattern: .*\d{8,}.*
+  start_urls: ["https://www.nhadat.net/ban-nha", "https://www.nhadat.net/cho-thue"]
+  select_element: null
+  select_value: null
+  start_script: null

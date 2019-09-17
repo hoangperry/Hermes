@@ -1,8 +1,6 @@
-import time
 import argparse
 import kafka
 import json
-from application.common.crawler.scrapping import WebDriverWrapper
 from application.service.realestate import RealEstateExtractService
 
 if __name__ == "__main__":

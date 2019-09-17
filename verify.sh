@@ -1,1 +1,0 @@
-python3 exec/dir.py
