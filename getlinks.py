@@ -17,11 +17,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--driver_path", required=False, help="Rules directory", default='/usr/bin/chromedriver')
     parser.add_argument("--link_topic", required=False, help="Rules directory", default="links")
+    parser.add_argument("--redis_host", required=False, help="Rules directory", default="links")
+    parser.add_argument("--kafka_host", required=False, help="Rules directory", default="links")
 
     args = parser.parse_args()
 
-    redis_connect = redis.Redis()
-    link_producer = kafka.KafkaProducer()
+    redis_connect = redis.Redis(host=args.redis_host)
+    link_producer = kafka.KafkaProducer(bootstrap_servers=args.kafka_host)
     webdriver = WebDriverWrapper(args.driver_path)
     webdriver.use_selenium(True)
 

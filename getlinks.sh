@@ -1,1 +1,3 @@
-python3 getlinks.py
+#!/bin/bash
+
+python3 getlinks.py --redis_host 172.17.0.6 --kafka_host 172.18.0.1
