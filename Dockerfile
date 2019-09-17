@@ -18,5 +18,8 @@ RUN apt-get install -yqq unzip
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
+# https://github.com/TinDang97/DPS_Web_Crawler_Project.git
+RUN git clone https://9d6a3cf8b4bbf744dcf4fd4ae8cf3f5d2dcdf077@github.com/TinDang97/DPS_Web_Crawler_Project.git
+
 WORKDIR /DPS_Web_Crawler_Project
 #CMD ["python3"]
