@@ -34,34 +34,34 @@ if __name__ == "__main__":
 
                 logger.info_log.info("Process {}".format(url))
 
-                try:
-                    # start
-                    webdriver.get(url, 5)
+                # start
+                webdriver.get(url, 5)
 
-                    if values['start_script'] is not None:
-                        webdriver.execute_script(values['start_script'])
+                if webdriver.driver is None:
+                    continue
 
-                    if values['select_element'] is not None:
-                        select = Select(webdriver.driver.find_element_by_css_selector(values['select_element']))
-                        select.select_by_index(values['select_value'])
-                        time.sleep(1.5)
-                        webdriver.set_html(webdriver.driver.page_source)
+                if values['start_script'] is not None:
+                    webdriver.execute_script(values['start_script'])
 
-                    # scrape
-                    links = webdriver.get_links(values['allow_pattern'])
+                if values['select_element'] is not None:
+                    select = Select(webdriver.driver.find_element_by_css_selector(values['select_element']))
+                    select.select_by_index(values['select_value'])
+                    time.sleep(1.5)
+                    webdriver.set_html(webdriver.driver.page_source)
 
-                    # add to redis and kafka
-                    for link in links:
-                        hashed_link = encode(link)
-                        if not redis_connect.exists(hashed_link):
-                            logger.info_log.info("Add {} to kafka".format(link))
-                            # add to redis and kafka
-                            redis_connect.set(hashed_link, 0)
-                            enc_link = link.encode()
-                            link_producer.send(args.link_topic, enc_link)
-                            time.sleep(0.01)
+                # scrape
+                links = webdriver.get_links(values['allow_pattern'])
 
-                except Exception as ex:
-                    logger.error_log.exception(str(ex))
+                # add to redis and kafka
+                for link in links:
+                    hashed_link = encode(link)
+                    if not redis_connect.exists(hashed_link):
+                        logger.info_log.info("Add {} to kafka".format(link))
+                        # add to redis and kafka
+                        redis_connect.set(hashed_link, 0)
+                        enc_link = link.encode()
+                        link_producer.send(args.link_topic, enc_link)
+                        time.sleep(0.01)
+
         # sleep
         real_estate_sleep()
