@@ -4,6 +4,7 @@ batdongsan.com.vn:
   select_element: "select#ddlSortReult"
   select_value: 1
   start_script: null
+  selenium: true
 
 alonhadat.com.vn:
   allow_pattern: .*\d{4,}\.html$
@@ -11,6 +12,7 @@ alonhadat.com.vn:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false
 
 bannhasg.com:
   allow_pattern: .*pr\d{5,}\.htm$
@@ -18,6 +20,7 @@ bannhasg.com:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false
 
 nha.chotot.com:
   allow_pattern: .*\d+\.htm$
@@ -25,6 +28,7 @@ nha.chotot.com:
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
 
 diaoconline.vn:
   allow_pattern: .*\d+\.htm$
@@ -32,6 +36,7 @@ diaoconline.vn:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false
 
 dothi.net:
   allow_pattern: .*pr\d{6,}\.htm$
@@ -39,6 +44,7 @@ dothi.net:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false
 
 mogi.vn:
   allow_pattern: .*id\d{5,}$
@@ -46,6 +52,7 @@ mogi.vn:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false
 
 nhabansg.vn:
   allow_pattern: .*nb\d+\.html$
@@ -53,6 +60,7 @@ nhabansg.vn:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false
 
 nhadat.net:
   allow_pattern: .*\d{8,}.*
@@ -60,3 +68,4 @@ nhadat.net:
   select_element: null
   select_value: null
   start_script: null
+  selenium: false

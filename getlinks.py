@@ -34,6 +34,7 @@ if __name__ == "__main__":
 
                 logger.info_log.info("Process {}".format(url))
 
+                webdriver.selenium = values['selenium']
                 # start
                 webdriver.get(url, 5)
 
