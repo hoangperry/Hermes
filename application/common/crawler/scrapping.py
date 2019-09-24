@@ -151,7 +151,8 @@ class WebDriverWrapper:
                     text = urlopen(req, context=context).read().decode('utf-8')
 
             except Exception as ex:
-                logger.error_log.error("Pageload exception {}".format(ex))
+                logger.error_log.exception("Pageload exception {}".format(ex))
+                logger.error_log.error(str(proxy))
                 # self.response_html = BeautifulSoup(re.sub('<br\s*[\/]?>', '\n', text), "lxml")
 
         self.set_html(text)
