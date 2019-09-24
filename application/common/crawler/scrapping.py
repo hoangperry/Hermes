@@ -19,7 +19,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 # pip3 install newspaper3k
 import ssl
 import random
-from newspaper import Article
+# from newspaper import Article
 
 
 # This restores the same behavior as before.
