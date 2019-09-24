@@ -141,7 +141,7 @@ class WebDriverWrapper:
                 # article.download()
                 # text = article.html
                 r = requests.get(url, proxies=proxy)
-                text = r.content
+                text = r.content.decode()
 
                 # if can not find, try another method
                 if text.strip() == '':
