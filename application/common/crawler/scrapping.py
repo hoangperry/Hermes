@@ -186,6 +186,9 @@ class WebDriverWrapper:
         except Exception:
             return None
 
+    def test_select(self, query):
+        return self.response_html.select(query)
+
     def select_first(self, query):
         """
         Get first element from query
