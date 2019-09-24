@@ -1,11 +1,14 @@
 import os
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
+from urllib import request as urlrequest
 from selenium import webdriver
 import urllib.parse
 import re
 import time
 from selenium.common.exceptions import TimeoutException, WebDriverException
+
+from application.common.crawler.proxies import list_proxies
 from application.common.helpers import logger
 from application.common.helpers.url import UrlFormatter
 from selenium.webdriver.chrome.options import Options
@@ -15,6 +18,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 # pip3 install newspaper3k
 import ssl
+import random
 from newspaper import Article
 
 
@@ -106,6 +110,9 @@ class WebDriverWrapper:
         :return:
         """
 
+        # random proxy
+        proxy = random.choice(list_proxies)
+
         logger.info_log.info(url)
 
         url_formatter = UrlFormatter(url)
@@ -130,17 +137,17 @@ class WebDriverWrapper:
         else:
             text = ''
             try:
-                article = Article(url)
-                article.download()
-                text = article.html
+                # article = Article(url)
+                # article.download()
+                # text = article.html
+                r = requests.get(url, proxies=proxy)
+                text = r.content
 
                 # if can not find, try another method
                 if text.strip() == '':
-                    # text = urllib.request.urlopen(url)
-                    # text = text.read()
-                    # text = text.decode('utf-8')
-                    # req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                    req.set_proxy(proxy["http"], "http")
+                    req.set_proxy(proxy["https"], "https")
                     text = urlopen(req, context=context).read().decode('utf-8')
 
             except Exception as ex:
