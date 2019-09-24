@@ -6,7 +6,7 @@ title => div.pm-title
 posted_date => div.prd-more-info > div:nth-of-type(3)
 description => div.pm-desc
 price => div.kqchitiet span.gia-title:nth-of-type(1)
-address => div.div-hold > div:nth-of-type(2) > div:nth-of-type(2)
+address => div.div-hold > div:nth-of-type(2) div.table-detail > div
 total_area => div.kqchitiet span.gia-title:nth-of-type(1)
 
 description_table => div.div-hold > div:nth-of-type(2) > div
