@@ -60,6 +60,7 @@ class Property:
     pre_total_area_length = pre_construction_area = pre_area_ilegal_recognized = None
     pre_floors = pre_bedrooms = pre_bathrooms = None
     pre_contact_name = pre_contact_phone = pre_contact_address = pre_contact_email = None
+    pre_property_address = None
 
     def set_dict(self, **kwargs):
         for key, value in kwargs.items():

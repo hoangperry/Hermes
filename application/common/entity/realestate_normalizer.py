@@ -317,6 +317,10 @@ class PropertyNormalizer:
         if self.property.description_table is not None:
             for row in self.property.description_table:
                 utils = ContentUtils(row.replace("\n", " "))
+
+                if self.property.address is None and self.property.pre_property_address is not None:
+                    self.property.address = utils.get_address(self.property.pre_property_address)
+
                 if self.property.total_area is None and self.property.pre_total_area is not None:
                     self.property.total_area = utils.get_area(self.property.pre_total_area)
 
