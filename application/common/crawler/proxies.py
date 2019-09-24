@@ -1,8 +1,10 @@
 
 list_proxies = list()
 
-with open("proxies.txt") as line:
-    url = line.read().strip()
+lines = open("proxies.txt").readlines()
+
+for line in lines:
+    url = line.strip()
     proxy = {
         "http": "http://kimnt93:989776@" + url,
         "https": "http://kimnt93:989776@" + url
