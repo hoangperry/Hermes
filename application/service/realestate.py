@@ -40,7 +40,7 @@ class RealEstateExtractService:
         logger.info_log.info("Start streaming")
         for msg in self.kafka_consumer_bsd_link:
             url = str(msg.value, "utf-8")
-            logger.info_log.info("Scrape {}".format(url))
+            # logger.info_log.info("Scrape {}".format(url))
             self.set_page(url)
             dbfield = self.get_data_field()
             result = self.normalize_data(dbfield)

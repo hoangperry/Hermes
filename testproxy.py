@@ -10,6 +10,7 @@ if __name__ == "__main__":
             r = requests.get("https://www.newai.vn/app/demo/search.php", proxies=proxy)
             valid_proxies.append(proxy["http"])
         except Exception as ex:
+            print(ex)
             print(proxy)
 
     wf = open("valid.txt", "w")
