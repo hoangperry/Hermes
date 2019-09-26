@@ -2,6 +2,8 @@ import os
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from urllib import request as urlrequest
+
+from requests.exceptions import SSLError
 from selenium import webdriver
 import urllib.parse
 import re
@@ -149,7 +151,18 @@ class WebDriverWrapper:
                     req.set_proxy(proxy["http"], "http")
                     req.set_proxy(proxy["https"], "https")
                     text = urlopen(req, context=context).read().decode('utf-8')
+            except SSLError:
+                try:
+                    r = requests.get(url)
+                    text = r.content.decode()
 
+                    # if can not find, try another method
+                    if text.strip() == '':
+                        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                        text = urlopen(req, context=context).read().decode('utf-8')
+
+                except Exception as ex:
+                    logger.error_log.exception("Pageload exception {}".format(ex))
             except Exception as ex:
                 logger.error_log.exception("Pageload exception {}".format(ex))
                 logger.error_log.error(str(proxy))
