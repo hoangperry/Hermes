@@ -151,10 +151,10 @@ class WebDriverWrapper:
             except SSLError:
                 try:
                     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                    # set proxy
-                    req.set_proxy(proxy["http"], "http")
-                    req.set_proxy(proxy["https"], "https")
-                    # get html
+                    # # set proxy
+                    # req.set_proxy(proxy["http"], "http")
+                    # req.set_proxy(proxy["https"], "https")
+                    #
                     text = urlopen(req, context=context).read().decode('utf-8')
                 except Exception as ex:
                     logger.error_log.exception("Pageload exception {}".format(ex))
