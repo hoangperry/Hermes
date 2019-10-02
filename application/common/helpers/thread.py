@@ -37,7 +37,7 @@ def real_estate_sleep():
         time.sleep(15)
     elif 21 < hour <= 24:
         # sleep 2 hours
-        time.sleep(1800)
+        time.sleep(300)
     elif 0 <= hour <= 5:
         # sleep 4 hours
         time.sleep(1800)
