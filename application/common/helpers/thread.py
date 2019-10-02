@@ -30,17 +30,17 @@ def real_estate_sleep():
     hour = datetime.now().hour
 
     if 7 <= hour <= 11:
-        time.sleep(30)
+        time.sleep(10)
     elif 11 < hour <= 14:
-        time.sleep(120)
-    elif 14 < hour <= 21:
         time.sleep(30)
+    elif 14 < hour <= 21:
+        time.sleep(15)
     elif 21 < hour <= 24:
         # sleep 2 hours
-        time.sleep(3600)
+        time.sleep(1800)
     elif 0 <= hour <= 5:
         # sleep 4 hours
-        time.sleep(3600)
+        time.sleep(1800)
     else:
         # sleep 2 hours
-        time.sleep(600)
+        time.sleep(30)
