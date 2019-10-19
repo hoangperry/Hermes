@@ -1,6 +1,6 @@
 
 EMAIL_PATTERN = '\S+@\S+\.[a-zA-Z]{2,}'
-PHONE_PATTERN = '(0[1-9]{1,2}|\+?84[1-9]{1,2})[ \d.-]{5,8}\d'
+PHONE_PATTERN = '(0[1-9]{1,2}|\+?84[1-9]{1,2})[ \d.-]{5,9}\d'
 FLOAT_PATTERN = ''
 
 # group 0 present complete datetime 12/2/1992,

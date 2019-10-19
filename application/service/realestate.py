@@ -43,7 +43,8 @@ class RealEstateExtractService:
             # logger.info_log.info("Scrape {}".format(url))
             self.set_page(url)
             dbfield = self.get_data_field()
-            result = self.normalize_data(dbfield)
+            # result = self.normalize_data(dbfield)
+            result = self.extract_fields(dbfield)
             result = result.optimize_dict()
             # result_dict = result.__dict__
             self.kafka_object_producer.send(self.object_topic, result)
@@ -57,6 +58,20 @@ class RealEstateExtractService:
         self.wrapSeleniumDriver.use_selenium(rule['use_selenium'])
         self.wrapSeleniumDriver.get(self.url)
         return self.wrapSeleniumDriver.scrape_elements(rule=rule)
+
+    @staticmethod
+    def extract_fields(dbfields):
+        table_prefixes = [x for x in dbfields.keys() if x.startswith("pre_")]
+
+        for key, value in dbfields.items():
+            if value is not None and len(value) > 0:
+                if key.endswith("_table"):
+                    for prefix in table_prefixes:
+                        dbfields[prefix.replace("pre_", "")] = value[0]
+                else:
+                    dbfields[key] = value[0]
+
+        return dbfields
 
     def normalize_data(self, result):
         """

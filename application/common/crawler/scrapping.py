@@ -263,12 +263,12 @@ class WebDriverWrapper:
         for key, query in rule.items():
             try:
                 if key.startswith('pre'):
-                    if query == 'null':
+                    if query is None or query == 'null':
                         results[key] = None
                     else:
                         results[key] = query
                 else:
-                    if query == 'null':
+                    if query is None or query == 'null':
                         results[key] = None
                     else:
                         attr_matcher = re.match(".*(attr:(.+))$", query)
