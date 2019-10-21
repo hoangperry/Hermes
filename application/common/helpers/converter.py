@@ -1,4 +1,3 @@
-from application.common.helpers import logger
 import re
 
 

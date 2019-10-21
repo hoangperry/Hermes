@@ -28,7 +28,11 @@ context = ssl._create_unverified_context()
 class WebDriverWrapper:
     ignore_extension_regex = """.*(\.mng|\.pct|\.bmp|\.gif|\.jpg|\.jpeg|\.png|\.pst|\.psp|\.tif|\.tiff|\.ai|\.drw|\.dxf|\.eps|\.ps|\.svg|\.mp3|\.wma|\.ogg|\.wav|\.rar|\.aac|\.mid|\.au|\.aiff|\.3gp|\.asf|\.asx|\.avi|\.mov|\.mp4|\.mpg|\.qt|\.rm|\.swf|\.wmv|\.m4a|\.css|\.js|\.pdf|\.doc(x)?|\.xls(x)?|\.ppt(x)?|\.exe|\.bin|\.rss|\.zip|\.ra|\.txt)"""
 
-    def __init__(self, executable_path=None):
+    def __init__(self,
+                 executable_path=None,
+                 headless=True,
+                 binary_location='/usr/bin/google-chrome',
+                 disable_gpu=True):
         """
 
         :param executable_path:
@@ -36,9 +40,13 @@ class WebDriverWrapper:
         """
         prefs = {"profile.managed_default_content_settings.images": 2, 'disk-cache-size': 4096}
         options = Options()
-        options.binary_location = '/usr/bin/google-chrome'
-        options.add_argument('--headless')
-        options.add_argument('--disable-gpu')
+        options.binary_location = binary_location
+        if headless:
+            options.add_argument('--headless')
+
+        if disable_gpu:
+            options.add_argument('--disable-gpu')
+
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         #options.add_experimental_option("detach", True)
@@ -166,7 +174,9 @@ class WebDriverWrapper:
         self.set_html(text)
 
     def set_html(self, html):
-        self.response_html = BeautifulSoup(re.sub('<br\s*[\/]?>', '\n', html), "lxml")
+        html = re.sub('<br\s*[\/]?>', '\n', html)
+        html = re.sub('<\s*\/p>', '\n</p>', html)
+        self.response_html = BeautifulSoup(html, "lxml")
 
     def get_elements(self, query, sep='\n'):
         try:
@@ -246,8 +256,6 @@ class WebDriverWrapper:
                 else:
                     results[key] = self.select_text(value)
             except Exception:
-                #print(rule['domain'])
-                #print(value)
                 results[key] = None
 
         return results

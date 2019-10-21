@@ -5,12 +5,18 @@ if __name__ == "__main__":
 
     webdriver = WebDriverWrapper(executable_path=None)
 
-    webdriver.get("https://batdongsan.com.vn/cho-thue-can-ho-chung-cu-duong-quoc-lo-13-xa-hung-dinh-prj-first-home-premium-binh-duong/nha-nguyen-tang-cao-view-dep-city-tower-va-citadines-luxury-residence-gan-aeon-pr21856496")
+    webdriver.get("https://itviec.com/it-jobs/django-python-developers-snap-shop-0056")
 
     while True:
         try:
             query = input("Query: ")
             dt = webdriver.test_select(query)
             print(dt)
+
+            if dt is not None:
+                print("-----------------------------")
+                print("-----------------------------")
+                print("-----------------------------")
+                print(dt[0].text)
         except:
             pass

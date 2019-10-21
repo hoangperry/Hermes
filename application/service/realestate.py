@@ -3,13 +3,9 @@ import json
 
 from application.common.helpers import logger
 from application.common.helpers.url import UrlFormatter
-from application.common.entity.realestate_normalizer import PropertyNormalizer
 import application.common.crawler.scrapping as scrapping
 from application.model.real_estate import Property
 from application.common.helpers.rule import RuleLoader
-
-with open('config.json') as f:
-    crawler_config = json.load(f)
 
 
 class RealEstateExtractService:
