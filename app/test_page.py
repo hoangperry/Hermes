@@ -1,4 +1,4 @@
-from application.service.realestate import RealEstateExtractService
+from application.common.crawler.realestate import RealEstateExtractService
 
 if __name__=="__main__":
     real_estate_scraper = RealEstateExtractService(
