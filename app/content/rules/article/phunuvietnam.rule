@@ -1,0 +1,19 @@
+domain => phunuvietnam.vn
+homepage => http://phunuvietnam.vn/
+
+category => .active a:not([class]):first-of-type
+posted_date => time.pull-left
+
+title => h1
+
+description => .news-detail .news-des
+pre_description_regex => null
+
+content => .article-detail p:not(:last-of-type)
+
+author => div.author
+
+tags => null
+tags_sep => null
+
+allow_pattern => .*post\d{5}\.html$

@@ -1,0 +1,19 @@
+domain => vtc.vn
+homepage => https://vtc.vn/
+
+category => .bread li:last-of-type a
+
+title => h1
+posted_date => p.post-date time
+
+description => h2
+pre_description_regex => ^( ?VOV\.VN - ?)
+
+content => #content_detail > p
+
+author => #content_detail footer
+
+tags => .tag a
+tags_sep => null
+
+allow_pattern => .*d\d{6}.html$

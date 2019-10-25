@@ -1,0 +1,46 @@
+domain => vieclamonline.com.vn
+homepage => http://vieclamonline.com.vn/Jobs/Appseeker/default.aspx
+
+name => #ctl00_lbltextFullName
+age => null
+birthday => #ctl00_lbltextBirthday
+gender => #ctl00_lbltextGender
+
+address => #ctl00_lbltextAddress
+province => #ctl00_lbltextCity
+district => #ctl00_lbltextDistrict
+
+contact_phone => #ctl00_lbltextTelephone
+contact_email => #ctl00_lbltextEmail
+
+level => #ctl00_lbltextLevel
+major => #ctl00_lbltextSpeciality
+
+timework => #ctl00_lbltextWorkTime
+expected_job => #ctl00_lbltextNeedWork
+expected_salary_text => #ctl00_lbltextSalary
+
+cv_dir => null
+create_date => #ctl00_lbltextRegDate
+
+title => null
+content => null
+
+allow_pattern => .*/Jobs/Appseeker/.*Id=.*
+
+# prefix and table
+table => null
+pre_name => null
+pre_gender => null
+pre_birthday => null
+pre_level => null
+pre_major => null
+pre_timework => null
+pre_expected_job => null
+pre_salary_text => null
+pre_address => null
+
+use_selenium => False
+
+pre_email => Email:
+pre_age => Tuổi:

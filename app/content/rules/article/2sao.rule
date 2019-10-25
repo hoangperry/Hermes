@@ -1,0 +1,16 @@
+domain => 2sao.vn
+homepage => https://2sao.vn/
+
+category => ol.breadcrumb li.active a
+posted_date => .public-info-time span
+author => #vmcContent strong
+
+title => h1
+description => .short-desc-detail h2
+pre_description_regex => null
+content => #vmcContent >p[style="text-align:justify"]
+
+tags => .tag-article-detail a
+tags_sep => null
+
+allow_pattern => .*\d{6}\.html$

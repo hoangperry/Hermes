@@ -1,0 +1,17 @@
+domain => baodauthau.vn
+homepage => http://baodauthau.vn/
+
+category => h2.cate a
+posted_date => .clearfix > time
+
+title => h1.cms-title
+description => .cms-desc > div
+pre_description_regex => ^(\(BĐT\) - ?)
+content => .cms-body > p[style="text-align: justify;"]
+
+author => b.cms-author
+
+tags => .article-tag a
+tags_sep => null
+
+allow_pattern =>  .*\d{5}\.html$

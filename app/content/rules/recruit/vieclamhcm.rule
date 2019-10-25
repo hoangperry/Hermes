@@ -1,0 +1,46 @@
+domain => vieclamhcm.net
+homepage => http://www.vieclamhcm.net/nguoitimviec.aspx
+
+name => #dnn_ctr501_ViewVLHCM_ctl00_lblName
+age => null
+birthday => #dnn_ctr501_ViewVLHCM_ctl00_lblBirthday
+gender => #dnn_ctr501_ViewVLHCM_ctl00_lblSex
+
+address => #dnn_ctr501_ViewVLHCM_ctl00_lblAddress
+province => null
+district => null
+
+contact_phone => #dnn_ctr501_ViewVLHCM_ctl00_lblTel
+contact_email => #dnn_ctr501_ViewVLHCM_ctl00_lblEmail
+
+level => #dnn_ctr501_ViewVLHCM_ctl00_lblTrinhdoChuyenMon
+major => #dnn_ctr501_ViewVLHCM_ctl00_lblNganhNgheDaotao
+
+timework => #dnn_ctr501_ViewVLHCM_ctl00_lblWorkTimeType
+expected_job => #dnn_ctr501_ViewVLHCM_ctl00_lblPosition
+expected_salary_text => #dnn_ctr501_ViewVLHCM_ctl00_lblSalary
+
+cv_dir => null
+create_date => #dnn_ctr501_ViewVLHCM_ctl00_lblCreateDate
+
+title => null
+content => null
+
+allow_pattern => .*/nguoitimviec/tabid/97/Type/ViewJobResume/Id/.*
+
+# prefix and table
+table => null
+pre_name => null
+pre_gender => null
+pre_birthday => null
+pre_level => null
+pre_major => null
+pre_timework => null
+pre_expected_job => null
+pre_salary_text => null
+pre_address => null
+
+use_selenium => False
+
+pre_email => Email
+pre_age => Tuổi:

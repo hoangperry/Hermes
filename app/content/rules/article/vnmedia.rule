@@ -1,0 +1,17 @@
+domain => vnmedia.vn
+homepage => http://vnmedia.vn/
+
+category => #submenu_nav li.active a
+posted_date => span.date
+
+title => h1.head_title
+description => .content-detail > div:first-child strong
+pre_description_regex => null
+content => .content-detail div[style="text-align: justify;"]
+
+author => .content-detail div[style="text-align: right;"]
+
+tags => div.box_tag h4
+tags_sep => \#
+
+allow_pattern =>  .*\d{6}\/$

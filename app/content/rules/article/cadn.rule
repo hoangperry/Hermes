@@ -1,0 +1,19 @@
+domain => cadn.com.vn
+homepage => http://cadn.com.vn/home.aspx
+
+category => div.catnew a:first-of-type
+posted_date => div.timepost
+
+title => #ctl00_ContentPlaceHolder1_lbTitleArticle
+
+description => #ctl00_ContentPlaceHolder1_lbContent_Article > p:first-of-type
+pre_description_regex => null
+
+content => #ctl00_ContentPlaceHolder1_lbContent_Article > p:not(:first-of-type):not(:nth-last-of-type(-n+2))
+
+author => #ctl00_ContentPlaceHolder1_lbContent_Article em > strong
+
+tags => #ctl00_ContentPlaceHolder1_lblGetTag a
+tags_sep => null
+
+allow_pattern => .*\d{2}\_\d{6}.*\.aspx$
