@@ -5,7 +5,7 @@ if __name__ == "__main__":
 
     webdriver = WebDriverWrapper(executable_path=None)
 
-    webdriver.get("https://itviec.com/it-jobs/django-python-developers-snap-shop-0056")
+    webdriver.get("https://itviec.com/it-jobs/java-developers-j2ee-oop-up-to-1500-m_service-momo-0058")
 
     while True:
         try:

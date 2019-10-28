@@ -1,5 +1,6 @@
 from application.common.crawler.model import DatabaseModel
 from application.common.helpers import logger
+from application.common.helpers.converter import optimize_dict
 from application.common.helpers.url import UrlFormatter
 import application.common.crawler.scrapping as scrapping
 import json
@@ -57,30 +58,45 @@ class UniversalExtractService:
 
         for msg in self.kafka_consumer_bsd_link:
             resume_step += 1
-            if resume_step % self.resume_step:
+            if resume_step % self.resume_step == 0:
                 logger.info_log.info("Restart rules")
                 self.dict_rules = _get_rules(redis_connect=self.redis_connect, crawl_type=self.crawl_type)
                 resume_step = 0
 
-            url = msg.value.decode("utf-8")
+            msg = msg.value
+            if msg is None:
+                pass
 
-            self.set_page(url)
+            url = msg.decode("utf-8")
+
+            try:
+                self.set_page(url)
+            except Exception as ex:
+                logger.error_log.exception(str(ex))
+                continue
+
             rule = self.dict_rules[self.domain]
             # send rule
             dbfield = self.get_data_field(rule=rule)
-            # result = self.normalize_data(dbfield)
-            result = self.extract_fields(dbfield)
-            result = result.optimize_dict()
 
-            # if extract, then send to another topic
-            if self.object_topic is not None:
-                self.kafka_object_producer.send(self.object_topic, result)
+            if dbfield is None:
+                continue
+            else:
+                # result = self.normalize_data(dbfield)
+                result = self.extract_fields(dbfield)
+                result = optimize_dict(result)
 
-            # send to database
-            model = DatabaseModel()
-            model.data = result
+                # add url
+                result['url'] = url
+                # if extract, then send to another topic
+                if self.object_topic is not None:
+                    self.kafka_object_producer.send(self.object_topic, result)
 
-            self.pg_connection.inser_one(model)
+                # send to database
+                model = DatabaseModel()
+                model.data = result
+
+                self.pg_connection.insert_one(model)
 
             # clear url
             self.clear_url_data()
@@ -91,7 +107,10 @@ class UniversalExtractService:
 
         # rule = self.dict_rules[self.domain]
         self.wrapSeleniumDriver.use_selenium(rule['use_selenium'])
-        self.wrapSeleniumDriver.get(self.url)
+        try:
+            self.wrapSeleniumDriver.get(self.url)
+        except:
+            return None
 
         return self.wrapSeleniumDriver.scrape_elements(rule=rule)
 

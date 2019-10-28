@@ -1,5 +1,5 @@
 mywork.com.vn:
-  allow_pattern: ".*tuyen-dung/viec-lam.*\.html$"
+  allow_pattern: .*tuyen-dung/viec-lam.*\.html$
   start_urls: ["https://mywork.com.vn/"]
   select_element: null
   select_value: null
@@ -7,7 +7,7 @@ mywork.com.vn:
   selenium: true
 
 vietnamworks.com:
-  allow_pattern: ".*tuyen-dung/viec-lam.*\.html$"
+  allow_pattern: .*tuyen-dung/viec-lam(.*)\.html$
   start_urls: ["https://www.vietnamworks.com/tim-viec-lam/tat-ca-viec-lam"]
   select_element: null
   select_value: null
@@ -15,7 +15,7 @@ vietnamworks.com:
   selenium: true
 
 timviec.com.vn:
-  allow_pattern: ".*\/it-jobs\/"
+  allow_pattern: .*\/it-jobs\/
   start_urls: ["https://timviec.com.vn/tim-viec-lam"]
   select_element: null
   select_value: null

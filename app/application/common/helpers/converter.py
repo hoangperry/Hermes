@@ -40,3 +40,17 @@ def to_int(s):
         return int(s)
     except Exception as ex:
         return None
+
+
+def optimize_dict(my_dict):
+    """
+    Remove table prefix, table, selenium in dictionary
+    :param my_dict:
+    :return:
+    """
+    ob_dict = dict()
+    for key, value in my_dict.items():
+        if not key.startswith("pre_") and not key.endswith("_table") and not key == 'use_selenium':
+            ob_dict[key] = value
+
+    return ob_dict

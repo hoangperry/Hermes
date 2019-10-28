@@ -23,6 +23,7 @@ def create_arguments(name=sys.argv[0], args=sys.argv[1:]):
     parser.add_argument("--redis_port", required=False, help="Redis port", default=6379)
     parser.add_argument("--redis_db", required=False, help="Redis database number", default=1)
     parser.add_argument("--redis_password", required=False, help="Redis authentication password", default=None)
+    parser.add_argument("--kafka_link_topic", required=False, help="Rules directory", default="links")
 
     # crawling type
     # this option using for limit web pages
@@ -30,7 +31,6 @@ def create_arguments(name=sys.argv[0], args=sys.argv[1:]):
 
     if name == os.path.join(os.getcwd(), 'extractor.py'):
         logger.info_log.info("Starting get web content")
-        parser.add_argument("--link_topic", required=False, help="Rules directory", default="links")
         parser.add_argument("--object_topic",
                             required=False,
                             help="Kafka object topic. This topic is using for extract",
@@ -53,7 +53,6 @@ def create_arguments(name=sys.argv[0], args=sys.argv[1:]):
         parser.add_argument("--pg_relation", required=True)
     else:
         logger.info_log.info("Starting get links")
-        parser.add_argument("--kafka_link_topic", required=False, help="Rules directory", default="links")
 
     options = parser.parse_args(args)
     return options

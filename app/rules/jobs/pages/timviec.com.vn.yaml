@@ -2,3 +2,4 @@ title: "h1"
 salary: "div.job_main span.timviec-corlor-3"
 company: "div.job_main p.timviec-font-myria"
 info: "div.tv-job-detail-med div.timviec-color-191919:nth-of-type(1)"
+use_selenium: false

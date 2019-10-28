@@ -4,6 +4,7 @@ import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from application.common.helpers import logger
+from sqlalchemy.sql import func
 
 
 class DatabaseService:
@@ -58,10 +59,12 @@ class DatabaseService:
 class DatabaseModel(DatabaseService.Base):
     __tablename__ = config.pg_relation
 
-    id = sqlalchemy.Column('id', sqlalchemy.BigInteger,
-                           sqlalchemy.Sequence('prop_seq', start=1, increment=1), primary_key=True)
+    id = sqlalchemy.Column(sqlalchemy.BigInteger,
+                           sqlalchemy.Sequence('prop_seq', start=1, increment=1),
+                           primary_key=True)
 
     data = sqlalchemy.Column(JSON)
+    created_time = sqlalchemy.Column(sqlalchemy.DateTime, default=func.now())
 
 
 # import nltk

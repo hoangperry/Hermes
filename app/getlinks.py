@@ -30,10 +30,13 @@ if __name__ == "__main__":
         web_driver.use_selenium(True)
 
         # get rule from redis by crawl type
-        homepage_rules = json.loads(redis_connect.get(config.crawl_type))
+        rdh = redis_connect.get(config.crawl_type + "_homes")
+        print("Load from redis")
+        homepage_rules = json.loads(rdh)
 
         # for home pages
-        for rule in homepage_rules.keys():
+        for hpg in homepage_rules.keys():
+            rule = homepage_rules[hpg]
             for url in rule['start_urls']:
 
                 logger.info_log.info("Process {}".format(url))
