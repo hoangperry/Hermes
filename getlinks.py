@@ -1,11 +1,10 @@
 import redis
 import kafka
-
-from application.common.crawler.aruguments import config
-from application.common.crawler.scrapping import WebDriverWrapper
-from application.common.helpers import logger
-from application.common.helpers.text import encode
-from application.common.helpers.thread import real_estate_sleep
+from crawler.application.common.crawler.aruguments import config
+from crawler.application.common.crawler.scrapping import WebDriverWrapper
+from crawler.application.common.helpers import logger
+from crawler.application.common.helpers.text import encode
+from crawler.application.common.helpers.thread import real_estate_sleep
 import time
 import json
 from selenium.webdriver.support.ui import Select
@@ -57,8 +56,8 @@ if __name__ == "__main__":
                     time.sleep(1.5)
                     web_driver.set_html(web_driver.driver.page_source)
 
-                # scrape
-                links = web_driver.get_links(rule['allow_pattern'])
+                # scrape, get all links
+                links = web_driver.get_links()
 
                 # add to redis and kafka
                 for link in links:

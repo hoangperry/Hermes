@@ -148,7 +148,7 @@ class WebDriverWrapper:
                 # article = Article(url)
                 # article.download()
                 # text = article.html
-                r = requests.get(url, proxies=proxy)
+                r = requests.get(url, headers={"User-Agent": "Requests"}, proxies=proxy)
                 text = r.content.decode()
 
                 # if can not find, try another method

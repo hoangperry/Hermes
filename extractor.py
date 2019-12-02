@@ -1,9 +1,9 @@
 import kafka
 import json
 import redis
-from application.common.crawler.aruguments import config
-from application.common.crawler.model import DatabaseService
-from application.common.crawler.services import UniversalExtractService
+from crawler.application.common.crawler.aruguments import config
+from crawler.application.common.crawler.model import DatabaseService
+from crawler.application.common.crawler.services import UniversalExtractService
 
 if __name__ == "__main__":
 

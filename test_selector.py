@@ -1,11 +1,11 @@
-from application.common.crawler.scrapping import WebDriverWrapper
+from crawler.application.common.crawler.scrapping import WebDriverWrapper
 
 
 if __name__ == "__main__":
 
     webdriver = WebDriverWrapper(executable_path=None)
 
-    webdriver.get("https://itviec.com/it-jobs/java-developers-j2ee-oop-up-to-1500-m_service-momo-0058")
+    webdriver.get("https://dinhgianhadat.vn/tin-mat-duong-261-dong-khe-395trm2-4431783")
 
     while True:
         try:
@@ -17,6 +17,7 @@ if __name__ == "__main__":
                 print("-----------------------------")
                 print("-----------------------------")
                 print("-----------------------------")
-                print(dt[0].text)
+                for d in dt:
+                    print(d.text)
         except:
             pass

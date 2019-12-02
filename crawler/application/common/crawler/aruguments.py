@@ -16,6 +16,8 @@ def create_arguments(name=sys.argv[0], args=sys.argv[1:]):
 
     parser.add_argument("--driver_path", required=False, help="Selenium driver path", default='/usr/bin/chromedriver')
     parser.add_argument("--kafka_host", required=True, help="Kafka host")
+    parser.add_argument("--kafka_user", required=False, default=None)
+    parser.add_argument("--kafka_password", required=False, default=None)
     # redis server info
     # this server is using to stored rule
     # all rules can be modified in admin dashboard
