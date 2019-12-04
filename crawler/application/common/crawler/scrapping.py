@@ -8,9 +8,9 @@ import re
 import time
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
-from application.common.crawler.configs import list_proxies
-from application.common.helpers import logger
-from application.common.helpers.url import UrlFormatter
+from crawler.application.common.crawler.configs import list_proxies
+from crawler.application.common.helpers import logger
+from crawler.application.common.helpers.url import UrlFormatter
 from selenium.webdriver.chrome.options import Options
 import requests
 from selenium.webdriver.support import expected_conditions as EC

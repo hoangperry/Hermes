@@ -1,7 +1,7 @@
 import redis
 import kafka
 from kafka import RoundRobinPartitioner, TopicPartition
-
+from crawler.application.common.crawler.arguments import create_arguments
 from crawler.application.common.crawler.environments import create_environments
 from crawler.application.common.crawler.scrapping import WebDriverWrapper
 from crawler.application.common.helpers import logger
@@ -13,7 +13,12 @@ import ssl
 from crawler.application.common.helpers.thread import night_sleep
 
 
-config = create_environments()
+try:
+    config = create_environments()
+except Exception as ex:
+    logger.error_log.error("Load config error")
+    logger.error_log.error(str(ex))
+    config = create_arguments()
 
 
 def scrape_links(_config, sleep_per_step=20):
@@ -60,7 +65,7 @@ def scrape_links(_config, sleep_per_step=20):
         web_driver.use_selenium(True)
 
         # get rule from redis by crawl type
-        logger.info_log.info("Load from redis")
+        logger.info_log.info("Reload redis DB-0")
         rdh = redis_connect.get(_config.crawl_type + "_homes")
         homepage_rules = json.loads(rdh)
 
@@ -103,6 +108,7 @@ def scrape_links(_config, sleep_per_step=20):
 
         # close browser and sleep
         web_driver.close_browser()
+
         # sleep
         night_sleep(other_case=sleep_per_step)
 

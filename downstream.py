@@ -1,6 +1,6 @@
 import kafka
 import json
-from crawler.application.common.crawler.aruguments import config
+from crawler.application.common.crawler.arguments import config
 from crawler.application.common.helpers import logger
 import time
 

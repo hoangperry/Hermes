@@ -1,0 +1,59 @@
+chotot.com:
+  start_urls: ["https://www.chotot.com/toan-quoc/danh-sach-nguoi-tim-viec"]
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_user: null
+  login_password: null
+  disable: false
+
+vieclam.tv:
+  start_urls: ["https://vieclam.tv/timungvien/"]
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_user: null
+  login_password: null
+  disable: false
+
+muaban.net:
+  start_urls: ["https://muaban.net/nguoi-tim-viec-toan-quoc-l0-c12"]
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_user: null
+  login_password: null
+  disable: false
+
+timvieclink.com:
+  start_urls: ["http://timvieclink.com/ungvien.html"]
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_user: null
+  login_password: null
+  disable: true
+
+vieclamonline.com.vn:
+  start_urls: ["http://vieclamonline.com.vn/Jobs/Appseeker/default.aspx"]
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_user: null
+  login_password: null
+  disable: true
+
+worklink.vn:
+  start_urls: ["https://worklink.vn/candidate-listing/"]
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_user: null
+  login_password: null
+  disable: true

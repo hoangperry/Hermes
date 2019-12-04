@@ -1,9 +1,13 @@
 import kafka
 import json
 import redis
-from crawler.application.common.crawler.aruguments import config
+
+from crawler.application.common.crawler.environments import create_environments
 from crawler.application.common.crawler.model import DatabaseService
 from crawler.application.common.crawler.services import UniversalExtractService
+
+config = create_environments()
+
 
 if __name__ == "__main__":
 
@@ -30,11 +34,13 @@ if __name__ == "__main__":
     )
 
     # connect postgresql
-    pg_service = DatabaseService(user=config.pg_user,
-                                 password=config.pg_password,
-                                 host=config.pg_host,
-                                 port=config.pg_port,
-                                 database=config.pg_db)
+    pg_service = DatabaseService(
+        user=config.pg_user,
+        password=config.pg_password,
+        host=config.pg_host,
+        port=config.pg_port,
+        database=config.pg_db
+    )
 
     # create webdriver
     real_estate_scraper = UniversalExtractService(

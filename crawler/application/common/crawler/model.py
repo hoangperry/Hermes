@@ -57,7 +57,7 @@ class DatabaseService:
 
 
 class DatabaseModel(DatabaseService.Base):
-    __tablename__ = config.pg_relation
+    __tablename__ = config.crawl_type
 
     id = sqlalchemy.Column(sqlalchemy.BigInteger,
                            sqlalchemy.Sequence('prop_seq', start=1, increment=1),

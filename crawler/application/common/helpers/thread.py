@@ -44,3 +44,10 @@ def real_estate_sleep():
     else:
         # sleep 2 hours
         time.sleep(30)
+
+
+def night_sleep(hour=datetime.now().hour, other_case=60):
+    if 0 <= hour <= 5:
+        time.sleep(3600)
+    else:
+        time.sleep(other_case)
