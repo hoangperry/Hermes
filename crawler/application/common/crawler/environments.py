@@ -19,7 +19,9 @@ def create_environments():
 
     # kafka info
     configs['kafka_hosts'] = [x for x in os.environ['KAFKA_HOSTS'].split()]
-    configs['kafka_user'] = os.environ['KAFKA_USER']
+
+    # sua het cho nay
+    configs['kafka_user'] = os.environ.get('KAFKA_USER', "default_value")
     configs['kafka_password'] = os.environ['KAFKA_PASSWORD']
     configs['kafka_num_partitions'] = int(os.environ['KAFKA_NUM_PARTITIONS'])
     configs['kafka_link_topic'] = os.environ['KAFKA_LINK_TOPIC']
