@@ -137,7 +137,7 @@ class UrlFormatter(object):
             normurl = re.sub(r'\s', '%20', normurl)
 
         # 2. Add slash
-        #if normurl[-1] != '/':
+        # if normurl[-1] != '/':
         #    normurl += '/'
 
         # if "www\." in normurl:

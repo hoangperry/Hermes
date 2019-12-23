@@ -1,35 +1,35 @@
 import os
 
 
-DRIVER_PATH_DEFAULT = ''
+DRIVER_PATH_DEFAULT = '/usr/local/bin/chromedriver'
 
 # Kafka default info
-KAFKA_HOSTS_DEFAULT = ''
-KAFKA_USER_DEFAULT = ''
-KAFKA_PASSWORD_DEFAULT = ''
-KAFKA_NUM_PARTITIONS_DEFAULT = ''
+KAFKA_HOSTS_DEFAULT = 'localhost'
+KAFKA_USER_DEFAULT = 'admin'
+KAFKA_PASSWORD_DEFAULT = 'admin'
+KAFKA_NUM_PARTITIONS_DEFAULT = '3'
 KAFKA_LINK_TOPIC_DEFAULT = ''
 KAFKA_CONSUMER_GROUP_DEFAULT = ''
 
 # Redis default info
-REDIS_HOST_DEFAULT = ''
-REDIS_PORT_DEFAULT = ''
-REDIS_DB_DEFAULT = ''
-REDIS_PASSWORD_DEFAULT = ''
+REDIS_HOST_DEFAULT = 'localhost'
+REDIS_PORT_DEFAULT = '6379'
+REDIS_DB_DEFAULT = 'test_crawler'
+REDIS_PASSWORD_DEFAULT = 'admin'
 
 # Postgre default info
-PG_HOST_DEFAULT = ''
-PG_PORT_DEFAULT = ''
-PG_USER_DEFAULT = ''
-PG_PASSWORD_DEFAULT = ''
-PG_DB_DEFAULT = ''
+PG_HOST_DEFAULT = 'localhost'
+PG_PORT_DEFAULT = '5432'
+PG_USER_DEFAULT = 'admin'
+PG_PASSWORD_DEFAULT = 'admin'
+PG_DB_DEFAULT = 'test_crawler'
 
 # Other info
-RESUME_STEP_DEFAULT = ''
-RESTART_SELENIUM_STEP_DEFAULT = ''
-USE_AWS_DEFAULT = ''
+RESUME_STEP_DEFAULT = '100'
+RESTART_SELENIUM_STEP_DEFAULT = '100'
+USE_AWS_DEFAULT = 'False'
 CRAWL_TYPE_DEFAULT = ''
-DOWNLOAD_IMAGES_DEFAULT = ''
+DOWNLOAD_IMAGES_DEFAULT = 'True'
 
 
 class ConfigDict(dict):
@@ -58,7 +58,7 @@ def create_environments():
     configs['kafka_link_topic'] = os.environ.get('KAFKA_LINK_TOPIC', KAFKA_LINK_TOPIC_DEFAULT)
     configs['kafka_consumer_group'] = os.environ.get('KAFKA_CONSUMER_GROUP', KAFKA_CONSUMER_GROUP_DEFAULT)
 
-    configs['redis_host'] = os.environ('REDIS_HOST', REDIS_HOST_DEFAULT)
+    configs['redis_host'] = os.environ.get('REDIS_HOST', REDIS_HOST_DEFAULT)
     configs['redis_port'] = int(os.environ.get('REDIS_PORT', REDIS_PORT_DEFAULT))
     configs['redis_db'] = os.environ.get('REDIS_DB', REDIS_DB_DEFAULT)
     configs['redis_password'] = os.environ.get('REDIS_PASSWORD', REDIS_PASSWORD_DEFAULT)
@@ -66,7 +66,7 @@ def create_environments():
     configs['pg_host'] = os.environ.get('PG_HOST', PG_HOST_DEFAULT)
     configs['pg_port'] = int(os.environ.get('PG_PORT', PG_PORT_DEFAULT))
     configs['pg_user'] = os.environ.get('PG_USER', PG_USER_DEFAULT)
-    configs['pg_password'] = os.environ('PG_PASSWORD', PG_PASSWORD_DEFAULT)
+    configs['pg_password'] = os.environ.get('PG_PASSWORD', PG_PASSWORD_DEFAULT)
     configs['pg_db'] = os.environ.get('PG_DB', PG_DB_DEFAULT)
 
     # resume step

@@ -36,5 +36,3 @@ if __name__ == "__main__":
         yaml_data = yaml.safe_load(stream)
         data = json.dumps(yaml_data)
         redis_connect.set(args.type + "_homes", data)
-
-

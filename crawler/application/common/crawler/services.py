@@ -131,4 +131,3 @@ class UniversalExtractService:
     def clear_url_data(self):
         self.url = None,
         self.domain = None
-
