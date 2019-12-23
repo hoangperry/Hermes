@@ -1,6 +1,37 @@
 import os
 
 
+DRIVER_PATH_DEFAULT = ''
+
+# Kafka default info
+KAFKA_HOSTS_DEFAULT = ''
+KAFKA_USER_DEFAULT = ''
+KAFKA_PASSWORD_DEFAULT = ''
+KAFKA_NUM_PARTITIONS_DEFAULT = ''
+KAFKA_LINK_TOPIC_DEFAULT = ''
+KAFKA_CONSUMER_GROUP_DEFAULT = ''
+
+# Redis default info
+REDIS_HOST_DEFAULT = ''
+REDIS_PORT_DEFAULT = ''
+REDIS_DB_DEFAULT = ''
+REDIS_PASSWORD_DEFAULT = ''
+
+# Postgre default info
+PG_HOST_DEFAULT = ''
+PG_PORT_DEFAULT = ''
+PG_USER_DEFAULT = ''
+PG_PASSWORD_DEFAULT = ''
+PG_DB_DEFAULT = ''
+
+# Other info
+RESUME_STEP_DEFAULT = ''
+RESTART_SELENIUM_STEP_DEFAULT = ''
+USE_AWS_DEFAULT = ''
+CRAWL_TYPE_DEFAULT = ''
+DOWNLOAD_IMAGES_DEFAULT = ''
+
+
 class ConfigDict(dict):
     __getattr__ = dict.__getitem__
     __setattr__ = dict.__setitem__
@@ -15,37 +46,36 @@ def create_environments():
 
     configs = dict()
 
-    configs['driver_path'] = os.environ['DRIVER_PATH']
+    configs['driver_path'] = os.environ.get('DRIVER_PATH', DRIVER_PATH_DEFAULT)
 
     # kafka info
-    configs['kafka_hosts'] = [x for x in os.environ['KAFKA_HOSTS'].split()]
+    configs['kafka_hosts'] = [x for x in os.environ.get('KAFKA_HOSTS', KAFKA_HOSTS_DEFAULT).split()]
 
     # sua het cho nay
-    configs['kafka_user'] = os.environ.get('KAFKA_USER', "default_value")
-    configs['kafka_password'] = os.environ['KAFKA_PASSWORD']
-    configs['kafka_num_partitions'] = int(os.environ['KAFKA_NUM_PARTITIONS'])
-    configs['kafka_link_topic'] = os.environ['KAFKA_LINK_TOPIC']
-    configs['kafka_consumer_group'] = os.environ['KAFKA_CONSUMER_GROUP']
+    configs['kafka_user'] = os.environ.get('KAFKA_USER', KAFKA_USER_DEFAULT)
+    configs['kafka_password'] = os.environ.get('KAFKA_PASSWORD', KAFKA_PASSWORD_DEFAULT)
+    configs['kafka_num_partitions'] = int(os.environ.get('KAFKA_NUM_PARTITIONS', KAFKA_NUM_PARTITIONS_DEFAULT))
+    configs['kafka_link_topic'] = os.environ.get('KAFKA_LINK_TOPIC', KAFKA_LINK_TOPIC_DEFAULT)
+    configs['kafka_consumer_group'] = os.environ.get('KAFKA_CONSUMER_GROUP', KAFKA_CONSUMER_GROUP_DEFAULT)
 
-    configs['redis_host'] = os.environ['REDIS_HOST']
-    configs['redis_port'] = int(os.environ['REDIS_PORT'])
-    configs['redis_db'] = os.environ['REDIS_DB']
-    configs['redis_password'] = os.environ['REDIS_PASSWORD']
+    configs['redis_host'] = os.environ('REDIS_HOST', REDIS_HOST_DEFAULT)
+    configs['redis_port'] = int(os.environ.get('REDIS_PORT', REDIS_PORT_DEFAULT))
+    configs['redis_db'] = os.environ.get('REDIS_DB', REDIS_DB_DEFAULT)
+    configs['redis_password'] = os.environ.get('REDIS_PASSWORD', REDIS_PASSWORD_DEFAULT)
 
-    configs['pg_host'] = os.environ['PG_HOST']
-    configs['pg_port'] = int(os.environ['PG_PORT'])
-    configs['pg_user'] = os.environ['PG_USER']
-    configs['pg_password'] = os.environ['PG_PASSWORD']
-    configs['pg_db'] = os.environ['PG_DB']
+    configs['pg_host'] = os.environ.get('PG_HOST', PG_HOST_DEFAULT)
+    configs['pg_port'] = int(os.environ.get('PG_PORT', PG_PORT_DEFAULT))
+    configs['pg_user'] = os.environ.get('PG_USER', PG_USER_DEFAULT)
+    configs['pg_password'] = os.environ('PG_PASSWORD', PG_PASSWORD_DEFAULT)
+    configs['pg_db'] = os.environ.get('PG_DB', PG_DB_DEFAULT)
 
     # resume step
-    configs['resume_step'] = int(os.environ['RESUME_STEP'])
-    configs['restart_selenium_step'] = int(os.environ['RESTART_SELENIUM_STEP'])
+    configs['resume_step'] = int(os.environ.get('RESUME_STEP', RESUME_STEP_DEFAULT))
+    configs['restart_selenium_step'] = int(os.environ.get('RESTART_SELENIUM_STEP', RESTART_SELENIUM_STEP_DEFAULT))
 
     # external info
-    configs['use_aws'] = bool(os.environ['USE_AWS'])
-    configs['crawl_type'] = os.environ['CRAWL_TYPE']
-    configs['download_images'] = bool(os.environ['DOWNLOAD_IMAGES'])
+    configs['use_aws'] = bool(os.environ.get('USE_AWS', USE_AWS_DEFAULT))
+    configs['crawl_type'] = os.environ.get('CRAWL_TYPE', CRAWL_TYPE_DEFAULT)
+    configs['download_images'] = bool(os.environ.get('DOWNLOAD_IMAGES', DOWNLOAD_IMAGES_DEFAULT))
 
     return ConfigDict(configs)
-
