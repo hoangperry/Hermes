@@ -1,9 +1,9 @@
-from application.common.crawler.aruguments import config
+from crawler.application.common.crawler.arguments import config
 from sqlalchemy.dialects.postgresql import JSON
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from application.common.helpers import logger
+from crawler.application.common.helpers import logger
 from sqlalchemy.sql import func
 
 

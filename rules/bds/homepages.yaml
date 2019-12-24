@@ -10,14 +10,14 @@ alonhadat.com.vn:
   start_urls: ["https://alonhadat.com.vn/"]
   select_element: null
   select_value: null
-  start_script: null
+  start_script: "Search()"
 
 bannhasg.com:
   allow_pattern: .*pr\d{5,}\.htm$
   start_urls: ["http://bannhasg.com/"]
   select_element: null
   select_value: null
-  start_script: null
+  start_script: "javascript:__doPostBack('ctl00$MainContent$BoxSearch1$btnSearch','')"
 
 nha.chotot.com:
   allow_pattern: .*\d+\.htm$

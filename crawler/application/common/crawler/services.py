@@ -1,13 +1,13 @@
-from application.common.crawler.model import DatabaseModel
-from application.common.helpers import logger
-from application.common.helpers.converter import optimize_dict
-from application.common.helpers.url import UrlFormatter
-import application.common.crawler.scrapping as scrapping
+from crawler.application.common.crawler.model import DatabaseModel
+from crawler.application.common.helpers import logger
+from crawler.application.common.helpers.converter import optimize_dict
+from crawler.application.common.helpers.url import UrlFormatter
+import crawler.application.common.crawler.scrapping as scrapping
 import json
 
 
 def _get_rules(redis_connect, crawl_type):
-    return json.loads(redis_connect.get(crawl_type))
+    return json.loads(redis_connect.get(crawl_type + '_rules'))
 
 
 class UniversalExtractService:
@@ -55,7 +55,7 @@ class UniversalExtractService:
         logger.info_log.info("Start streaming")
 
         resume_step = 1
-
+        print(list(self.kafka_consumer_bsd_link))
         for msg in self.kafka_consumer_bsd_link:
             resume_step += 1
             if resume_step % self.resume_step == 0:
@@ -68,7 +68,7 @@ class UniversalExtractService:
                 pass
 
             url = msg.decode("utf-8")
-
+            print(url)
             try:
                 self.set_page(url)
             except Exception as ex:
