@@ -14,7 +14,7 @@ services:
     ports:
       - "9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.183
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.123
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - crawl-data:/kafka
@@ -37,7 +37,6 @@ services:
       - crawl-net-01
     volumes:
       - crawl-data:/visitor
-      -
   scraper:
     build: selenium
     command: ["python3", "extract.sh"]

@@ -9,13 +9,13 @@ import json
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--host", required=False, help="Redis server", default="192.168.2.184")
+    parser.add_argument("--host", required=False, help="Redis server", default="localhost")
     parser.add_argument("--port", required=False, help="Redis port", default=6379)
-    parser.add_argument("--db", required=False, help="Redis database number", default=0)
-    parser.add_argument("--password", required=False, help="Redis authentication password", default="123123123")
+    parser.add_argument("--db", required=False, help="Redis database number", default=1)
+    parser.add_argument("--password", required=False, help="Redis authentication password", default=None)
 
     parser.add_argument("--yaml_folder", required=False, default="rules/candidate/")
-    parser.add_argument("--type", required=False, default="candidate")
+    parser.add_argument("--type", required=False, default="bds")
 
     args = parser.parse_args()
 
@@ -35,4 +35,5 @@ if __name__ == "__main__":
     with open(yaml_file, 'r') as stream:
         yaml_data = yaml.safe_load(stream)
         data = json.dumps(yaml_data)
+        print(args.type)
         redis_connect.set(args.type + "_homes", data)
