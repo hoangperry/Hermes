@@ -16,11 +16,11 @@ if __name__ == "__main__":
     # connect kafka and create consumers
     # link consumer
     link_consumer = kafka.KafkaConsumer(config.kafka_link_topic,
-                                        bootstrap_servers=config.kafka_hosts[0],
+                                        bootstrap_servers=config.kafka_hosts,
                                         group_id=config.kafka_consumer_group)
     link_consumer.subscribe([config.kafka_link_topic])
     # and object producer for another process
-    object_producer = kafka.KafkaProducer(bootstrap_servers=config.kafka_hosts[0],
+    object_producer = kafka.KafkaProducer(bootstrap_servers=config.kafka_hosts,
                                           value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'))
 
     # connect redis
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         redis_connect=redis_connect,
         kafka_consumer_bsd_link=link_consumer,
         kafka_object_producer=object_producer,
-        object_topic=config.crawl_type,
+        object_topic=config.kafka_link_topic,
         resume_step=config.resume_step,
         crawl_type=config.crawl_type,
         restart_selenium_step=config.restart_selenium_step,

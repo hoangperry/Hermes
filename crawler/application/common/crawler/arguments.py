@@ -19,7 +19,7 @@ def create_arguments(name=sys.argv[0], args=sys.argv[1:]):
                         help="Selenium driver path",
                         default='/usr/bin/chromedriver')
     # parser.add_argument("--kafka_host", required=True, help="Kafka host")
-    parser.add_argument('--kafka_hosts', nargs='+', required=False, default="192.168.2.184:9092")
+    parser.add_argument('--kafka_hosts', nargs='+', required=False, default="localhost:9092")
     parser.add_argument("--kafka_user", required=False, default=None)
     parser.add_argument("--kafka_password", required=False, default=None)
     parser.add_argument("--kafka_num_partitions", required=False, type=int, default=3)

@@ -55,7 +55,6 @@ class UniversalExtractService:
         logger.info_log.info("Start streaming")
 
         resume_step = 1
-        print(list(self.kafka_consumer_bsd_link))
         for msg in self.kafka_consumer_bsd_link:
             resume_step += 1
             if resume_step % self.resume_step == 0:
@@ -74,7 +73,8 @@ class UniversalExtractService:
             except Exception as ex:
                 logger.error_log.exception(str(ex))
                 continue
-
+            if self.domain not in self.dict_rules:
+                continue
             rule = self.dict_rules[self.domain]
             # send rule
             dbfield = self.get_data_field(rule=rule)
