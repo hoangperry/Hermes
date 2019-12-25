@@ -70,7 +70,7 @@ def scrape_links(_config, sleep_per_step=20):
             for url in rule['start_urls']:
 
                 logger.info_log.info("Process {}".format(url))
-
+                print(rule)
                 web_driver.selenium = rule['selenium']
                 # start
                 web_driver.get(url, 5)
