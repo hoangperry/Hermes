@@ -66,7 +66,7 @@ class UniversalExtractService:
             if msg is None:
                 pass
 
-            url = msg.decode("utf-8")
+            url = msg['link'].decode("utf-8")
             print(url)
             try:
                 self.set_page(url)
@@ -78,7 +78,11 @@ class UniversalExtractService:
             rule = self.dict_rules[self.domain]
             # send rule
             dbfield = self.get_data_field(rule=rule)
-
+            self.kafka_object_producer.send(self.object_topic, {
+                "abc": "a",
+                "bcc": "a",
+                "1": "ab"
+            })
             if dbfield is None:
                 continue
             else:
@@ -90,7 +94,8 @@ class UniversalExtractService:
                 result['url'] = url
                 # if extract, then send to another topic
                 if self.object_topic is not None:
-                    self.kafka_object_producer.send(self.object_topic, result)
+                    # self.kafka_object_producer.send(self.object_topic, result)
+                    self.kafka_object_producer.send(self.object_topic, {"abc": "a"})
 
                 # send to database
                 model = DatabaseModel()
@@ -106,8 +111,9 @@ class UniversalExtractService:
             raise ConnectionAbortedError("Page is not exist!", self.url)
 
         # rule = self.dict_rules[self.domain]
-        self.wrapSeleniumDriver.use_selenium(rule['use_selenium'])
+
         try:
+            self.wrapSeleniumDriver.use_selenium(rule['selenium'])
             self.wrapSeleniumDriver.get(self.url)
         except:
             return None
