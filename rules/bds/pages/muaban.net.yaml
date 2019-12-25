@@ -1,0 +1,30 @@
+domain: "muaban.net"
+allow_pattern: ".*id\d+$"
+use_selenium: false
+title: "h1"
+posted_date: "span.location-clock__clock"
+description: "div.body-container"
+price: "div.price-top"
+address: "span.location-clock__location"
+total_area: null
+description_table: "div.tech-item"
+contact_table: null
+pre_direction: "Hướng:"
+pre_legal_status: "Pháp lý:"
+pre_address: "Địa chỉ:"
+pre_location: null
+pre_total_area: "Diện tích đất:"
+pre_total_area_width: null
+pre_total_area_length: null
+pre_construction_area: "Diện tích sử dụng:"
+pre_area_ilegal_recognized: "Đường trước nhà:"
+pre_floors: "Tầng/Lầu"
+pre_bedrooms: "Phòng ngủ:"
+pre_bathrooms: "Phòng tắm:"
+pre_contact_name: null
+pre_contact_phone: null
+pre_contact_address: null
+pre_contact_email: null
+contact_name: "div.contact-container__value"
+contact_phone: "div.mobile-container__value"
+contact_email: null
