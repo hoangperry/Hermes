@@ -9,6 +9,7 @@ KAFKA_USER_DEFAULT = None
 KAFKA_PASSWORD_DEFAULT = None
 KAFKA_NUM_PARTITIONS_DEFAULT = '3'
 KAFKA_LINK_TOPIC_DEFAULT = 'links'
+KAFKA_OBJECT_TOPIC_DEFAULT = 'objects'
 KAFKA_CONSUMER_GROUP_DEFAULT = 'default'
 
 # Redis default info
@@ -56,6 +57,7 @@ def create_environments():
     configs['kafka_password'] = os.environ.get('KAFKA_PASSWORD', KAFKA_PASSWORD_DEFAULT)
     configs['kafka_num_partitions'] = int(os.environ.get('KAFKA_NUM_PARTITIONS', KAFKA_NUM_PARTITIONS_DEFAULT))
     configs['kafka_link_topic'] = os.environ.get('KAFKA_LINK_TOPIC', KAFKA_LINK_TOPIC_DEFAULT)
+    configs['kafka_object_topic'] = os.environ.get('KAFKA_OBJECT_TOPIC', KAFKA_OBJECT_TOPIC_DEFAULT)
     configs['kafka_consumer_group'] = os.environ.get('KAFKA_CONSUMER_GROUP', KAFKA_CONSUMER_GROUP_DEFAULT)
 
     configs['redis_host'] = os.environ.get('REDIS_HOST', REDIS_HOST_DEFAULT)

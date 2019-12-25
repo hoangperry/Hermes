@@ -34,7 +34,8 @@ def scrape_links(_config, sleep_per_step=20):
         link_producer = kafka.KafkaProducer(
             bootstrap_servers=_config.kafka_hosts,
             partitioner=RoundRobinPartitioner(partitions=partitions),
-            compression_type='gzip'
+            value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'),
+            # compression_type='gzip'
         )
     else:
         sasl_mechanism = 'PLAIN'
@@ -46,7 +47,8 @@ def scrape_links(_config, sleep_per_step=20):
         link_producer = kafka.KafkaProducer(
             bootstrap_servers=_config.kafka_hosts,
             partitioner=RoundRobinPartitioner(partitions=partitions),
-            compression_type='gzip',
+            # compression_type='gzip',
+            value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'),
             sasl_plain_username=_config.kafka_user,
             sasl_plain_password=_config.kafka_password,
             security_protocol=security_protocol,
@@ -98,7 +100,12 @@ def scrape_links(_config, sleep_per_step=20):
                         # add to redis and kafka
                         redis_connect.set(hashed_link, 0)
                         # send link in binary format
-                        link_producer.send(_config.kafka_link_topic, link.encode())
+                        print(link.encode())
+                        payload = {
+                            'link': link,
+                            'type': _config.crawl_type,
+                        }
+                        link_producer.send(_config.kafka_link_topic, payload)
                         time.sleep(0.01)
 
         # close browser and sleep
