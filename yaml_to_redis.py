@@ -14,7 +14,7 @@ if __name__ == "__main__":
     parser.add_argument("--db", required=False, help="Redis database number", default=1)
     parser.add_argument("--password", required=False, help="Redis authentication password", default=None)
 
-    parser.add_argument("--yaml_folder", required=False, default="rules/bds/")
+    parser.add_argument("--yaml_folder", required=False, default="rules/")
     parser.add_argument("--type", required=False, default="bds")
 
     args = parser.parse_args()
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     redis_connect = redis.StrictRedis(host=args.host, port=args.port, db=args.db, password=args.password)
 
     all_data = dict()
-    for yaml_file in glob.glob(os.path.join(args.yaml_folder, "pages/**.yaml")):
+    for yaml_file in glob.glob(os.path.join(args.yaml_folder, args.type, "pages/**.yaml")):
         with open(yaml_file, 'r') as stream:
             yaml_data = yaml.safe_load(stream)
             key = os.path.basename(os.path.splitext(yaml_file)[0])
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     redis_connect.set(args.type + "_rules", json.dumps(all_data))
 
-    yaml_file = os.path.join(args.yaml_folder, "homepages.yaml")
+    yaml_file = os.path.join(args.yaml_folder, args.type, "homepages.yaml")
 
     with open(yaml_file, 'r') as stream:
         yaml_data = yaml.safe_load(stream)
