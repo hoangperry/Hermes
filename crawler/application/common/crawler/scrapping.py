@@ -233,9 +233,8 @@ class WebDriverWrapper:
             # get absolute url
             abs_url = urllib.parse.urljoin(self.page, link.get('href'))
 
-            if self.domain in abs_url and \
-                re.match(allow_pattern, abs_url) \
-                and not re.match(WebDriverWrapper.ignore_extension_regex, abs_url):
+            if not (not (self.domain in abs_url) or not re.match(allow_pattern, abs_url) or re.match(
+                    WebDriverWrapper.ignore_extension_regex, abs_url)):
 
                 selected_links.add(UrlFormatter(abs_url).normalize())
 

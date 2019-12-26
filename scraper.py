@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # and object producer for another process
     object_producer = kafka.KafkaProducer(bootstrap_servers=config.kafka_hosts,
                                           value_serializer=lambda x: json.dumps(
-                                              x, indent=4, sort_keys=True, default=str
+                                              x, indent=4, sort_keys=True, default=str, ensure_ascii=False
                                           ).encode('utf-8'))
 
     # connect redis
