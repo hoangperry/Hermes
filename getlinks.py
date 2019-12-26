@@ -34,7 +34,9 @@ def scrape_links(_config, sleep_per_step=20):
         link_producer = kafka.KafkaProducer(
             bootstrap_servers=_config.kafka_hosts,
             partitioner=RoundRobinPartitioner(partitions=partitions),
-            value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'),
+            value_serializer=lambda x: json.dumps(
+                x, indent=4, sort_keys=True, default=str, ensure_ascii=False
+            ).encode('utf-8')
             # compression_type='gzip'
         )
     else:
@@ -48,7 +50,9 @@ def scrape_links(_config, sleep_per_step=20):
             bootstrap_servers=_config.kafka_hosts,
             partitioner=RoundRobinPartitioner(partitions=partitions),
             # compression_type='gzip',
-            value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'),
+            value_serializer=lambda x: json.dumps(
+                x, indent=4, sort_keys=True, default=str, ensure_ascii=False
+            ).encode('utf-8'),
             sasl_plain_username=_config.kafka_user,
             sasl_plain_password=_config.kafka_password,
             security_protocol=security_protocol,
