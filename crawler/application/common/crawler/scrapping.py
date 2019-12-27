@@ -85,7 +85,7 @@ class WebDriverWrapper:
             # delete all cookies
             self.driver.close()
             self.driver.quit()
-        except WebDriverException as ex:
+        except Exception as ex:
             logger.error_log.exception("Cannot close browser {}".format(ex))
         finally:
             self.driver = None
