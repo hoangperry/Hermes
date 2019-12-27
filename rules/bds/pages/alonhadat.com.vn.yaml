@@ -1,0 +1,11 @@
+domain: "alonhadat.com.vn"
+allow_pattern: ".*id\\d+$"
+selenium: true
+title: "div.title h1"
+description: "div.detail"
+price: "span.price span.value"
+pre_price: "Giá:"
+total_area: "span.square span.value"
+pre_total_area: "Diện tích: "
+pre_location: "Địa điểm:"
+location: "div.address span.value"

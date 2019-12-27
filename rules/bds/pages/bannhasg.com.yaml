@@ -1,0 +1,11 @@
+domain: "bannhasg.com"
+allow_pattern: ".*id\\d+$"
+selenium: true
+title: "h1"
+description: "div.info"
+price: "//td[.='Mức giá']"
+pre_price: "Giá:"
+total_area: "span.gia-title:nth-of-type(2) strong"
+pre_total_area: "Diện tích: "
+pre_location: "Địa điểm:"
+location: "span.diadiem-title"
