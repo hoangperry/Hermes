@@ -15,17 +15,20 @@ if __name__ == "__main__":
 
     # connect kafka and create consumers
     # link consumer
-    link_consumer = kafka.KafkaConsumer(config.kafka_link_topic,
-                                        bootstrap_servers=config.kafka_hosts,
-                                        value_deserializer=lambda x: json.loads(x.decode('utf-8')),
-                                        group_id=config.kafka_consumer_group)
-    link_consumer.subscribe([config.kafka_link_topic])
+    link_consumer = kafka.KafkaConsumer(
+        config.kafka_link_topic,
+        bootstrap_servers=config.kafka_hosts,
+        value_deserializer=lambda x: json.loads(x.decode('utf-8')),
+        group_id=config.kafka_consumer_group
+    )
+    # link_consumer.subscribe([config.kafka_link_topic])
     # and object producer for another process
-    object_producer = kafka.KafkaProducer(bootstrap_servers=config.kafka_hosts,
-                                          value_serializer=lambda x: json.dumps(
-                                              x, indent=4, sort_keys=True, default=str, ensure_ascii=False
-                                          ).encode('utf-8'))
-
+    object_producer = kafka.KafkaProducer(
+        bootstrap_servers=config.kafka_hosts,
+        value_serializer=lambda x: json.dumps(
+            x, indent=4, sort_keys=True, default=str, ensure_ascii=False
+        ).encode('utf-8')
+    )
     # connect redis
     # load rule from path
     redis_connect = redis.StrictRedis(
