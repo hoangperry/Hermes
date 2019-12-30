@@ -1,7 +1,7 @@
-dothi.net:
-  allow_pattern: .*pr\d{6,}\.htm$
-  start_urls: ["https://dothi.net/nha-dat-ban.htm"]
-  select_element: "select#ddlOrder"
-  select_value: "1"
+nhabansg.vn:
+  allow_pattern: .*nb\d+\.html$
+  start_urls: ["https://nhabansg.vn/"]
+  select_element: null
+  select_value: null
   start_script: null
   selenium: true

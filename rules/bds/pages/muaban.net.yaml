@@ -1,5 +1,5 @@
 domain: "muaban.net"
-allow_pattern: ".*id\d+$"
+allow_pattern: .*id\d+$
 use_selenium: false
 title: "h1"
 posted_date: "span.location-clock__clock"

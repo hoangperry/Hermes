@@ -1,2 +1,11 @@
-title: "div.pm-title h1"
+domain: "batdongsan.com.vn"
+allow_pattern: .*id\\d+$
 selenium: true
+title: "div.pm-title h1"
+description: "div.pm-content div.pm-desc"
+price: "span.gia-title strong"
+pre_price: "Giá:"
+total_area: "span.gia-title:nth-of-type(2) strong"
+pre_total_area: "Diện tích: "
+pre_location: "Địa điểm:"
+location: "span.diadiem-title"
