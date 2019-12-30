@@ -49,12 +49,15 @@ class UniversalExtractService:
 
     def set_page(self, url):
         self.url = url
-        self.domain = UrlFormatter(url=url).get_domain()
+        # self.domain = UrlFormatter(url=url).get_domain()
+        self.domain = url.split("/")[2]
+        self.domain = self.domain if self.domain.split('.')[0] != "www" else ".".join(self.domain.split('.')[1:])
 
     def scrape_page_streaming(self):
         logger.info_log.info("Start streaming")
 
         resume_step = 1
+        print(self.kafka_consumer_bsd_link)
         for msg in self.kafka_consumer_bsd_link:
             resume_step += 1
             if resume_step % self.resume_step == 0:

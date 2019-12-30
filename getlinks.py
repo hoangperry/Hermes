@@ -36,8 +36,8 @@ def scrape_links(_config, sleep_per_step=20):
             partitioner=RoundRobinPartitioner(partitions=partitions),
             value_serializer=lambda x: json.dumps(
                 x, indent=4, sort_keys=True, default=str, ensure_ascii=False
-            ).encode('utf-8')
-            # compression_type='gzip'
+            ).encode('utf-8'),
+            compression_type='gzip'
         )
     else:
         sasl_mechanism = 'PLAIN'
@@ -49,7 +49,7 @@ def scrape_links(_config, sleep_per_step=20):
         link_producer = kafka.KafkaProducer(
             bootstrap_servers=_config.kafka_hosts,
             partitioner=RoundRobinPartitioner(partitions=partitions),
-            # compression_type='gzip',
+            compression_type='gzip',
             value_serializer=lambda x: json.dumps(
                 x, indent=4, sort_keys=True, default=str, ensure_ascii=False
             ).encode('utf-8'),
@@ -73,10 +73,11 @@ def scrape_links(_config, sleep_per_step=20):
         # for home pages
         for hpg in homepage_rules.keys():
             rule = homepage_rules[hpg]
+            first_run = True
+            prev_url = None
             for url in rule['start_urls']:
 
                 logger.info_log.info("Process {}".format(url))
-                print(rule)
                 web_driver.selenium = rule['selenium']
                 # start
                 web_driver.get(url, 5)
@@ -130,7 +131,7 @@ if __name__ == "__main__":
         #     time.sleep(30)
 
         # we don't use multi-threads but replications instead
-        scrape_links(config, 60)
+        scrape_links(config, 5)
     except Exception as ex:
         logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
         logger.error_log.exception(str(ex))
