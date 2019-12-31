@@ -1,0 +1,11 @@
+domain: "dothi.net"
+allow_pattern: .*pr\d{6,}\.htm$
+selenium: true
+title: "div.product-detail h1"
+description: "div.pd-desc div"
+price: "span.spanprice"
+pre_price: "Giá:"
+total_area: "span.spanprice + span"
+pre_total_area: "Diện tích:"
+pre_location: "Địa điểm:"
+location: "div#ContentPlaceHolder1_ProductDetail1_divlocation"
