@@ -31,6 +31,7 @@ RESTART_SELENIUM_STEP_DEFAULT = '100'
 USE_AWS_DEFAULT = 'False'
 CRAWL_TYPE_DEFAULT = 'bds'
 DOWNLOAD_IMAGES_DEFAULT = 'True'
+DEEP_CRAWL_DEFAULT = 'True'
 
 
 class ConfigDict(dict):
@@ -79,5 +80,6 @@ def create_environments():
     configs['use_aws'] = bool(os.environ.get('USE_AWS', USE_AWS_DEFAULT))
     configs['crawl_type'] = os.environ.get('CRAWL_TYPE', CRAWL_TYPE_DEFAULT)
     configs['download_images'] = bool(os.environ.get('DOWNLOAD_IMAGES', DOWNLOAD_IMAGES_DEFAULT))
+    configs['deep_crawl'] = bool(os.environ.get('DEEP_CRAWL', DEEP_CRAWL_DEFAULT))
 
     return ConfigDict(configs)
