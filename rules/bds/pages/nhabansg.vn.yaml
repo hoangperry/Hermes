@@ -1,0 +1,13 @@
+domain: "mogi.vn"
+allow_pattern: ".*id\\d{5,}$"
+selenium: true
+title: "div#columncenter h1"
+description: "div#columncenter p"
+price: "div#columncenter div.col-sm-3:nth-of-type(1) span"
+pre_price: "Giá:"
+total_area: "div#columncenter div.col-sm-3:nth-of-type(2) span"
+pre_total_area: "Diện tích"
+location: "div#columncenter div.col-sm-12 span"
+pre_location: "Đ/c:"
+contact_name: "div.col-md-12 span[itemprop='author']"
+contact_phone: "div#columncenter div.col-sm-6:nth-last-of-type(1) table.table-striped td:nth-last-of-type(1)"
