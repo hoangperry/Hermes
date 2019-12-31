@@ -2,12 +2,23 @@ from crawler.application.common.crawler.model import DatabaseModel
 from crawler.application.common.helpers import logger
 from crawler.application.common.helpers.converter import optimize_dict
 from crawler.application.common.helpers.url import UrlFormatter
+from crawler.application.common.crawler.environments import create_environments
 import crawler.application.common.crawler.scrapping as scrapping
 import json
 
+config = create_environments()
 
-def _get_rules(redis_connect, crawl_type):
-    return json.loads(redis_connect.get(crawl_type + '_rules'))
+
+def _get_rules(redis_connect):
+    return {
+        _type: json.loads(redis_connect.get(str(_type) + '_rules'))
+        for _type in config.avaiable_crawl_type
+    }
+    # return {
+    #     'bds': json.loads(redis_connect.get('bds_rules')),
+    #     'candidate': json.loads(redis_connect.get('candidate_rules')),
+    #     'jobs': json.loads(redis_connect.get('jobs_rules')),
+    # }
 
 
 class UniversalExtractService:
@@ -38,7 +49,7 @@ class UniversalExtractService:
         self.kafka_object_producer = kafka_object_producer
         self.resume_step = resume_step
         self.crawl_type = crawl_type
-        self.dict_rules = _get_rules(redis_connect=self.redis_connect, crawl_type=self.crawl_type)
+        self.dict_rules = _get_rules(redis_connect=self.redis_connect)
         self.restart_selenium_step = restart_selenium_step
         self.download_images = download_images
 
@@ -62,7 +73,7 @@ class UniversalExtractService:
             resume_step += 1
             if resume_step % self.resume_step == 0:
                 logger.info_log.info("Restart rules")
-                self.dict_rules = _get_rules(redis_connect=self.redis_connect, crawl_type=self.crawl_type)
+                self.dict_rules = _get_rules(redis_connect=self.redis_connect)
                 resume_step = 0
 
             msg = msg.value
@@ -76,9 +87,9 @@ class UniversalExtractService:
             except Exception as ex:
                 logger.error_log.exception(str(ex))
                 continue
-            if self.domain not in self.dict_rules:
+            if self.domain not in self.dict_rules[msg['type']]:
                 continue
-            rule = self.dict_rules[self.domain]
+            rule = self.dict_rules[msg['type']][self.domain]
             # send rule
             dbfield = self.get_data_field(rule=rule)
             if dbfield is None:
