@@ -125,6 +125,9 @@ class WebDriverWrapper:
 
         url_formatter = UrlFormatter(url)
         self.domain = url_formatter.get_domain()
+        if self.domain is None:
+            self.driver = None
+            return
         self.page = url
         text = ""
         if self.selenium:

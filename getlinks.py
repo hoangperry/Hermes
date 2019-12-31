@@ -114,6 +114,9 @@ def scrape_links(_config, sleep_per_step=20):
                         }
                         link_producer.send(_config.kafka_link_topic, payload)
                         time.sleep(0.01)
+                    else:
+                        new_start_urls.remove(link)
+
             if _config.deep_crawl:
                 rule['start_urls'] = new_start_urls
                 redis_connect.set(_config.crawl_type + "_homes", json.dumps(homepage_rules))

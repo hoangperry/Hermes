@@ -42,11 +42,13 @@ class UrlFormatter(object):
         return: wikipedia.org
         :return:
         """
-
-        if '.' not in self.get_host()[:4]:
-            return self.get_host()
+        host_self = self.get_host()
+        if host_self is None:
+            return host_self
+        if '.' not in host_self[:4]:
+            return host_self
         else:
-            return re.compile(r'^\w+\.').split(self.get_host())[1]
+            return re.compile(r'^\w+\.').split(host_self)[1]
 
     def get_subdomain(self):
         """
