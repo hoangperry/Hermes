@@ -73,8 +73,8 @@ def scrape_links(_config, sleep_per_step=20):
         # for home pages
         for hpg in homepage_rules.keys():
             rule = homepage_rules[hpg]
-            first_run = True
-            prev_url = None
+            if _config.deep_crawl:
+                new_start_urls = rule['start_urls'].copy()
             for url in rule['start_urls']:
 
                 logger.info_log.info("Process {}".format(url))
@@ -96,7 +96,9 @@ def scrape_links(_config, sleep_per_step=20):
 
                 # scrape, get all links
                 links = web_driver.get_links()
-
+                if _config.deep_crawl:
+                    new_start_urls.remove(url)
+                    new_start_urls += links
                 # add to redis and kafka
                 for link in links:
                     hashed_link = encode(link)
@@ -112,7 +114,9 @@ def scrape_links(_config, sleep_per_step=20):
                         }
                         link_producer.send(_config.kafka_link_topic, payload)
                         time.sleep(0.01)
-
+            if _config.deep_crawl:
+                rule['start_urls'] = new_start_urls
+                redis_connect.set(_config.crawl_type + "_homes", json.dumps(homepage_rules))
         # close browser and sleep
         web_driver.close_browser()
         # sleep
