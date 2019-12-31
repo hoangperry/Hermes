@@ -1,6 +1,6 @@
-nhabansg.vn:
-  allow_pattern: .*nb\d+\.html$
-  start_urls: ["https://nhabansg.vn/"]
+bannhasg.com:
+  allow_pattern: ".*pr\\d{5,}.htm$"
+  start_urls: ["http://bannhasg.com/ban-nha-tp-hcm.htm"]
   select_element: null
   select_value: null
   start_script: null
