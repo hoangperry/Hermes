@@ -1,10 +1,13 @@
-from crawler.application.common.crawler.arguments import config
+from crawler.application.common.crawler.environments import create_environments
 from sqlalchemy.dialects.postgresql import JSON
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from crawler.application.common.helpers import logger
 from sqlalchemy.sql import func
+
+
+config = create_environments()
 
 
 class DatabaseService:
