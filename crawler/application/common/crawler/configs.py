@@ -1,5 +1,3 @@
-
-
 list_proxies = list()
 
 lines = open("proxies.txt").readlines()

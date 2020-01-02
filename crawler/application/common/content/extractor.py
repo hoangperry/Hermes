@@ -1,8 +1,8 @@
 import re
-import application.common.helpers.logger as logger
 from datetime import datetime
-import application.common.content.regex as regex
-from application.common.helpers.converter import to_float
+import crawler.application.common.helpers.logger as logger
+import crawler.application.common.content.regex as regex
+from crawler.application.common.helpers.converter import to_float
 
 
 def normalize_phone(phone):

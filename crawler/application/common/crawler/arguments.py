@@ -1,7 +1,6 @@
-import argparse
-import sys
 import os
-
+import sys
+import argparse
 from crawler.application.common.helpers import logger
 
 
