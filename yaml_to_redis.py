@@ -8,17 +8,6 @@ from crawler.application.common.crawler.environments import create_environments
 
 if __name__ == "__main__":
     config = create_environments()
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument("--host", required=False, help="Redis server", default="localhost")
-    parser.add_argument("--port", required=False, help="Redis port", default=6379)
-    parser.add_argument("--db", required=False, help="Redis database number", default=1)
-    parser.add_argument("--password", required=False, help="Redis authentication password", default=None)
-
-    parser.add_argument("--yaml_folder", required=False, default="rules/")
-    parser.add_argument("--type", required=False, default="bds")
-
-    args = parser.parse_args()
 
     redis_connect = redis.StrictRedis(
         host=config.redis_host, port=config.redis_port, db=config.redis_db, password=config.redis_password

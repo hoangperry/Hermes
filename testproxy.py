@@ -1,6 +1,6 @@
 import requests
+from crawler.application.common.crawler.configs import list_proxies
 
-from application.common.crawler.configs import list_proxies
 
 if __name__ == "__main__":
     print("HELLO")

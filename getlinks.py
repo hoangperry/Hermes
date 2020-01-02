@@ -1,15 +1,14 @@
 import redis
 import kafka
+import time
+import json
+import ssl
 from kafka import RoundRobinPartitioner, TopicPartition
-
 from crawler.application.common.crawler.environments import create_environments
 from crawler.application.common.crawler.scrapping import WebDriverWrapper
 from crawler.application.common.helpers import logger
 from crawler.application.common.helpers.text import encode
-import time
-import json
 from selenium.webdriver.support.ui import Select
-import ssl
 from crawler.application.common.helpers.thread import night_sleep
 
 
@@ -142,4 +141,4 @@ if __name__ == "__main__":
     except Exception as ex:
         logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
         logger.error_log.exception(str(ex))
-        time.sleep(1200)
+        time.sleep(1)
