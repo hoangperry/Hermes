@@ -15,7 +15,7 @@ alonhadat.com.vn:
   selenium: true
 
 bannhasg.com:
-  allow_pattern: .*pr\d{5,}\.htm$
+  allow_pattern: .*pr\\d{5,}.htm$
   start_urls: ["http://bannhasg.com/"]
   select_element: null
   select_value: null

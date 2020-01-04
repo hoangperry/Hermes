@@ -1,10 +1,10 @@
 from crawler.application.common.crawler.environments import create_environments
 from sqlalchemy.dialects.postgresql import JSON
-import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from crawler.application.common.helpers import logger
 from sqlalchemy.sql import func
+import sqlalchemy
 
 
 config = create_environments()
@@ -25,12 +25,13 @@ class DatabaseService:
 
     def connect(self):
         # connection string
-        connection_string = 'postgresql+psycopg2://__USERNAME__:__PASSWORD__@__HOST__:__PORT__/__DATABASE__' \
-            .replace('__USERNAME__', self.user) \
-            .replace('__PASSWORD__', self.password) \
-            .replace('__HOST__', self.host) \
-            .replace('__PORT__', str(self.port)) \
-            .replace('__DATABASE__', self.dbname)
+        connection_string = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
+            self.user,
+            self.password,
+            self.host,
+            self.port,
+            self.dbname
+        )
         # create engine
         self.engine = sqlalchemy.create_engine(connection_string, echo=False, convert_unicode=True)
         # create database if not exists
@@ -62,12 +63,23 @@ class DatabaseService:
 class DatabaseModel(DatabaseService.Base):
     __tablename__ = config.crawl_type
 
-    id = sqlalchemy.Column(sqlalchemy.BigInteger,
-                           sqlalchemy.Sequence('prop_seq', start=1, increment=1),
-                           primary_key=True)
+    id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
 
     data = sqlalchemy.Column(JSON)
     created_time = sqlalchemy.Column(sqlalchemy.DateTime, default=func.now())
+
+    # def __init__(self, user=config.pg_user, password=config.pg_password, host=config.pg_host,
+    #              port=config.pg_port, db=config.pg_db):
+    #
+    #     self.user = user
+    #     self.password = password
+    #     self.host = host
+    #     self.port = port
+    #     self.db = db
+    #
+    #     url = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(self.user, self.password, self.host, self.port, self.db)
+    #     engine = sqlalchemy.create_engine(url)
+    #     DatabaseModel.metadata.create_all(engine)
 
 
 # import nltk

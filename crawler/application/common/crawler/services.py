@@ -92,13 +92,15 @@ class UniversalExtractService:
             rule = self.dict_rules[msg['type']][self.domain]
             # send rule
             dbfield = self.get_data_field(rule=rule)
+
             if dbfield is None:
                 continue
             else:
                 # result = self.normalize_data(dbfield)
                 result = self.extract_fields(dbfield)
                 result = optimize_dict(result)
-
+                if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
+                    continue
                 # add url
                 result['url'] = url
                 # if extract, then send to another topic
