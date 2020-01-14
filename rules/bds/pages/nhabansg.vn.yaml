@@ -1,13 +1,37 @@
-domain: "mogi.vn"
-allow_pattern: ".*id\\d{5,}$"
+address: div#columncenter div.col-sm-12 span
+allow_pattern: .*id\d{5,}$
+area_ilegal_recognized: null
+bathrooms: null
+bedrooms: null
+constructible_acreage: null
+contact_address: null
+contact_email: null
+contact_name: div.col-md-12 span[itemprop='author']
+contact_phone: div#columncenter div.col-sm-6:nth-last-of-type(1) table.table-striped
+  td:nth-last-of-type(1)
+description: div#columncenter p
+direction: null
+domain: mogi.vn
+floors: null
+legal_status: null
+posted_date: null
+pre_address: 'Đ/c:'
+pre_area_ilegal_recognized: null
+pre_bathrooms: null
+pre_bedrooms: null
+pre_constructible_acreage: null
+pre_contact_address: null
+pre_contact_email: null
+pre_contact_name: null
+pre_contact_phone: null
+pre_direction: null
+pre_floors: null
+pre_legal_status: null
+pre_price: 'Giá:'
+pre_total_area: Diện tích
+pre_total_area_length: null
+pre_total_area_width: null
+price: div#columncenter div.col-sm-3:nth-of-type(1) span
 selenium: true
-title: "div#columncenter h1"
-description: "div#columncenter p"
-price: "div#columncenter div.col-sm-3:nth-of-type(1) span"
-pre_price: "Giá:"
-total_area: "div#columncenter div.col-sm-3:nth-of-type(2) span"
-pre_total_area: "Diện tích"
-location: "div#columncenter div.col-sm-12 span"
-pre_location: "Đ/c:"
-contact_name: "div.col-md-12 span[itemprop='author']"
-contact_phone: "div#columncenter div.col-sm-6:nth-last-of-type(1) table.table-striped td:nth-last-of-type(1)"
+title: div#columncenter h1
+total_area: div#columncenter div.col-sm-3:nth-of-type(2) span

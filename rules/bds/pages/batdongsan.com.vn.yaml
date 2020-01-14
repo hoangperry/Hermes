@@ -1,11 +1,36 @@
-domain: "batdongsan.com.vn"
+address: span.diadiem-title
 allow_pattern: .*id\\d+$
+area_ilegal_recognized: null
+bathrooms: null
+bedrooms: null
+constructible_acreage: null
+contact_address: null
+contact_email: null
+contact_name: null
+contact_phone: null
+description: div.pm-content div.pm-desc
+direction: null
+domain: batdongsan.com.vn
+floors: null
+legal_status: null
+posted_date: null
+pre_address: 'Địa điểm:'
+pre_area_ilegal_recognized: null
+pre_bathrooms: null
+pre_bedrooms: null
+pre_constructible_acreage: null
+pre_contact_address: null
+pre_contact_email: null
+pre_contact_name: null
+pre_contact_phone: null
+pre_direction: null
+pre_floors: null
+pre_legal_status: null
+pre_price: 'Giá:'
+pre_total_area: 'Diện tích: '
+pre_total_area_length: null
+pre_total_area_width: null
+price: span.gia-title strong
 selenium: true
-title: "div.pm-title h1"
-description: "div.pm-content div.pm-desc"
-price: "span.gia-title strong"
-pre_price: "Giá:"
-total_area: "span.gia-title:nth-of-type(2) strong"
-pre_total_area: "Diện tích: "
-pre_location: "Địa điểm:"
-location: "span.diadiem-title"
+title: div.pm-title h1
+total_area: span.gia-title:nth-of-type(2) strong
