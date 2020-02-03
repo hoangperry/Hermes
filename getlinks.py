@@ -3,6 +3,7 @@ import kafka
 import time
 import json
 import ssl
+import re
 from kafka import RoundRobinPartitioner, TopicPartition
 from crawler.application.common.crawler.environments import create_environments
 from crawler.application.common.crawler.scrapping import WebDriverWrapper
@@ -97,24 +98,26 @@ def scrape_links(_config, sleep_per_step=20):
                 links = web_driver.get_links()
                 if _config.deep_crawl:
                     new_start_urls.remove(url)
-                    new_start_urls += links
+
                 # add to redis and kafka
                 for link in links:
                     hashed_link = encode(link)
+
                     if not redis_connect.exists(hashed_link):
+                        if not re.match(rule['allow_pattern'], link):
+                            if _config.deep_crawl:
+                                new_start_urls.append(link)
+                            continue
                         logger.info_log.info("Add {} to kafka".format(link))
                         # add to redis and kafka
                         redis_connect.set(hashed_link, 0)
                         # send link in binary format
-                        print(link.encode())
                         payload = {
                             'link': link,
                             'type': _config.crawl_type,
                         }
                         link_producer.send(_config.kafka_link_topic, payload)
                         time.sleep(0.01)
-                    else:
-                        new_start_urls.remove(link)
 
             if _config.deep_crawl:
                 rule['start_urls'] = new_start_urls
