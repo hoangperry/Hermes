@@ -67,13 +67,16 @@ class UniversalExtractService:
         self.domain = self.domain if self.domain.split('.')[0] != "www" else ".".join(self.domain.split('.')[1:])
 
     def get_image(self, _type_crawl):
-        return [
-            base64.b64encode(requests.get(i.get_attribute('src')).content)
-            for i in
-            self.wrapSeleniumDriver.driver.find_element_by_css_selector(
-                self.dict_rules[_type_crawl][self.domain]
-            ).find_elements_by_tag_name('img')
-        ]
+        try:
+            return [
+                base64.b64encode(requests.get(i.get_attribute('src')).content)
+                for i in
+                self.wrapSeleniumDriver.driver.find_element_by_css_selector(
+                    self.dict_rules[_type_crawl][self.domain]
+                ).find_elements_by_tag_name('img')
+            ]
+        except:
+            return list()
 
     def scrape_page_streaming(self):
         logger.info_log.info("Start streaming")
