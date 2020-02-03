@@ -307,7 +307,7 @@ class WebDriverWrapper:
                             results[key] = None
                         else:
                             results[key] = selected_elements
-            except Exception as ex:
+            except:
                 results[key] = None
 
         return results
@@ -315,4 +315,4 @@ class WebDriverWrapper:
     def execute_script(self, script):
         if self.selenium:
             self.driver.execute_script(script)
-            self.response_html = BeautifulSoup(re.sub('<br\s*[\/]?>', '\n', self.driver.page_source), "lxml")
+            self.response_html = BeautifulSoup(re.sub(r'<br\s*[\/]?>', '\n', self.driver.page_source), "lxml")

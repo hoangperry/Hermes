@@ -1,10 +1,12 @@
+import requests
+import json
+import base64
 from crawler.application.common.crawler.model import DatabaseModel
 from crawler.application.common.helpers import logger
 from crawler.application.common.helpers.converter import optimize_dict
 from crawler.application.common.helpers.url import UrlFormatter
 from crawler.application.common.crawler.environments import create_environments
 import crawler.application.common.crawler.scrapping as scrapping
-import json
 
 config = create_environments()
 
@@ -64,6 +66,15 @@ class UniversalExtractService:
         self.domain = url.split("/")[2]
         self.domain = self.domain if self.domain.split('.')[0] != "www" else ".".join(self.domain.split('.')[1:])
 
+    def get_image(self, _type_crawl):
+        return [
+            base64.b64encode(requests.get(i.get_attribute('src')).content)
+            for i in
+            self.wrapSeleniumDriver.driver.find_element_by_css_selector(
+                self.dict_rules[_type_crawl][self.domain]
+            ).find_elements_by_tag_name('img')
+        ]
+
     def scrape_page_streaming(self):
         logger.info_log.info("Start streaming")
 
@@ -107,6 +118,9 @@ class UniversalExtractService:
                 if self.object_topic is not None:
                     # self.kafka_object_producer.send(self.object_topic, result)
                     self.kafka_object_producer.send(self.object_topic, result)
+
+                # get base64 image
+                result['images'] = self.get_image(msg['type'])
 
                 # send to database
                 model = DatabaseModel()
