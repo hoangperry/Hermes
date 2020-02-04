@@ -5,6 +5,7 @@ batdongsan.com.vn:
   select_value: null
   start_script: null
   selenium: true
+  image: div.list-img
 
 alonhadat.com.vn:
   allow_pattern: ".*\\d{4,}.html$"
@@ -13,6 +14,7 @@ alonhadat.com.vn:
   select_value: null
   start_script: null
   selenium: true
+  image: div#ctl00_content_pc_content div.detail
 
 bannhasg.com:
   allow_pattern: ".*pr\\d{5,}.htm$"
@@ -21,6 +23,7 @@ bannhasg.com:
   select_value: null
   start_script: null
   selenium: true
+  image: div.carousel-inner
 
 nha.chotot.com:
   allow_pattern: ".*\\d+.htm$"
@@ -29,6 +32,7 @@ nha.chotot.com:
   select_value: null
   start_script: null
   selenium: true
+  image: div.slick-list
 
 diaoconline.vn:
   allow_pattern: ".*\\d+.htm$"
@@ -37,6 +41,7 @@ diaoconline.vn:
   select_value: null
   start_script: null
   selenium: true
+  image: div.flex-viewport
 
 dothi.net:
   allow_pattern: ".*pr\\d{6,}.htm$"
@@ -45,6 +50,7 @@ dothi.net:
   select_value: null
   start_script: null
   selenium: true
+  image: div.galleria-thumbnails
 
 mogi.vn:
   allow_pattern: ".*id\\d{5,}$"
@@ -53,6 +59,7 @@ mogi.vn:
   select_value: null
   start_script: null
   selenium: true
+  image: div.owl-stage
 
 nhabansg.vn:
   allow_pattern: ".*nb\\d+.html$"
@@ -61,6 +68,7 @@ nhabansg.vn:
   select_value: null
   start_script: null
   selenium: true
+  image: div.carousel-inner
 
 muaban.net:
   allow_pattern: ".*id\\d+$"
@@ -69,6 +77,7 @@ muaban.net:
   select_value: null
   start_script: null
   selenium: true
+  image: div.image__slides
 
 dinhgianhadat.vn:
   allow_pattern: ".*\\d{4,}$"
@@ -77,3 +86,4 @@ dinhgianhadat.vn:
   select_value: null
   start_script: null
   selenium: true
+  image: div#slider div.flex-viewport
