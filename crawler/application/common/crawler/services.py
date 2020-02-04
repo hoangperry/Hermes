@@ -72,7 +72,7 @@ class UniversalExtractService:
                 base64.b64encode(requests.get(i.get_attribute('src')).content)
                 for i in
                 self.wrapSeleniumDriver.driver.find_element_by_css_selector(
-                    self.dict_rules[_type_crawl][self.domain]
+                    self.dict_rules[_type_crawl][self.domain]['image']
                 ).find_elements_by_tag_name('img')
             ]
         except:
