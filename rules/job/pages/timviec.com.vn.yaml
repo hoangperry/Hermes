@@ -1,5 +1,20 @@
-title: "h1"
-salary: "div.job_main span.timviec-corlor-3"
-company: "div.job_main p.timviec-font-myria"
-info: "div.tv-job-detail-med div.timviec-color-191919:nth-of-type(1)"
-use_selenium: false
+title: ul.list-unstyled h1
+salary: ul.list-unstyled span.color-ed145b
+company: ul.list-unstyled a.fs-16
+info: div.job-detail-left
+location: div.col-md-7 p
+deadline_submit: ul.list-unstyled li:nth-last-of-type(1)
+experience: div.job-detail-left div.col-6 p:nth-of-type(1)
+degree_requirements: div.job-detail-left div.col-6 p:nth-of-type(2)
+no_of_opening: div.job-detail-left div.col-6 p:nth-of-type(3)
+formality: div.job-detail-left div.col-6:nth-of-type(2) p:nth-of-type(1)
+position: div.job-detail-left div.col-6:nth-of-type(2) p:nth-of-type(2)
+gender_requirements: div.job-detail-left div.col-6:nth-of-type(2) p:nth-of-type(3)
+career: ul.u-list-inline
+description: div.mb-10.pl-10.lh-30:nth-of-type(1)
+benefit: div.mb-10.pl-10.lh-30:nth-of-type(2)
+job_requirements: div.mb-10.pl-10.lh-30:nth-of-type(3)
+profile_requirements: div.mb-10.pl-10.lh-30:nth-of-type(2)
+contact: div.job-detail-left div.col-12:nth-of-type(1)
+other_info: null
+selenium: true

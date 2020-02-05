@@ -2,7 +2,7 @@ import os
 
 
 DRIVER_PATH_DEFAULT = '/usr/local/bin/chromedriver'
-DEPLOY = 'local'
+DEPLOY = 'dps'
 
 if DEPLOY == 'local':
     '''
@@ -40,7 +40,7 @@ if DEPLOY == 'local':
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     DEEP_CRAWL_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
-else:
+elif DEPLOY == 'dps':
     '''
     #####
     Variable Environment for LOCAL deploy

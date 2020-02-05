@@ -1,4 +1,20 @@
-info: "div.LeftJobCB"
 title: div.top-job-info h1
-
-use_selenium: false
+salary: null
+company: null
+info: ul.DetailJobNew
+location: ul.DetailJobNew li.bgLine1 p.fl_left b
+deadline_submit: null
+experience: nul
+degree_requirements: null
+no_of_opening: null
+formality: null
+position: null
+gender_requirements: null
+career: div.tagskilldetail
+description: .MarBot20:nth-last-of-type(6) div.content_fck
+benefit: div.benefits-template ul
+job_requirements: .MarBot20:nth-last-of-type(4) div.content_fck
+profile_requirements: null
+contact: div.box1Detail
+other_info: .MarBot20:nth-last-of-type(5) ul
+selenium: true

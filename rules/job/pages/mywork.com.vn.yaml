@@ -2,6 +2,7 @@ title: h1.main-title
 salary: span.text_red
 company: h2.mb-15
 info: div.multiple:nth-of-type(1)
+location: div.col-md-7 p
 deadline_submit: div.multiple:nth-of-type(1) div.col-md-7 p:nth-last-of-type(1)
 experience: div.multiple:nth-of-type(1) div.job_detail_general div.item1 p:nth-of-type(1)
 degree_requirements: div.multiple:nth-of-type(1) div.job_detail_general div.item1 p:nth-of-type(2)
@@ -9,9 +10,11 @@ no_of_opening: div.multiple:nth-of-type(1) div.job_detail_general div.item1 p:nt
 formality: div.multiple:nth-of-type(1) div.job_detail_general div.item2 p:nth-of-type(1)
 position: div.multiple:nth-of-type(1) div.job_detail_general div.item2 p:nth-of-type(2)
 gender_requirements: div.multiple:nth-of-type(1) div.job_detail_general div.item2 p:nth-of-type(3)
+career: div.mw-box-item.job-cat
 description: div.multiple:nth-of-type(1) div.mw-box-item:nth-of-type(3)
 benefit: div.multiple:nth-of-type(1) div.mw-box-item:nth-of-type(4)
 job_requirements: div.multiple:nth-of-type(1) div.mw-box-item:nth-of-type(5)
 profile_requirements: div.multiple:nth-of-type(1) div.mw-box-item:nth-of-type(6)
 contact: div.multiple:nth-of-type(2) div.box-contact
+other_info: null
 selenium: true
