@@ -1,2 +1,4 @@
 info: "div.LeftJobCB"
+title: div.top-job-info h1
+
 use_selenium: false
