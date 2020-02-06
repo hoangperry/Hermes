@@ -23,8 +23,11 @@ class LinkScraper:
         self.redis_connect = self.create_redis_connection()
         self.link_producer = self.create_kafka_producer()
         self.sleep_per_step = sleep_per_step
+        self.web_driver = None
+        self.homepage_rules = None
 
     def create_redis_connection(self):
+        logger.info_log.info("Create Redis connection")
         return redis.StrictRedis(
             host=self.config.redis_host,
             port=self.config.redis_port,
@@ -33,6 +36,7 @@ class LinkScraper:
         )
 
     def create_kafka_producer(self):
+        logger.info_log.info("Create Kafka producer")
         partitions = [
             kafka.TopicPartition(
                 topic=self.config.kafka_link_topic, partition=i
@@ -69,55 +73,61 @@ class LinkScraper:
                 sasl_mechanism=sasl_mechanism
             )
 
+    def restart_webdriver(self):
+        logger.info_log.info("Start/Restart selenium web browser")
+        self.web_driver = WebDriverWrapper(self.config.driver_path)
+        self.web_driver.use_selenium(True)
+
+    def update_homerule(self):
+        logger.info_log.info("Load {} homerule from redis".format(self.config.crawl_type))
+        self.homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + "_homes"))
+
+    def send_link_to_kafka(self, _link):
+        logger.info_log.info("Add {} to kafka".format(_link))
+        self.link_producer.send(
+            self.config.kafka_link_topic, {
+                'link': _link,
+                'type': self.config.crawl_type,
+            }
+        )
+        time.sleep(0.01)
+
     def run(self):
         while True:
-            logger.info_log.info("Start/Restart selenium web browser")
-            web_driver = WebDriverWrapper(self.config.driver_path)
-            web_driver.use_selenium(True)
-
-            # get rule from redis by crawl type
-            logger.info_log.info("Load from redis")
-            homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + "_homes"))
+            self.restart_webdriver()
+            self.update_homerule()
 
             # for home pages
-            for hpg in homepage_rules.keys():
-                homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + "_homes"))
-                count_loop = 0
-                rule = homepage_rules[hpg]
+            for hpg in self.homepage_rules.keys():
+                rule = self.homepage_rules[hpg]
                 rule['start_urls'] = [rule['homepage']] + rule['start_urls']
                 new_start_urls = rule['start_urls'].copy()
-                for url in rule['start_urls']:
-                    count_loop += 1
 
-                    if count_loop > 5:
-                        break
-
+                for url in rule['start_urls'][:5]:
                     new_start_urls.remove(url)
-
                     logger.info_log.info("Process {}".format(url))
-                    web_driver.selenium = rule['selenium']
+                    self.web_driver.selenium = rule['selenium']
+
                     # start
                     if url.split('/')[2] != hpg:
-                        rule['start_urls'] = new_start_urls
-                        self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(homepage_rules))
                         continue
 
-                    web_driver.get(url, 5)
+                    self.web_driver.get(url, 5)
 
-                    if web_driver.driver is None:
+                    if self.web_driver.driver is None:
                         continue
 
                     if rule['start_script'] is not None:
-                        web_driver.execute_script(rule['start_script'])
+                        self.web_driver.execute_script(rule['start_script'])
 
                     if rule['select_element'] is not None:
-                        select = Select(web_driver.driver.find_element_by_css_selector(rule['select_element']))
+                        select = Select(self.web_driver.driver.find_element_by_css_selector(rule['select_element']))
                         select.select_by_index(rule['select_value'])
                         time.sleep(1.5)
-                        web_driver.set_html(web_driver.driver.page_source)
+                        self.web_driver.set_html(self.web_driver.driver.page_source)
 
                     # scrape, get all links
-                    links = web_driver.get_links()
+                    links = self.web_driver.get_links()
 
                     # add to redis and kafka
                     for link in links:
@@ -127,28 +137,16 @@ class LinkScraper:
                         if not self.redis_connect.exists(hashed_link):
                             new_start_urls.append(link)
                             if not re.match(rule['allow_pattern'], link):
-                                # if _config.deep_crawl:
                                 continue
-                            # new_start_urls.append(link)
-                            logger.info_log.info("Add {} to kafka".format(link))
-                            # add to redis and kafka
                             self.redis_connect.set(hashed_link, 0)
-                            # send link in binary format
-                            payload = {
-                                'link': link,
-                                'type': self.config.crawl_type,
-                            }
-                            self.link_producer.send(self.config.kafka_link_topic, payload)
-                            time.sleep(0.01)
-
+                            self.send_link_to_kafka(link)
                 rule['start_urls'] = new_start_urls
-                self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(homepage_rules))
+                self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
 
             # close browser and sleep
-            web_driver.close_browser()
-            # sleep
+            self.web_driver.close_browser()
             night_sleep(other_case=self.sleep_per_step)
-            
+
 
 if __name__ == "__main__":
     try:
