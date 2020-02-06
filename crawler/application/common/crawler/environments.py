@@ -1,7 +1,7 @@
 import os
 
 
-DRIVER_PATH_DEFAULT = '/usr/local/bin/chromedriver'
+DRIVER_PATH_DEFAULT = './chromedriver'
 DEPLOY = 'dps'
 
 if DEPLOY == 'local':
