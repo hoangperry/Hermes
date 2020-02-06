@@ -67,19 +67,31 @@ def scrape_links(_config, sleep_per_step=20):
 
         # get rule from redis by crawl type
         logger.info_log.info("Load from redis")
-        rdh = redis_connect.get(_config.crawl_type + "_homes")
-        homepage_rules = json.loads(rdh)
+        homepage_rules = json.loads(redis_connect.get(_config.crawl_type + "_homes"))
 
         # for home pages
         for hpg in homepage_rules.keys():
+            homepage_rules = json.loads(redis_connect.get(_config.crawl_type + "_homes"))
+            count_loop = 0
             rule = homepage_rules[hpg]
-            if _config.deep_crawl:
-                new_start_urls = rule['start_urls'].copy()
+            rule['start_urls'] = [rule['homepage']] + rule['start_urls']
+            new_start_urls = rule['start_urls'].copy()
             for url in rule['start_urls']:
+                count_loop += 1
+
+                if count_loop > 5:
+                    break
+
+                new_start_urls.remove(url)
 
                 logger.info_log.info("Process {}".format(url))
                 web_driver.selenium = rule['selenium']
                 # start
+                if url.split('/')[2] != hpg:
+                    rule['start_urls'] = new_start_urls
+                    redis_connect.set(_config.crawl_type + "_homes", json.dumps(homepage_rules))
+                    continue
+
                 web_driver.get(url, 5)
 
                 if web_driver.driver is None:
@@ -96,18 +108,18 @@ def scrape_links(_config, sleep_per_step=20):
 
                 # scrape, get all links
                 links = web_driver.get_links()
-                if _config.deep_crawl:
-                    new_start_urls.remove(url)
 
                 # add to redis and kafka
                 for link in links:
+                    if link.split('/')[2] != hpg:
+                        continue
                     hashed_link = encode(link)
-
                     if not redis_connect.exists(hashed_link):
+                        new_start_urls.append(link)
                         if not re.match(rule['allow_pattern'], link):
-                            if _config.deep_crawl:
-                                new_start_urls.append(link)
+                            # if _config.deep_crawl:
                             continue
+                        # new_start_urls.append(link)
                         logger.info_log.info("Add {} to kafka".format(link))
                         # add to redis and kafka
                         redis_connect.set(hashed_link, 0)
@@ -119,9 +131,10 @@ def scrape_links(_config, sleep_per_step=20):
                         link_producer.send(_config.kafka_link_topic, payload)
                         time.sleep(0.01)
 
-            if _config.deep_crawl:
-                rule['start_urls'] = new_start_urls
-                redis_connect.set(_config.crawl_type + "_homes", json.dumps(homepage_rules))
+            rule['start_urls'] = new_start_urls
+            redis_connect.set(_config.crawl_type + "_homes", json.dumps(homepage_rules))
+
+
         # close browser and sleep
         web_driver.close_browser()
         # sleep

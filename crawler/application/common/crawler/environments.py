@@ -38,8 +38,8 @@ if DEPLOY == 'local':
     USE_AWS_DEFAULT = 'False'
     CRAWL_TYPE_DEFAULT = 'job'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
-    DEEP_CRAWL_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
+
 elif DEPLOY == 'dps':
     '''
     #####
@@ -74,7 +74,6 @@ elif DEPLOY == 'dps':
     USE_AWS_DEFAULT = 'False'
     CRAWL_TYPE_DEFAULT = 'job'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
-    DEEP_CRAWL_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 
 
@@ -123,7 +122,6 @@ def create_environments():
     configs['crawl_type'] = os.environ.get('CRAWL_TYPE', CRAWL_TYPE_DEFAULT)
     configs['yaml_folder'] = os.environ.get('YAML_FOLDER', YAML_FOLDER_DEFAULT)
     configs['download_images'] = bool(os.environ.get('DOWNLOAD_IMAGES', DOWNLOAD_IMAGES_DEFAULT))
-    configs['deep_crawl'] = bool(os.environ.get('DEEP_CRAWL', DEEP_CRAWL_DEFAULT))
 
     configs['avaiable_crawl_type'] = [
         'bds',

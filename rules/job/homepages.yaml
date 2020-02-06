@@ -1,14 +1,16 @@
 mywork.com.vn:
   allow_pattern: .*tuyen-dung/viec-lam.*\.html$
-  start_urls: ["https://mywork.com.vn/"]
+  homepage: https://mywork.com.vn/
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
 
-vietnamworks.com:
+www.vietnamworks.com:
   allow_pattern: .*tuyen-dung/viec-lam(.*)\.html$
-  start_urls: ["https://www.vietnamworks.com/tim-viec-lam/tat-ca-viec-lam"]
+  homepage: https://www.vietnamworks.com/tim-viec-lam/tat-ca-viec-lam
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
@@ -16,7 +18,8 @@ vietnamworks.com:
 
 timviec.com.vn:
   allow_pattern: .*\/it-jobs\/
-  start_urls: ["https://timviec.com.vn/tim-viec-lam"]
+  homepage: https://timviec.com.vn/tim-viec-lam
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
@@ -24,7 +27,17 @@ timviec.com.vn:
 
 itviec.com:
   allow_pattern: .*pr\d{5,}$
-  start_urls: ["https://itviec.com/it-jobs"]
+  homepage: https://itviec.com/it-jobs
+  start_urls: []
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+
+careerbuilder:
+  allow_pattern: .*tim-viec-lam\/.*\.([0-9]|[A-Z]){6,}\.html
+  homepage: https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-vi.html
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
