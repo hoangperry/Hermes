@@ -64,7 +64,7 @@ class LinkScraper:
                 partitioner=RoundRobinPartitioner(partitions=partitions),
                 compression_type='gzip',
                 value_serializer=lambda x: json.dumps(
-                    x, indent=4, sort_keys=True, default=str, ensure_ascii=False
+                    x, indent=4, ensure_ascii=False
                 ).encode('utf-8'),
                 sasl_plain_username=self.config.kafka_user,
                 sasl_plain_password=self.config.kafka_password,
@@ -141,7 +141,8 @@ class LinkScraper:
                                     continue
                                 self.redis_connect.set(hashed_link, 0)
                                 self.send_link_to_kafka(link)
-                    except:
+                    except Exception as ex:
+                        logger.error_log.exception(str(ex))
                         continue
 
                 rule['start_urls'] = new_start_urls
