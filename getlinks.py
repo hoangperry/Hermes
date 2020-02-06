@@ -102,8 +102,9 @@ class LinkScraper:
                 rule = self.homepage_rules[hpg]
                 rule['start_urls'] = [rule['homepage']] + rule['start_urls']
                 new_start_urls = rule['start_urls'].copy()
-                try:
-                    for url in rule['start_urls'][:5]:
+
+                for url in rule['start_urls'][:5]:
+                    try:
                         new_start_urls.remove(url)
                         logger.info_log.info("Process {}".format(url))
                         self.web_driver.selenium = rule['selenium']
@@ -112,7 +113,7 @@ class LinkScraper:
                         if url.split('/')[2] != hpg:
                             continue
 
-                        self.web_driver.get(url, 5)
+                        self.web_driver.get(url, 3)
 
                         if self.web_driver.driver is None:
                             continue
@@ -140,10 +141,12 @@ class LinkScraper:
                                     continue
                                 self.redis_connect.set(hashed_link, 0)
                                 self.send_link_to_kafka(link)
-                    rule['start_urls'] = new_start_urls
-                    self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
-                except:
-                    pass
+                    except:
+                        continue
+
+                rule['start_urls'] = new_start_urls
+                self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
+
             # close browser and sleep
             self.web_driver.close_browser()
             night_sleep(other_case=self.sleep_per_step)
