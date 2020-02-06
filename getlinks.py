@@ -113,7 +113,7 @@ class LinkScraper:
                         if url.split('/')[2] != hpg:
                             continue
 
-                        self.web_driver.get(url, 3)
+                        self.web_driver.get(url, 5)
 
                         if self.web_driver.driver is None:
                             continue
