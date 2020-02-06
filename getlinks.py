@@ -102,47 +102,48 @@ class LinkScraper:
                 rule = self.homepage_rules[hpg]
                 rule['start_urls'] = [rule['homepage']] + rule['start_urls']
                 new_start_urls = rule['start_urls'].copy()
+                try:
+                    for url in rule['start_urls'][:5]:
+                        new_start_urls.remove(url)
+                        logger.info_log.info("Process {}".format(url))
+                        self.web_driver.selenium = rule['selenium']
 
-                for url in rule['start_urls'][:5]:
-                    new_start_urls.remove(url)
-                    logger.info_log.info("Process {}".format(url))
-                    self.web_driver.selenium = rule['selenium']
-
-                    # start
-                    if url.split('/')[2] != hpg:
-                        continue
-
-                    self.web_driver.get(url, 5)
-
-                    if self.web_driver.driver is None:
-                        continue
-
-                    if rule['start_script'] is not None:
-                        self.web_driver.execute_script(rule['start_script'])
-
-                    if rule['select_element'] is not None:
-                        select = Select(self.web_driver.driver.find_element_by_css_selector(rule['select_element']))
-                        select.select_by_index(rule['select_value'])
-                        time.sleep(1.5)
-                        self.web_driver.set_html(self.web_driver.driver.page_source)
-
-                    # scrape, get all links
-                    links = self.web_driver.get_links()
-
-                    # add to redis and kafka
-                    for link in links:
-                        if link.split('/')[2] != hpg:
+                        # start
+                        if url.split('/')[2] != hpg:
                             continue
-                        hashed_link = encode(link)
-                        if not self.redis_connect.exists(hashed_link):
-                            new_start_urls.append(link)
-                            if not re.match(rule['allow_pattern'], link):
-                                continue
-                            self.redis_connect.set(hashed_link, 0)
-                            self.send_link_to_kafka(link)
-                rule['start_urls'] = new_start_urls
-                self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
 
+                        self.web_driver.get(url, 5)
+
+                        if self.web_driver.driver is None:
+                            continue
+
+                        if rule['start_script'] is not None:
+                            self.web_driver.execute_script(rule['start_script'])
+
+                        if rule['select_element'] is not None:
+                            select = Select(self.web_driver.driver.find_element_by_css_selector(rule['select_element']))
+                            select.select_by_index(rule['select_value'])
+                            time.sleep(1.5)
+                            self.web_driver.set_html(self.web_driver.driver.page_source)
+
+                        # scrape, get all links
+                        links = self.web_driver.get_links()
+
+                        # add to redis and kafka
+                        for link in links:
+                            if link.split('/')[2] != hpg:
+                                continue
+                            hashed_link = encode(link)
+                            if not self.redis_connect.exists(hashed_link):
+                                new_start_urls.append(link)
+                                if not re.match(rule['allow_pattern'], link):
+                                    continue
+                                self.redis_connect.set(hashed_link, 0)
+                                self.send_link_to_kafka(link)
+                    rule['start_urls'] = new_start_urls
+                    self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
+                except:
+                    pass
             # close browser and sleep
             self.web_driver.close_browser()
             night_sleep(other_case=self.sleep_per_step)
