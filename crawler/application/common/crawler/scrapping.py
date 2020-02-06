@@ -147,26 +147,30 @@ class WebDriverWrapper:
                 self.close_browser()
         else:
             text = ''
+
             try:
                 # article = Article(url)
                 # article.download()
                 # text = article.html
-                r = requests.get(url, headers={"User-Agent": "Requests"}, proxies=proxy)
+                r = requests.get(url)
                 text = r.content.decode()
-
-                # if can not find, try another method
                 if text.strip() == '':
-                    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                    req.set_proxy(proxy["http"], "http")
-                    req.set_proxy(proxy["https"], "https")
-                    text = urlopen(req, context=context).read().decode('utf-8')
+                    r = requests.get(url, headers={"User-Agent": "Requests"}, proxies=proxy)
+                    text = r.content.decode()
+
+                    # if can not find, try another method
+                    if text.strip() == '':
+                        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                        req.set_proxy(proxy["http"], "http")
+                        req.set_proxy(proxy["https"], "https")
+                        text = urlopen(req, context=context).read().decode('utf-8')
             except SSLError:
                 try:
                     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                     # # set proxy
                     # req.set_proxy(proxy["http"], "http")
                     # req.set_proxy(proxy["https"], "https")
-                    #
+
                     text = urlopen(req, context=context).read().decode('utf-8')
                 except Exception as ex:
                     logger.error_log.exception("Pageload exception {}".format(ex))

@@ -124,7 +124,7 @@ class UniversalExtractService:
 
                 # get base64 image
                 result['images'] = self.get_image(msg['type'])
-
+                result['link'] = url
                 # send to database
                 model = DatabaseModel()
                 model.data = result
