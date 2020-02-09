@@ -2,7 +2,7 @@ import os
 
 
 DRIVER_PATH_DEFAULT = './chromedriver'
-DEPLOY = 'dps'
+DEPLOY = 'cloud'
 
 if DEPLOY == 'local':
     '''
@@ -43,7 +43,7 @@ if DEPLOY == 'local':
 elif DEPLOY == 'dps':
     '''
     #####
-    Variable Environment for LOCAL deploy
+    Variable Environment for DPS deploy
     #####
     '''
     # Kafka default info
@@ -67,6 +67,42 @@ elif DEPLOY == 'dps':
     PG_USER_DEFAULT = 'hoang'
     PG_PASSWORD_DEFAULT = '4983'
     PG_DB_DEFAULT = 'crawler'
+
+    # Other info
+    RESUME_STEP_DEFAULT = '100'
+    RESTART_SELENIUM_STEP_DEFAULT = '100'
+    USE_AWS_DEFAULT = 'False'
+    CRAWL_TYPE_DEFAULT = 'job'
+    DOWNLOAD_IMAGES_DEFAULT = 'True'
+    YAML_FOLDER_DEFAULT = 'rules/'
+
+elif DEPLOY == 'cloud':
+    '''
+    #####
+    Variable Environment for cloud deploy
+    #####
+    '''
+    # Kafka default info
+    KAFKA_HOSTS_DEFAULT = '35.186.148.118:9092'
+    KAFKA_USER_DEFAULT = None
+    KAFKA_PASSWORD_DEFAULT = None
+    KAFKA_NUM_PARTITIONS_DEFAULT = '10'
+    KAFKA_LINK_TOPIC_DEFAULT = 'links_job'
+    KAFKA_OBJECT_TOPIC_DEFAULT = 'objects_job'
+    KAFKA_CONSUMER_GROUP_DEFAULT = 'default'
+
+    # Redis default info
+    REDIS_HOST_DEFAULT = '35.186.148.118'
+    REDIS_PORT_DEFAULT = '6379'
+    REDIS_DB_DEFAULT = '0'
+    REDIS_PASSWORD_DEFAULT = None
+
+    # Postgre default info
+    PG_HOST_DEFAULT = '35.186.148.118'
+    PG_PORT_DEFAULT = '5432'
+    PG_USER_DEFAULT = 'hoang'
+    PG_PASSWORD_DEFAULT = '4983'
+    PG_DB_DEFAULT = 'dps_crawler'
 
     # Other info
     RESUME_STEP_DEFAULT = '100'
