@@ -33,7 +33,8 @@ class WebDriverWrapper:
                  executable_path=None,
                  headless=True,
                  binary_location='/usr/bin/google-chrome',
-                 disable_gpu=True):
+                 disable_gpu=True,
+                 timeout=15):
         """
 
         :param executable_path:
@@ -50,7 +51,7 @@ class WebDriverWrapper:
 
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        #options.add_experimental_option("detach", True)
+        # options.add_experimental_option("detach", True)
         options.add_experimental_option("prefs", prefs)
 
         # add execute path and option into driver
@@ -66,6 +67,7 @@ class WebDriverWrapper:
             self.selenium = False
 
         # self.driver.implicitly_wait(60)
+        self.driver.set_page_load_timeout(timeout)
         self.wait = WebDriverWait(self.driver, 10)
         self.response_html = None
         self.all_links = []
@@ -320,3 +322,19 @@ class WebDriverWrapper:
         if self.selenium:
             self.driver.execute_script(script)
             self.response_html = BeautifulSoup(re.sub(r'<br\s*[\/]?>', '\n', self.driver.page_source), "lxml")
+
+    def get_html(self, url):
+        try:
+            self.driver.get(url)
+            page_source = self.driver.page_source
+            page_source = re.sub('<br\s*[\/]?>', '\n', page_source)
+            page_source = re.sub('<\s*\/p>', '</p>\n', page_source)
+
+            self.html = BeautifulSoup(page_source, "lxml")
+            time.sleep(0.5)
+        except TimeoutException as toe:
+            print(toe)
+            self.driver.refresh()
+            print(url)
+        except Exception as ex:
+            print(ex)

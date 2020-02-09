@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     # create webdriver
     real_estate_scraper = UniversalExtractService(
-        selenium_driver=config.driver_path,
+        selenium_driver_path=config.driver_path,
         redis_connect=redis_connect,
         kafka_consumer_bsd_link=link_consumer,
         kafka_object_producer=object_producer,
