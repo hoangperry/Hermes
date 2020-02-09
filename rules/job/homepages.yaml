@@ -1,11 +1,12 @@
-itviec.com:
-  allow_pattern: .*\d{3,}$
-  homepage: https://itviec.com/it-jobs
+careerbuilder.vn:
+  allow_pattern: .*tim-viec-lam\/.*\.([0-9]|[A-Z]){6,}\.html$
+  homepage: https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-vi.html
   start_urls: []
   select_element: null
   select_value: null
   start_script: null
-  selenium: false
+  selenium: true3
+  login_require: false
 
 mywork.com.vn:
   allow_pattern: .*tuyen-dung/viec-lam.*\.html$
@@ -15,6 +16,23 @@ mywork.com.vn:
   select_value: null
   start_script: null
   selenium: true
+  login_require: false
+
+itviec.com:
+  allow_pattern: .*\d{3,}$
+  homepage: https://itviec.com/it-jobs
+  start_urls: []
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: false
+  login_require: true
+  valid_login: li#user-dropdown
+  url_login: https://itviec.com/sign_in
+  input_username: user[email]
+  username: khongtenhvt@gmail.com
+  input_password: user[password]
+  password: 49832214
 
 www.vietnamworks.com:
   allow_pattern: .*\d{4,}-jv.*
@@ -24,6 +42,13 @@ www.vietnamworks.com:
   select_value: null
   start_script: null
   selenium: true
+  login_require: true
+  valid_login: li.dropdown.dropdown-popover-theme.user-account.dropdown-with-icon
+  url_login: https://secure.vietnamworks.com/login/vi?client_id=3
+  input_username: username
+  username: khongtenhvt@gmail.com
+  input_password: password
+  password: Hoang123
 
 timviec.com.vn:
   allow_pattern: .*\d{4,}\.html
@@ -33,12 +58,4 @@ timviec.com.vn:
   select_value: null
   start_script: null
   selenium: true
-
-careerbuilder.vn:
-  allow_pattern: .*tim-viec-lam\/.*\.([0-9]|[A-Z]){6,}\.html$
-  homepage: https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-vi.html
-  start_urls: []
-  select_element: null
-  select_value: null
-  start_script: null
-  selenium: true
+  login_require: false

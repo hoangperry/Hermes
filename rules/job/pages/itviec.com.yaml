@@ -1,5 +1,5 @@
 title: div.job_info h1
-salary: null
+salary: div.salary span.salary-text
 company: div.employer-info h3.name
 info: div.job-detail
 location: div.address__full-address
