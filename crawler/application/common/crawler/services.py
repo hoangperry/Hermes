@@ -167,9 +167,8 @@ class UniversalExtractService:
                     # add url
                     result['url'] = url
                     # if extract, then send to another topic
-                    if self.object_topic is not None:
+                    # if self.object_topic is not None:
                         # self.kafka_object_producer.send(self.object_topic, result)
-                        self.kafka_object_producer.send(self.object_topic, result)
 
                     # get base64 image
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
