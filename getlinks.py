@@ -154,10 +154,11 @@ class LinkScraper:
 
 
 if __name__ == "__main__":
-    try:
-        link_scraper = LinkScraper(config, sleep_per_step=5)
-        link_scraper.run()
-    except Exception as ex:
-        logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
-        logger.error_log.exception(str(ex))
-        time.sleep(1)
+    while True:
+        try:
+            link_scraper = LinkScraper(config, sleep_per_step=5)
+            link_scraper.run()
+        except Exception as ex:
+            logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
+            logger.error_log.exception(str(ex))
+            time.sleep(150)

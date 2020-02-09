@@ -183,6 +183,7 @@ class UniversalExtractService:
                     model.data = result
                     # print(result)
                     self.pg_connection.insert_one(model)
+                    logger.info_log.info('Pushed {} to Database'.format(result['title']))
 
                 # clear url
                 self.clear_url_data()
