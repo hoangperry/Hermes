@@ -98,7 +98,7 @@ class UniversalExtractService:
                 if msg is None:
                     pass
                 url_domain = msg['link'].split('/')[2]
-                print(url_domain)
+                # print(url_domain)
 
                 if self.home_rules[url_domain]['login_require']:
                     try:
@@ -144,7 +144,7 @@ class UniversalExtractService:
                         self.headless = True
 
                 url = msg['link']
-                print(url)
+                logger.info_log.info('Processing ' + str(url))
                 try:
                     self.set_page(url)
                 except Exception as ex:
@@ -181,7 +181,7 @@ class UniversalExtractService:
                     # send to database
                     model = DatabaseModel()
                     model.data = result
-                    print(result)
+                    # print(result)
                     self.pg_connection.insert_one(model)
 
                 # clear url
