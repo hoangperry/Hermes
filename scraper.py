@@ -15,6 +15,7 @@ if __name__ == "__main__":
 
     # connect kafka and create consumers
     # link consumer
+
     link_consumer = kafka.KafkaConsumer(
         config.kafka_link_topic,
         bootstrap_servers=config.kafka_hosts,
@@ -47,18 +48,22 @@ if __name__ == "__main__":
         database=config.pg_db
     )
 
-    # create webdriver
-    real_estate_scraper = UniversalExtractService(
-        selenium_driver_path=config.driver_path,
-        redis_connect=redis_connect,
-        kafka_consumer_bsd_link=link_consumer,
-        kafka_object_producer=object_producer,
-        object_topic=config.kafka_object_topic,
-        resume_step=config.resume_step,
-        crawl_type=config.crawl_type,
-        restart_selenium_step=config.restart_selenium_step,
-        download_images=config.download_images,
-        pg_connection=pg_service
-    )
+    while True:
+        try:
+            # create webdriver
+            real_estate_scraper = UniversalExtractService(
+                selenium_driver_path=config.driver_path,
+                redis_connect=redis_connect,
+                kafka_consumer_bsd_link=link_consumer,
+                kafka_object_producer=object_producer,
+                object_topic=config.kafka_object_topic,
+                resume_step=config.resume_step,
+                crawl_type=config.crawl_type,
+                restart_selenium_step=config.restart_selenium_step,
+                download_images=config.download_images,
+                pg_connection=pg_service
+            )
 
-    real_estate_scraper.scrape_page_streaming()
+            real_estate_scraper.scrape_page_streaming()
+        except:
+            continue
