@@ -262,5 +262,5 @@ def normalize_job(job_dict):
         'job_requirements': normalize_job_requirements(job_dict['job_requirements']),
         'profile_requirements': normalize_profile_requirements(job_dict['profile_requirements']),
         'contact': normalize_contact(job_dict['contact']),
-        'other_info': normalize_other_info(job_dict['other_info']) ,
+        'other_info': normalize_other_info(job_dict['other_info']),
     }
