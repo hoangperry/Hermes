@@ -79,8 +79,8 @@ def non_duplicate_job(today_job, past_job):
                 print(job['url'])
                 duplicate = True
                 break
-            if not duplicate:
-                ret_jobs.append(job)
+        if not duplicate:
+            ret_jobs.append(job)
 
     print(ret_jobs.__len__())
     return ret_jobs
