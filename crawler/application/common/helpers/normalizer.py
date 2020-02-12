@@ -14,7 +14,7 @@ def clean_text(_text):
 def normalize_salary(salary):
     try:
         if salary is None:
-            return -2
+            raise Exception('Invalid Salary, This record might not be job. Del this job\n')
 
         salary = re.sub(r"\s+", ' ', re.sub(r"\n+", '\n', salary.lower()))
         salary = re.sub(r"\(.*\)", '', salary)
@@ -244,7 +244,7 @@ def normalize_other_info(other_info):
 def normalize_job(job_dict):
     return {
         'id': job_dict['id'],
-        'crawl_date': job_dict['crawl_date'],
+        'crawl_date': str(job_dict['crawl_date']),
         'title': job_dict['title'],
         'salary_normalize': normalize_salary(job_dict['salary']),
         'salary': normalize_title(job_dict['title']),
