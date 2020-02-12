@@ -1,5 +1,20 @@
-title: "h1"
-salary: "div.job_main span.timviec-corlor-3"
-company: "h3.name"
-info: "div.job_description"
-use_selenium: false
+title: div.job_info h1
+salary: div.salary span.salary-text
+company: div.employer-info h3.name
+info: div.job-detail
+location: div.address__full-address
+deadline_submit: null
+experience: null
+degree_requirements: null
+no_of_opening: null
+formality: p.gear-icon
+position: null
+gender_requirements: null
+career: null
+description: div.job_description  div.description
+benefit: div.love_working_here  div.culture_description
+job_requirements: div.skills_experience  div.experience
+profile_requirements: null
+contact: null
+other_info: div.job_reason_to_join_us div
+selenium: true

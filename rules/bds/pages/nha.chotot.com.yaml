@@ -1,0 +1,36 @@
+address: span.diadiem-title
+allow_pattern: .*\d+\.htm$
+area_ilegal_recognized: null
+bathrooms: 'Số phòng vệ sinh:'
+bedrooms: i.LOZAQritr7P3OQaOCsZ9T + span
+constructible_acreage: null
+contact_address: null
+contact_email: null
+contact_name: null
+contact_phone: null
+description: p._1No0Ndy5xkVdszNItBaiuv
+direction: null
+domain: nha.chotot.com
+floors: null
+legal_status: i._2FW9PGNX9LUyXirOpBR2jO + span
+posted_date: null
+pre_address: 'Địa điểm:'
+pre_area_ilegal_recognized: null
+pre_bathrooms: i._8o5mOVeUcvsNfFKGHryNf + span
+pre_bedrooms: 'Số phòng ngủ:'
+pre_constructible_acreage: null
+pre_contact_address: null
+pre_contact_email: null
+pre_contact_name: null
+pre_contact_phone: null
+pre_direction: null
+pre_floors: null
+pre_legal_status: 'Giấy tờ pháp lý: '
+pre_price: 'Giá:'
+pre_total_area: 'Diện tích: '
+pre_total_area_length: null
+pre_total_area_width: null
+price: span.oRSYZ0HPb2tHhHjpVp_2o span
+selenium: true
+title: div.iltDBORq0FT_OjmouT7Ui h1
+total_area: i._11n1A9zf2_G-CHco5Ur5mL + span

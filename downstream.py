@@ -1,8 +1,10 @@
 import kafka
 import json
-from crawler.application.common.crawler.arguments import config
+from crawler.application.common.crawler.environments import create_environments
 from crawler.application.common.helpers import logger
 import time
+
+config = create_environments()
 
 
 def insert(value):
@@ -11,8 +13,12 @@ def insert(value):
 
 if __name__ == "__main__":
 
-    consumer = kafka.KafkaConsumer(bootstrap_servers=config.kafka_host,
-                                   value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'))
+    consumer = kafka.KafkaConsumer(
+        bootstrap_servers=config.kafka_host,
+        value_serializer=lambda x: json.dumps(
+            x, indent=4, sort_keys=True, default=str
+        ).encode('utf-8')
+    )
 
     for message in consumer:
         # insert

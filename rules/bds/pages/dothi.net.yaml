@@ -1,0 +1,36 @@
+address: div#ContentPlaceHolder1_ProductDetail1_divlocation
+allow_pattern: .*pr\d{6,}\.htm$
+area_ilegal_recognized: null
+bathrooms: null
+bedrooms: null
+constructible_acreage: null
+contact_address: null
+contact_email: null
+contact_name: null
+contact_phone: null
+description: div.pd-desc div
+direction: null
+domain: dothi.net
+floors: null
+legal_status: null
+posted_date: null
+pre_address: 'Địa điểm:'
+pre_area_ilegal_recognized: null
+pre_bathrooms: null
+pre_bedrooms: null
+pre_constructible_acreage: null
+pre_contact_address: null
+pre_contact_email: null
+pre_contact_name: null
+pre_contact_phone: null
+pre_direction: null
+pre_floors: null
+pre_legal_status: null
+pre_price: 'Giá:'
+pre_total_area: 'Diện tích:'
+pre_total_area_length: null
+pre_total_area_width: null
+price: span.spanprice
+selenium: true
+title: div.product-detail h1
+total_area: span.spanprice + span

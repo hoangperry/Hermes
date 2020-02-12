@@ -1,69 +1,89 @@
 batdongsan.com.vn:
-  allow_pattern: .*pr\d{5,}$
+  allow_pattern: ".*pr\\d{5,}$"
   start_urls: ["https://batdongsan.com.vn/nha-dat-ban", "https://batdongsan.com.vn/nha-dat-cho-thue"]
-  select_element: "select#ddlSortReult"
-  select_value: 1
+  select_element: null
+  select_value: null
   start_script: null
+  selenium: true
+  image: div.list-img
 
 alonhadat.com.vn:
-  allow_pattern: .*\d{4,}\.html$
+  allow_pattern: ".*\\d{4,}.html$"
   start_urls: ["https://alonhadat.com.vn/"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div#ctl00_content_pc_content div.detail
 
 bannhasg.com:
-  allow_pattern: .*pr\d{5,}\.htm$
+  allow_pattern: ".*pr\\d{5,}.htm$"
   start_urls: ["http://bannhasg.com/"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.carousel-inner
 
 nha.chotot.com:
-  allow_pattern: .*\d+\.htm$
+  allow_pattern: ".*\\d+.htm$"
   start_urls: ["https://nha.chotot.com/?page=1&f=p"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.slick-list
 
 diaoconline.vn:
-  allow_pattern: .*\d+\.htm$
+  allow_pattern: ".*\\d+.htm$"
   start_urls: ["http://diaoconline.vn/sieu-thi/loc/?tindang=1"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.flex-viewport
 
 dothi.net:
-  allow_pattern: .*pr\d{6,}\.htm$
-  start_urls: [https://dothi.net/]
+  allow_pattern: ".*pr\\d{6,}.htm$"
+  start_urls: ["https://dothi.net/nha-dat-ban.htm"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.galleria-thumbnails
 
 mogi.vn:
-  allow_pattern: .*id\d{5,}$
+  allow_pattern: ".*id\\d{5,}$"
   start_urls: ["https://mogi.vn/mua-nha-dat", "https://mogi.vn/thue-nha-dat"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.owl-stage
 
 nhabansg.vn:
-  allow_pattern: .*nb\d+\.html$
+  allow_pattern: ".*nb\\d+.html$"
   start_urls: ["https://nhabansg.vn/"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.carousel-inner
 
 muaban.net:
-  allow_pattern: .*id\d+$
+  allow_pattern: ".*id\\d+$"
   start_urls: ["https://muaban.net/mua-ban-nha-dat-cho-thue-toan-quoc-l0-c3"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div.image__slides
 
 dinhgianhadat.vn:
-  allow_pattern: .*\d{4,}$
+  allow_pattern: ".*\\d{4,}$"
   start_urls: ["https://dinhgianhadat.vn/nha-dat-ban", "https://dinhgianhadat.vn/nha-dat-cho-thue"]
   select_element: null
   select_value: null
   start_script: null
+  selenium: true
+  image: div#slider div.flex-viewport

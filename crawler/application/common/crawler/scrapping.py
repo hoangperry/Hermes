@@ -33,7 +33,8 @@ class WebDriverWrapper:
                  executable_path=None,
                  headless=True,
                  binary_location='/usr/bin/google-chrome',
-                 disable_gpu=True):
+                 disable_gpu=True,
+                 timeout=15):
         """
 
         :param executable_path:
@@ -50,7 +51,7 @@ class WebDriverWrapper:
 
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        #options.add_experimental_option("detach", True)
+        # options.add_experimental_option("detach", True)
         options.add_experimental_option("prefs", prefs)
 
         # add execute path and option into driver
@@ -66,6 +67,7 @@ class WebDriverWrapper:
             self.selenium = False
 
         # self.driver.implicitly_wait(60)
+        self.driver.set_page_load_timeout(timeout)
         self.wait = WebDriverWait(self.driver, 10)
         self.response_html = None
         self.all_links = []
@@ -85,7 +87,7 @@ class WebDriverWrapper:
             # delete all cookies
             self.driver.close()
             self.driver.quit()
-        except WebDriverException as ex:
+        except Exception as ex:
             logger.error_log.exception("Cannot close browser {}".format(ex))
         finally:
             self.driver = None
@@ -125,6 +127,9 @@ class WebDriverWrapper:
 
         url_formatter = UrlFormatter(url)
         self.domain = url_formatter.get_domain()
+        if self.domain is None:
+            self.driver = None
+            return
         self.page = url
         text = ""
         if self.selenium:
@@ -144,26 +149,30 @@ class WebDriverWrapper:
                 self.close_browser()
         else:
             text = ''
+
             try:
                 # article = Article(url)
                 # article.download()
                 # text = article.html
-                r = requests.get(url, headers={"User-Agent": "Requests"}, proxies=proxy)
+                r = requests.get(url)
                 text = r.content.decode()
-
-                # if can not find, try another method
                 if text.strip() == '':
-                    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                    req.set_proxy(proxy["http"], "http")
-                    req.set_proxy(proxy["https"], "https")
-                    text = urlopen(req, context=context).read().decode('utf-8')
+                    r = requests.get(url, headers={"User-Agent": "Requests"}, proxies=proxy)
+                    text = r.content.decode()
+
+                    # if can not find, try another method
+                    if text.strip() == '':
+                        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                        req.set_proxy(proxy["http"], "http")
+                        req.set_proxy(proxy["https"], "https")
+                        text = urlopen(req, context=context).read().decode('utf-8')
             except SSLError:
                 try:
                     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                     # # set proxy
                     # req.set_proxy(proxy["http"], "http")
                     # req.set_proxy(proxy["https"], "https")
-                    #
+
                     text = urlopen(req, context=context).read().decode('utf-8')
                 except Exception as ex:
                     logger.error_log.exception("Pageload exception {}".format(ex))
@@ -233,9 +242,8 @@ class WebDriverWrapper:
             # get absolute url
             abs_url = urllib.parse.urljoin(self.page, link.get('href'))
 
-            if self.domain in abs_url and \
-                re.match(allow_pattern, abs_url) \
-                and not re.match(WebDriverWrapper.ignore_extension_regex, abs_url):
+            if not (not (self.domain in abs_url) or not re.match(allow_pattern, abs_url) or re.match(
+                    WebDriverWrapper.ignore_extension_regex, abs_url)):
 
                 selected_links.add(UrlFormatter(abs_url).normalize())
 
@@ -305,7 +313,7 @@ class WebDriverWrapper:
                             results[key] = None
                         else:
                             results[key] = selected_elements
-            except Exception as ex:
+            except:
                 results[key] = None
 
         return results
@@ -313,4 +321,20 @@ class WebDriverWrapper:
     def execute_script(self, script):
         if self.selenium:
             self.driver.execute_script(script)
-            self.response_html = BeautifulSoup(re.sub('<br\s*[\/]?>', '\n', self.driver.page_source), "lxml")
+            self.response_html = BeautifulSoup(re.sub(r'<br\s*[\/]?>', '\n', self.driver.page_source), "lxml")
+
+    def get_html(self, url):
+        try:
+            self.driver.get(url)
+            page_source = self.driver.page_source
+            page_source = re.sub('<br\s*[\/]?>', '\n', page_source)
+            page_source = re.sub('<\s*\/p>', '</p>\n', page_source)
+
+            self.html = BeautifulSoup(page_source, "lxml")
+            time.sleep(0.5)
+        except TimeoutException as toe:
+            print(toe)
+            self.driver.refresh()
+            print(url)
+        except Exception as ex:
+            print(ex)

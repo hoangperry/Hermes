@@ -1,0 +1,36 @@
+address: span.location-clock__location
+allow_pattern: .*id\d+$
+area_ilegal_recognized: null
+bathrooms: null
+bedrooms: null
+constructible_acreage: null
+contact_address: null
+contact_email: null
+contact_name: div.contact-container__value
+contact_phone: div.mobile-container__value
+description: div.body-container
+direction: null
+domain: muaban.net
+floors: null
+legal_status: null
+posted_date: span.location-clock__clock
+pre_address: 'Địa chỉ:'
+pre_area_ilegal_recognized: 'Đường trước nhà:'
+pre_bathrooms: 'Phòng tắm:'
+pre_bedrooms: 'Phòng ngủ:'
+pre_constructible_acreage: 'Diện tích sử dụng:'
+pre_contact_address: null
+pre_contact_email: null
+pre_contact_name: null
+pre_contact_phone: null
+pre_direction: 'Hướng:'
+pre_floors: Tầng/Lầu
+pre_legal_status: 'Pháp lý:'
+pre_price: null
+pre_total_area: 'Diện tích đất:'
+pre_total_area_length: null
+pre_total_area_width: null
+price: div.price-top
+selenium: true
+title: h1
+total_area: null

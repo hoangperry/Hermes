@@ -15,15 +15,21 @@ if __name__ == "__main__":
 
     # connect kafka and create consumers
     # link consumer
-    link_consumer = kafka.KafkaConsumer(config.kafka_link_topic,
-                                        bootstrap_servers=config.kafka_host,
-                                        group_id=config.kafka_consumer_group)
+
+    link_consumer = kafka.KafkaConsumer(
+        config.kafka_link_topic,
+        bootstrap_servers=config.kafka_hosts,
+        value_deserializer=lambda x: json.loads(x.decode('utf-8')),
+        group_id=config.kafka_consumer_group
+    )
     # link_consumer.subscribe([config.kafka_link_topic])
-
     # and object producer for another process
-    object_producer = kafka.KafkaProducer(bootstrap_servers=config.kafka_host,
-                                          value_serializer=lambda x: json.dumps(x, indent=4, sort_keys=True, default=str).encode('utf-8'))
-
+    object_producer = kafka.KafkaProducer(
+        bootstrap_servers=config.kafka_hosts,
+        value_serializer=lambda x: json.dumps(
+            x, indent=4, sort_keys=True, default=str, ensure_ascii=False
+        ).encode('utf-8')
+    )
     # connect redis
     # load rule from path
     redis_connect = redis.StrictRedis(
@@ -42,18 +48,22 @@ if __name__ == "__main__":
         database=config.pg_db
     )
 
-    # create webdriver
-    real_estate_scraper = UniversalExtractService(
-        selenium_driver=config.driver_path,
-        redis_connect=redis_connect,
-        kafka_consumer_bsd_link=link_consumer,
-        kafka_object_producer=object_producer,
-        object_topic=config.object_topic,
-        resume_step=config.resume_step,
-        crawl_type=config.crawl_type,
-        restart_selenium_step=config.restart_selenium_step,
-        download_images=config.download_images,
-        pg_connection=pg_service
-    )
+    while True:
+        try:
+            # create webdriver
+            real_estate_scraper = UniversalExtractService(
+                selenium_driver_path=config.driver_path,
+                redis_connect=redis_connect,
+                kafka_consumer_bsd_link=link_consumer,
+                kafka_object_producer=object_producer,
+                object_topic=config.kafka_object_topic,
+                resume_step=config.resume_step,
+                crawl_type=config.crawl_type,
+                restart_selenium_step=config.restart_selenium_step,
+                download_images=config.download_images,
+                pg_connection=pg_service
+            )
 
-    real_estate_scraper.scrape_page_streaming()
+            real_estate_scraper.scrape_page_streaming()
+        except:
+            continue

@@ -1,1 +1,20 @@
-use_selenium: false
+title: div.job-header-info h1.job-title
+salary: div.job-header-info span.salary
+company: div.job-header-info div.col-sm-12.company-name a
+info: div.col-md-8.col-sm-12.tab-main-content
+location: div.job-header-info div.col-sm-12.company-name span.company-location
+deadline_submit: div.job-header-info span.expiry
+experience: div.row.summary-item:nth-of-type(4) span.content
+degree_requirements: null
+no_of_opening: null
+formality: null
+position: div.row.summary-item:nth-of-type(2) span.content
+gender_requirements: null
+career: div.row.summary-item:nth-of-type(3) span.content
+description: div.job-description div.description
+benefit: div.what-we-offer div.benefits
+job_requirements: div.job-requirements  div.requirements
+profile_requirements: div.row.summary-item:nth-of-type(5)
+contact:
+other_info: null
+selenium: true
