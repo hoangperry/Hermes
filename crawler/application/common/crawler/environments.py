@@ -64,9 +64,9 @@ elif DEPLOY == 'dps':
     # Postgre default info
     PG_HOST_DEFAULT = '35.186.148.118'
     PG_PORT_DEFAULT = '5432'
-    PG_USER_DEFAULT = 'hoang'
-    PG_PASSWORD_DEFAULT = '4983'
-    PG_DB_DEFAULT = 'dps_crawler'
+    PG_USER_DEFAULT = 'jobnet_admin'
+    PG_PASSWORD_DEFAULT = 'J0BN3T@2020'
+    PG_DB_DEFAULT = 'jobnet_db'
 
     # Other info
     RESUME_STEP_DEFAULT = '100'

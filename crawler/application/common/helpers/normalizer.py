@@ -20,7 +20,7 @@ def normalize_salary(salary):
         salary = re.sub(r"\(.*\)", '', salary)
 
         if not re.match(r".*\d.*", salary):
-            return -1
+            return -1, -1
 
         if '-' in salary:
             salary = salary.split('-')[0].strip()
@@ -35,12 +35,12 @@ def normalize_salary(salary):
 
         if re.match(r'.*triệu.*', salary):
             salary = re.sub(r"[^0-9.,]+", '', salary)
-            return int(salary.strip()) * 1000000
+            return int(salary.strip()) * 1000000, 'VND'
 
         if int(salary) > 100000:
-            return int(salary)
+            return int(salary), 'VND'
 
-        return int(salary) * 23000
+        return int(salary) * 23000, 'USD'
 
     except Exception as ex:
         print('Normalize salary ERROR - {}'.format(str(ex)))
@@ -241,12 +241,42 @@ def normalize_other_info(other_info):
     return other_info
 
 
+def normalize_job_crawler(job_dict):
+    n_salary, currency_unit = normalize_salary(job_dict['salary'])
+    return {
+        'title': job_dict['title'],
+        'salary_normalize': n_salary,
+        'currency_unit': currency_unit,
+        'salary': normalize_title(job_dict['title']),
+        'url': job_dict['url'],
+        'company': normalize_company(job_dict['company']),
+        'location': normalize_location(job_dict['location']),
+        'info': normalize_info(job_dict['info']),
+        'degree_requirements': normalize_degree_requirements(job_dict['degree_requirements']),
+        'deadline_submit': normalize_deadline_submit(job_dict['deadline_submit']),
+        'experience': normalize_experience(job_dict['experience']),
+        'no_of_opening': normalize_no_of_opening(job_dict['no_of_opening']),
+        'formality': normalize_formality(job_dict['formality']),
+        'position': normalize_position(job_dict['position']),
+        'gender_requirements': normalize_gender_requirements(job_dict['gender_requirements']),
+        'career': normalize_career(job_dict['career']),
+        'description': normalize_description(job_dict['description']),
+        'benefit': normalize_benefit(job_dict['benefit']),
+        'job_requirements': normalize_job_requirements(job_dict['job_requirements']),
+        'profile_requirements': normalize_profile_requirements(job_dict['profile_requirements']),
+        'contact': normalize_contact(job_dict['contact']),
+        'other_info': normalize_other_info(job_dict['other_info']),
+    }
+
+
 def normalize_job(job_dict):
+    n_salary, currency_unit = normalize_salary(job_dict['salary'])
     return {
         'id': job_dict['id'],
         'crawl_date': str(job_dict['crawl_date']),
         'title': job_dict['title'],
-        'salary_normalize': normalize_salary(job_dict['salary']),
+        'salary_normalize': n_salary,
+        'currency_unit': currency_unit,
         'salary': normalize_title(job_dict['title']),
         'url': job_dict['url'],
         'company': normalize_company(job_dict['company']),

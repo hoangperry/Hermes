@@ -7,6 +7,7 @@ from crawler.application.common.helpers import logger
 from crawler.application.common.helpers.converter import optimize_dict
 from crawler.application.common.helpers.url import UrlFormatter
 from crawler.application.common.crawler.environments import create_environments
+from crawler.application.common.helpers.normalizer import normalize_job_crawler
 import crawler.application.common.crawler.scrapping as scrapping
 
 config = create_environments()
@@ -178,6 +179,7 @@ class UniversalExtractService:
 
                     result['images'] = self.get_image(msg['type'])
                     result['link'] = url
+                    result = normalize_job_crawler(result)
                     # send to database
                     model = DatabaseModel()
                     model.data = result

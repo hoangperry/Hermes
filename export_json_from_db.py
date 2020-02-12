@@ -2,6 +2,7 @@ import psycopg2
 import json
 import glob
 import datetime
+import os
 from crawler.application.common.helpers.normalizer import *
 
 json_out_dir = 'json_out/'
@@ -9,8 +10,8 @@ json_out_dir = 'json_out/'
 
 def get_all_data_from_db(pg_host="35.186.148.118",
                          pg_port="5432",
-                         pg_user="hoang",
-                         pg_pass="4983",
+                         pg_user="jobnet_admin",
+                         pg_pass="J0BN3T@2020",
                          pg_db="dps_crawler"):
 
     connection = psycopg2.connect(
@@ -60,6 +61,8 @@ def get_nearest_filename():
     for file_name in glob.glob(json_out_dir + '*.json'):
         date_i = file_name.split('/')[-1].split('.')[0].split('-')
         date_i = datetime.date(int(date_i[-1]), int(date_i[-2]), int(date_i[-3]))
+        if date_i == datetime.date.today():
+            continue
         list_file_date.append({
             'date': date_i,
             'file_name': file_name
@@ -96,4 +99,5 @@ if __name__ == '__main__':
     else:
         write_dict_to_json(get_all_data_from_db(), today_filename)
 
+    os.system('scp -i ~/.ssh/ggcl {} hoangvm@35.186.148.118:'.format(today_filename))
     # get_all_data_from_db()
