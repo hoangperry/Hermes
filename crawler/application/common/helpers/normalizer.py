@@ -1,5 +1,6 @@
 import re
 import datetime
+import psycopg2
 
 
 def clean_text(_text):
@@ -242,15 +243,17 @@ def normalize_other_info(other_info):
 
 def normalize_job(job_dict):
     return {
+        'id': job_dict['id'],
+        'crawl_date': job_dict['crawl_date'],
         'title': job_dict['title'],
+        'salary_normalize': normalize_salary(job_dict['salary']),
+        'salary': normalize_title(job_dict['title']),
         'url': job_dict['url'],
         'company': normalize_company(job_dict['company']),
         'location': normalize_location(job_dict['location']),
-        'salary': normalize_title(job_dict['title']),
         'info': normalize_info(job_dict['info']),
         'degree_requirements': normalize_degree_requirements(job_dict['degree_requirements']),
         'deadline_submit': normalize_deadline_submit(job_dict['deadline_submit']),
-        'salary_normalize': normalize_salary(job_dict['salary']),
         'experience': normalize_experience(job_dict['experience']),
         'no_of_opening': normalize_no_of_opening(job_dict['no_of_opening']),
         'formality': normalize_formality(job_dict['formality']),
