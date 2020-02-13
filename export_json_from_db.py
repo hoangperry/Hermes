@@ -10,9 +10,9 @@ json_out_dir = 'json_out/'
 
 def get_all_data_from_db(pg_host="35.186.148.118",
                          pg_port="5432",
-                         pg_user="jobnet_admin",
-                         pg_pass="J0BN3T@2020",
-                         pg_db="dps_crawler"):
+                         pg_user="jobnet",
+                         pg_pass="jobnet2020",
+                         pg_db="jobnet_db"):
 
     connection = psycopg2.connect(
         host=pg_host,

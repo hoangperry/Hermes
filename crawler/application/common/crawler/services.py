@@ -1,6 +1,8 @@
 import requests
 import json
 import time
+import os
+import sys
 import base64
 from crawler.application.common.crawler.model import DatabaseModel
 from crawler.application.common.helpers import logger
@@ -82,6 +84,37 @@ class UniversalExtractService:
         except:
             return list()
 
+    @staticmethod
+    def create_record_to_db(result):
+        model = DatabaseModel()
+        if config.crawl_type == 'job':
+            model.data = result
+            model.currency_unit = result['currency_unit']
+            model.salary = result['salary']
+            model.salary_normalize = result['salary_normalize']
+            model.url = result['url']
+            model.company = result['company']
+            model.location = result['location']
+            model.info = result['info']
+            model.degree_requirements = result['degree_requirements']
+            model.deadline_submit = result['deadline_submit']
+            model.experience = result['experience']
+            model.no_of_opening = result['no_of_opening']
+            model.formality = result['formality']
+            model.position = result['position']
+            model.gender_requirements = result['gender_requirements']
+            model.career = result['career']
+            model.description = result['description']
+            model.benefit = result['benefit']
+            model.job_requirements = result['job_requirements']
+            model.profile_requirements = result['profile_requirements']
+            model.contact = result['contact']
+            model.other_info = result['other_info']
+        else:
+            model.data = result
+
+        return model
+
     def scrape_page_streaming(self):
         logger.info_log.info("Start streaming")
 
@@ -105,7 +138,9 @@ class UniversalExtractService:
                     try:
                         if self.headless:
                             self.wrapSeleniumDriver.driver.close()
-                            self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=False)
+                            self.wrapSeleniumDriver = scrapping.WebDriverWrapper(
+                                self.selenium_driver_path, headless=False
+                            )
                             self.headless = False
 
                         login_valid = self.wrapSeleniumDriver.driver.find_elements_by_css_selector(
@@ -149,7 +184,9 @@ class UniversalExtractService:
                 try:
                     self.set_page(url)
                 except Exception as ex:
-                    logger.error_log.exception(str(ex))
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
                     continue
                 if self.domain not in self.dict_rules[msg['type']]:
                     continue
@@ -169,7 +206,7 @@ class UniversalExtractService:
                     result['url'] = url
                     # if extract, then send to another topic
                     # if self.object_topic is not None:
-                        # self.kafka_object_producer.send(self.object_topic, result)
+                    # self.kafka_object_producer.send(self.object_topic, result)
 
                     # get base64 image
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
@@ -181,10 +218,11 @@ class UniversalExtractService:
                     result['link'] = url
                     result = normalize_job_crawler(result)
                     # send to database
-                    model = DatabaseModel()
-                    model.data = result
+                    # model = DatabaseModel()
+                    # model.data = result
                     # print(result)
-                    self.pg_connection.insert_one(model)
+                    self.pg_connection.insert_one(self.create_record_to_db(result))
+
                     logger.info_log.info('Pushed {} to Database'.format(result['title']))
 
                 # clear url
@@ -192,7 +230,9 @@ class UniversalExtractService:
             except Exception as ex:
                 self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
                 self.headless = True
-                logger.error_log.error(str(ex))
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
 
     def get_data_field(self, rule):
         if not self.url:
