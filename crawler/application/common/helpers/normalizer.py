@@ -1,6 +1,9 @@
 import re
+import os
+import sys
 import datetime
 import psycopg2
+from crawler.application.common.helpers import logger
 
 
 def clean_text(_text):
@@ -14,7 +17,8 @@ def clean_text(_text):
 def normalize_salary(salary):
     try:
         if salary is None:
-            raise Exception('Invalid Salary, This record might not be job. Del this job\n')
+            return -1
+            # raise Exception('Invalid Salary, This record might not be job. Del this job\n')
 
         salary = re.sub(r"\s+", ' ', re.sub(r"\n+", '\n', salary.lower()))
         salary = re.sub(r"\(.*\)", '', salary)
@@ -37,14 +41,16 @@ def normalize_salary(salary):
             salary = re.sub(r"[^0-9.,]+", '', salary)
             return int(salary.strip()) * 1000000, 'VND'
 
-        if int(salary) > 100000:
-            return int(salary), 'VND'
+        salary = int(re.sub(r'[^0-9]', '', salary))
+        if salary > 100000:
+            return salary, 'VND'
 
-        return int(salary) * 23000, 'USD'
+        return re.sub(r'[^0-9]', '', salary) * 23000, 'USD'
 
     except Exception as ex:
-        print('Normalize salary ERROR - {}'.format(str(ex)))
-        raise Exception('Invalid Salary, This record might not be job. Del this job\n')
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
 
 
 def normalize_info(info):
@@ -74,8 +80,8 @@ def normalize_deadline_submit(deadline_submit):
             for i in date_to_compare:
                 if i > lastest_date:
                     lastest_date = i
-            return lastest_date.strftime("%b-%d-%Y")
-        return deadline_submit
+            return lastest_date
+        return None
 
     except Exception as ex:
         print('Normalize deadline_submit ERROR - {}'.format(str(ex)))
@@ -245,9 +251,9 @@ def normalize_job_crawler(job_dict):
     n_salary, currency_unit = normalize_salary(job_dict['salary'])
     return {
         'title': job_dict['title'],
-        'salary_normalize': n_salary,
+        'salary_normalize': float(n_salary),
         'currency_unit': currency_unit,
-        'salary': normalize_title(job_dict['title']),
+        'salary': job_dict['salary'],
         'url': job_dict['url'],
         'company': normalize_company(job_dict['company']),
         'location': normalize_location(job_dict['location']),
@@ -277,7 +283,7 @@ def normalize_job(job_dict):
         'title': job_dict['title'],
         'salary_normalize': n_salary,
         'currency_unit': currency_unit,
-        'salary': normalize_title(job_dict['title']),
+        'salary': job_dict['salary'],
         'url': job_dict['url'],
         'company': normalize_company(job_dict['company']),
         'location': normalize_location(job_dict['location']),
