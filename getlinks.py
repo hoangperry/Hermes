@@ -39,16 +39,10 @@ class LinkScraper:
 
     def create_kafka_producer(self):
         logger.info("Create Kafka producer")
-        partitions = [
-            kafka.TopicPartition(
-                topic=self.config.kafka_link_topic, partition=i
-            ) for i in range(0, self.config.kafka_num_partitions)
-        ]
 
         if self.config.kafka_user is None:
             return kafka.KafkaProducer(
                 bootstrap_servers=self.config.kafka_hosts,
-                partitioner=RoundRobinPartitioner(partitions=partitions),
                 value_serializer=lambda x: json.dumps(
                     x, indent=4, sort_keys=True, default=str, ensure_ascii=False
                 ).encode('utf-8'),
@@ -63,7 +57,6 @@ class LinkScraper:
 
             return kafka.KafkaProducer(
                 bootstrap_servers=self.config.kafka_hosts,
-                partitioner=RoundRobinPartitioner(partitions=partitions),
                 compression_type='gzip',
                 value_serializer=lambda x: json.dumps(
                     x, indent=4, sort_keys=True, default=str, ensure_ascii=False
