@@ -3,7 +3,6 @@ import json
 import glob
 import datetime
 import os
-from crawler.application.common.helpers.normalizer import *
 
 json_out_dir = 'json_out/'
 

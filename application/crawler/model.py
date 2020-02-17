@@ -1,8 +1,8 @@
-from crawler.application.common.crawler.environments import create_environments
+from application.crawler.environments import create_environments
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from crawler.application.common.helpers import logger
+from application.helpers import logger
 from sqlalchemy.sql import func
 import sqlalchemy
 

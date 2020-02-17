@@ -2,9 +2,9 @@ import kafka
 import json
 import redis
 
-from crawler.application.common.crawler.environments import create_environments
-from crawler.application.common.crawler.model import DatabaseService
-from crawler.application.common.crawler.services import UniversalExtractService
+from application.crawler.environments import create_environments
+from application.crawler.model import DatabaseService
+from application.crawler.services import UniversalExtractService
 
 config = create_environments()
 

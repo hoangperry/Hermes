@@ -4,12 +4,12 @@ import time
 import os
 import sys
 import base64
-from crawler.application.common.crawler.model import DatabaseModel
-from crawler.application.common.helpers import logger
-from crawler.application.common.helpers.converter import optimize_dict
-from crawler.application.common.crawler.environments import create_environments
-from crawler.application.common.helpers.normalizer import normalize_job_crawler
-import crawler.application.common.crawler.scrapping as scrapping
+from application.crawler.model import DatabaseModel
+from application.helpers import logger
+from application.helpers import optimize_dict
+from application.crawler.environments import create_environments
+from application.helpers import normalize_job_crawler
+import application.crawler.scrapping as scrapping
 
 config = create_environments()
 

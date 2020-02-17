@@ -1,7 +1,7 @@
-from kafka.admin import KafkaAdminClient, NewTopic
-from crawler.application.common.crawler.environments import create_environments
-from yaml_to_redis import push_all_yaml_to_redis
 from psycopg2 import connect, extensions
+from kafka.admin import KafkaAdminClient, NewTopic
+from application.helpers.rule import push_all_yaml_to_redis
+from application.crawler.environments import create_environments
 
 config = create_environments()
 

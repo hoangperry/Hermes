@@ -2,8 +2,7 @@ import re
 import os
 import sys
 import datetime
-import psycopg2
-from crawler.application.common.helpers import logger
+from application.helpers import logger
 
 
 def clean_text(_text):

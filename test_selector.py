@@ -1,4 +1,4 @@
-from crawler.application.common.crawler.scrapping import WebDriverWrapper
+from application.crawler.scrapping import WebDriverWrapper
 
 
 if __name__ == "__main__":

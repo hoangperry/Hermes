@@ -5,12 +5,12 @@ import json
 import ssl
 import re
 from kafka import RoundRobinPartitioner
-from crawler.application.common.crawler.environments import create_environments
-from crawler.application.common.crawler.scrapping import WebDriverWrapper
-from crawler.application.common.helpers import logger
-from crawler.application.common.helpers.text import encode
+from application.crawler.environments import create_environments
+from application.crawler.scrapping import WebDriverWrapper
+from application.helpers import logger
+from application.helpers import encode
 from selenium.webdriver.support.ui import Select
-from crawler.application.common.helpers.thread import night_sleep
+from application.helpers.thread import night_sleep
 
 
 config = create_environments()

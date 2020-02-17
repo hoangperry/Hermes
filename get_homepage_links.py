@@ -1,15 +1,15 @@
 import redis
 import kafka
 from kafka import RoundRobinPartitioner, TopicPartition
-from crawler.application.common.crawler.environments import create_environments
-from crawler.application.common.crawler.scrapping import WebDriverWrapper
-from crawler.application.common.helpers import logger
-from crawler.application.common.helpers.text import encode
+from application.crawler.environments import create_environments
+from application.crawler.scrapping import WebDriverWrapper
+from application.helpers import logger
+from application.helpers import encode
 import time
 import json
 from selenium.webdriver.support.ui import Select
 import ssl
-from crawler.application.common.helpers.thread import night_sleep
+from application.helpers.thread import night_sleep
 
 
 config = create_environments()

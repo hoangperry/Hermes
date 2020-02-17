@@ -4,8 +4,6 @@ import urllib.parse
 from urllib.parse import urlparse
 from urllib.parse import urlsplit
 
-#Last commit
-
 
 class UrlFormatter(object):
 
