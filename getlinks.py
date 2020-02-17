@@ -8,13 +8,14 @@ import redis
 import kafka
 from kafka import RoundRobinPartitioner
 from selenium.webdriver.support.ui import Select
-from application.helpers import logger
+from application.helpers.logger import get_logger
 from application.helpers.text import encode
 from application.helpers.thread import night_sleep
 from application.crawler.scrapping import WebDriverWrapper
 from application.crawler.environments import create_environments
 
 config = create_environments()
+logger = get_logger('Scraper', logger_name=__name__)
 
 
 class LinkScraper:
@@ -25,9 +26,10 @@ class LinkScraper:
         self.sleep_per_step = sleep_per_step
         self.web_driver = None
         self.homepage_rules = None
+        self.loop_count_hpg = dict()
 
     def create_redis_connection(self):
-        logger.info_log.info("Create Redis connection")
+        logger.info("Create Redis connection")
         return redis.StrictRedis(
             host=self.config.redis_host,
             port=self.config.redis_port,
@@ -36,7 +38,7 @@ class LinkScraper:
         )
 
     def create_kafka_producer(self):
-        logger.info_log.info("Create Kafka producer")
+        logger.info("Create Kafka producer")
         partitions = [
             kafka.TopicPartition(
                 topic=self.config.kafka_link_topic, partition=i
@@ -74,17 +76,17 @@ class LinkScraper:
             )
 
     def restart_webdriver(self):
-        logger.info_log.info('Start/Restart selenium web browser')
+        logger.info('Start/Restart selenium web browser')
 
         if self.web_driver is not None:
             self.web_driver.close_browser()
-        logger.error_log.error('Web driver is not avaiable')
+        logger.error('Web driver is not avaiable')
 
         self.web_driver = WebDriverWrapper(self.config.driver_path)
         self.web_driver.use_selenium(True)
 
     def update_homerule(self):
-        logger.info_log.info('Load {} homerule from redis'.format(self.config.crawl_type))
+        logger.info('Load {} homerule from redis'.format(self.config.crawl_type))
         self.homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + '_homes'))
 
     def send_link_to_kafka(self, _link):
@@ -97,77 +99,80 @@ class LinkScraper:
         time.sleep(0.01)
 
     def run(self):
-        while True:
-            self.restart_webdriver()
-            self.update_homerule()
+        try:
+            while True:
+                self.restart_webdriver()
+                self.update_homerule()
 
-            for hpg in self.homepage_rules.keys():
-                rule = self.homepage_rules[hpg]
-                rule['start_urls'] = [rule['homepage']] + rule['start_urls']
-                new_start_urls = rule['start_urls'].copy()
+                for hpg in self.homepage_rules.keys():
+                    if hpg not in self.loop_count_hpg:
+                        self.loop_count_hpg[hpg] = 1
+                    else:
+                        self.loop_count_hpg[hpg] += 1
 
-                for url in rule['start_urls'][:5]:
-                    try:
-                        new_start_urls.remove(url)
-                        logger.info_log.info("Process {}".format(url))
-                        self.web_driver.selenium = rule['selenium']
+                    rule = self.homepage_rules[hpg]
+                    if self.loop_count_hpg[hpg] % 15 == 0:
+                        rule['start_urls'] = [rule['homepage']] + rule['start_urls']
 
-                        if url.split('/')[2] != hpg:
-                            continue
+                    new_start_urls = rule['start_urls'].copy()
 
-                        self.web_driver.get(url, 5)
+                    for url in rule['start_urls'][:5]:
+                        try:
+                            new_start_urls.remove(url)
+                            # logger.info("Process {}".format(url))
+                            self.web_driver.selenium = rule['selenium']
 
-                        if self.web_driver.driver is None:
-                            continue
-
-                        if rule['start_script'] is not None:
-                            self.web_driver.execute_script(rule['start_script'])
-
-                        if rule['select_element'] is not None:
-                            select = Select(
-                                self.web_driver.driver.find_element_by_css_selector(
-                                    rule['select_element']
-                                )
-                            )
-                            select.select_by_index(rule['select_value'])
-                            time.sleep(1.5)
-                            self.web_driver.set_html(self.web_driver.driver.page_source)
-
-                        links = self.web_driver.get_links()
-                        count_link_pushed = 0
-                        for link in links:
-                            if link.split('/')[2] != hpg:
+                            if url.split('/')[2] != hpg:
                                 continue
-                            hashed_link = encode(link)
-                            if not self.redis_connect.exists(hashed_link):
-                                new_start_urls.append(link)
-                                if not re.match(rule['allow_pattern'], link):
+
+                            self.web_driver.get(url, 5)
+
+                            if self.web_driver.driver is None:
+                                continue
+
+                            if rule['start_script'] is not None:
+                                self.web_driver.execute_script(rule['start_script'])
+
+                            if rule['select_element'] is not None:
+                                select = Select(
+                                    self.web_driver.driver.find_element_by_css_selector(
+                                        rule['select_element']
+                                    )
+                                )
+                                select.select_by_index(rule['select_value'])
+                                time.sleep(1.5)
+                                self.web_driver.set_html(self.web_driver.driver.page_source)
+
+                            links = self.web_driver.get_links()
+                            count_link_pushed = 0
+                            for link in links:
+                                if link.split('/')[2] != hpg:
                                     continue
-                                self.redis_connect.set(hashed_link, 0)
-                                self.send_link_to_kafka(link)
-                                count_link_pushed += 1
+                                hashed_link = encode(link)
+                                if not self.redis_connect.exists(hashed_link):
+                                    new_start_urls.append(link)
+                                    if not re.match(rule['allow_pattern'], link):
+                                        continue
+                                    self.redis_connect.set(hashed_link, 0)
+                                    self.send_link_to_kafka(link)
+                                    count_link_pushed += 1
 
-                        logger.info_log.info('Pushed {} link(s) to kafka\n'.format(count_link_pushed))
-                    except Exception:
-                        _exc_type, _exc_obj, _exc_tb = sys.exc_info()
-                        _fname = os.path.split(_exc_tb.tb_frame.f_code.co_filename)[1]
-                        logger.error_log.error(_exc_type + ' | ' + _fname + ' | ' + _exc_tb.tb_lineno)
-                        continue
+                            logger.info('Pushed {} link(s) from {} to kafka'.format(count_link_pushed, hpg))
+                        except Exception as ex:
+                            logger.error(ex)
+                            continue
 
-                rule['start_urls'] = new_start_urls
-                self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
+                    rule['start_urls'] = new_start_urls
+                    self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
 
-            night_sleep(other_case=self.sleep_per_step)
+                night_sleep(other_case=self.sleep_per_step)
+        except Exception:
+            logger.error("Some thing went wrong. Application will stop after 1200 seconds")
+            time.sleep(1200)
 
 
 if __name__ == "__main__":
     while True:
-        try:
-            link_scraper = LinkScraper(config, sleep_per_step=5)
-            link_scraper.run()
-        except Exception as ex:
-            logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
-            time.sleep(1200)
+        link_scraper = LinkScraper(config, sleep_per_step=5)
+        link_scraper.run()
+        del link_scraper

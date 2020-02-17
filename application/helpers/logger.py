@@ -23,15 +23,25 @@ def get_logger(log_name, max_log_file_in_mb=15, logger_name='default'):
     """
     log = logging.getLogger(logger_name)
     log.setLevel(logging.DEBUG)
-    log_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    log_format = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 
     ch = logging.StreamHandler(sys.stdout)
     ch.setFormatter(log_format)
     log.addHandler(ch)
 
-    fh = handlers.RotatingFileHandler(log_name + '-' + str(date.today()),
-                                      maxBytes=(1024*1024)*max_log_file_in_mb,
-                                      backupCount=7)
+    if '/' in log_name:
+        fh = handlers.RotatingFileHandler(
+            log_name + '-' + str(date.today()),
+            maxBytes=(1024*1024)*max_log_file_in_mb,
+            backupCount=7
+        )
+    else:
+        fh = handlers.RotatingFileHandler(
+            root_dir + log_name + '-' + str(date.today()),
+            maxBytes=(1024 * 1024) * max_log_file_in_mb,
+            backupCount=7
+        )
+
     fh.setFormatter(log_format)
     log.addHandler(fh)
 

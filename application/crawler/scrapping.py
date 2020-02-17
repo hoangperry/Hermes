@@ -11,7 +11,7 @@ from requests.exceptions import SSLError
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from application.crawler.configs import list_proxies
-from application.helpers import logger
+from application.helpers.logger import get_logger
 from application.helpers.url import UrlFormatter
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions
@@ -20,6 +20,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 # This restores the same behavior as before.
 context = ssl._create_unverified_context()
+logger = get_logger('Scraping', logger_name=__name__)
 
 
 class WebDriverWrapper:
@@ -78,12 +79,12 @@ class WebDriverWrapper:
         :return:
         """
         try:
-            logger.info_log.info("Close driver")
+            logger.info("Close driver")
             # delete all cookies
             self.driver.close()
             self.driver.quit()
         except Exception as ex:
-            logger.error_log.exception("Cannot close browser {}".format(ex))
+            logger.exception("Cannot close browser {}".format(ex))
         finally:
             self.driver = None
             self.selenium = True
@@ -96,7 +97,7 @@ class WebDriverWrapper:
         """
         if self.driver is None:
             try:
-                logger.info_log.info("Open driver")
+                logger.info("Open driver")
 
                 self.driver = webdriver.Chrome(executable_path=self.executable_path,
                                                chrome_options=self.options)
@@ -104,7 +105,7 @@ class WebDriverWrapper:
                 # restart wait
                 self.wait = WebDriverWait(self.driver, 10)
             except WebDriverException as ex:
-                logger.error_log.exception("Cannot open browser {}".format(ex))
+                logger.exception("Cannot open browser {}".format(ex))
                 self.close_browser()
 
     def get(self, url, wait=0):
@@ -135,10 +136,10 @@ class WebDriverWrapper:
                 time.sleep(wait)
                 text = self.driver.page_source
             except TimeoutException as ex:
-                logger.error_log.error("Time out exception: {}".format(ex))
+                logger.error("Time out exception: {}".format(ex))
                 self.close_browser()
             except Exception as ex:
-                logger.error_log.error("Page load exception {}".format(ex))
+                logger.error("Page load exception {}".format(ex))
                 self.close_browser()
         else:
             text = ''
@@ -170,8 +171,8 @@ class WebDriverWrapper:
                 except Exception as ex:
                     logger.error_log.exception("Pageload exception {}".format(ex))
             except Exception as ex:
-                logger.error_log.exception("Pageload exception {}".format(ex))
-                logger.error_log.error(str(proxy))
+                logger.exception("Pageload exception {}".format(ex))
+                logger.error(str(proxy))
                 # self.response_html = BeautifulSoup(re.sub('<br\s*[\/]?>', '\n', text), "lxml")
 
         self.set_html(text)
@@ -189,7 +190,7 @@ class WebDriverWrapper:
                 rs_text = rs_text + sep + str(result)
             return rs_text.strip()
         except Exception as ex:
-            logger.error_log.exception(str(ex))
+            logger.exception(str(ex))
             return None
 
     def select_text(self, query, sep=' '):

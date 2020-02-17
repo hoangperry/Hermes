@@ -6,12 +6,14 @@ import sys
 import base64
 from application.crawler.model import DatabaseModel
 from application.helpers import logger
-from application.helpers import optimize_dict
+from application.helpers.logger import get_logger
+from application.helpers.converter import optimize_dict
 from application.crawler.environments import create_environments
-from application.helpers import normalize_job_crawler
+from application.helpers.normalizer import normalize_job_crawler
 import application.crawler.scrapping as scrapping
 
 config = create_environments()
+_logger = get_logger('Service', logger_name=__name__)
 
 
 def _get_rules(redis_connect):
@@ -27,18 +29,7 @@ class UniversalExtractService:
                  object_topic, resume_step, crawl_type, restart_selenium_step,
                  download_images=False,
                  pg_connection=None):
-        """
-        :param selenium_driver_path:
-        :param redis_connect:
-        :param kafka_consumer_bsd_link:
-        :param kafka_object_producer:
-        :param object_topic:++
-        :param resume_step:
-        :param crawl_type:
-        :param restart_selenium_step:
-        :param download_images:
-        :param pg_connection:
-        """
+
         self.wrapSeleniumDriver = scrapping.WebDriverWrapper(selenium_driver_path)
         self.headless = True
         self.selenium_driver_path = selenium_driver_path
@@ -54,6 +45,7 @@ class UniversalExtractService:
         self.restart_selenium_step = restart_selenium_step
         self.download_images = download_images
         self.home_rules = json.loads(self.redis_connect.get(config.crawl_type + "_homes"))
+
         if pg_connection is None:
             raise ConnectionError
 
@@ -109,6 +101,7 @@ class UniversalExtractService:
         return model
 
     def scrape_page_streaming(self):
+        _logger.info('ádkjgsahjdgsajhdgasjh')
         logger.info_log.info("Start streaming")
 
         resume_step = 1
