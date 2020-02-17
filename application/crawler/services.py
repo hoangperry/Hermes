@@ -1,19 +1,18 @@
-import requests
-import json
-import time
 import os
 import sys
+import json
+import time
 import base64
-from application.crawler.model import DatabaseModel
-from application.helpers import logger
+import requests
+import application.crawler.scrapping as scrapping
 from application.helpers.logger import get_logger
+from application.crawler.model import DatabaseModel
 from application.helpers.converter import optimize_dict
 from application.crawler.environments import create_environments
 from application.helpers.normalizer import normalize_job_crawler
-import application.crawler.scrapping as scrapping
 
 config = create_environments()
-_logger = get_logger('Service', logger_name=__name__)
+logger = get_logger('Service', logger_name=__name__)
 
 
 def _get_rules(redis_connect):
@@ -100,80 +99,77 @@ class UniversalExtractService:
 
         return model
 
-    def scrape_page_streaming(self):
-        _logger.info('ádkjgsahjdgsajhdgasjh')
-        logger.info_log.info("Start streaming")
+    def login(self, url_domain):
+        if self.home_rules[url_domain]['login_require']:
+            logger.info('Login into {}'.format(url_domain))
+            try:
+                if self.headless:
+                    if self.wrapSeleniumDriver.driver is not None:
+                        self.wrapSeleniumDriver.driver.close()
+                    self.wrapSeleniumDriver = scrapping.WebDriverWrapper(
+                        self.selenium_driver_path, headless=False
+                    )
+                    self.headless = False
 
+                login_valid = self.wrapSeleniumDriver.driver.find_elements_by_css_selector(
+                    self.home_rules[url_domain]['valid_login']
+                )
+                if login_valid.__len__() == 0:
+                    self.wrapSeleniumDriver.get_html(self.home_rules[url_domain]['url_login'])
+
+                    self.wrapSeleniumDriver.driver.execute_script(
+                        "document.getElementsByName('{}')[0].value = '{}';".format(
+                            self.home_rules[url_domain]['input_username'],
+                            self.home_rules[url_domain]['username']
+                        )
+                    )
+                    self.wrapSeleniumDriver.driver.execute_script(
+                        "document.getElementsByName('{}')[0].value = '{}';".format(
+                            self.home_rules[url_domain]['input_password'],
+                            self.home_rules[url_domain]['password']
+                        )
+                    )
+                    for i in self.wrapSeleniumDriver.driver.find_elements_by_tag_name('input'):
+                        if i.get_attribute('type') == 'submit':
+                            i.click()
+                            time.sleep(1)
+                            break
+            except Exception as ex:
+                if self.wrapSeleniumDriver.driver is not None:
+                    self.wrapSeleniumDriver.driver.close()
+                self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
+                self.headless = True
+                logger.error('Login Exception ' + str(ex))
+                raise Exception('Login Exception ')
+
+        else:
+            if not self.headless:
+                self.wrapSeleniumDriver.driver.close()
+                self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
+                self.headless = True
+
+    def scrape_page_streaming(self):
+        logger.info("Start streaming")
         resume_step = 1
 
         for msg in self.kafka_consumer_bsd_link:
             try:
                 resume_step += 1
                 if resume_step % self.resume_step == 0:
-                    logger.info_log.info("Restart rules")
+                    logger.info("Restart rules")
                     self.dict_rules = _get_rules(redis_connect=self.redis_connect)
                     resume_step = 0
 
                 msg = msg.value
                 if msg is None:
                     pass
-                url_domain = msg['link'].split('/')[2]
-                # print(url_domain)
-
-                if self.home_rules[url_domain]['login_require']:
-                    try:
-                        if self.headless:
-                            self.wrapSeleniumDriver.driver.close()
-                            self.wrapSeleniumDriver = scrapping.WebDriverWrapper(
-                                self.selenium_driver_path, headless=False
-                            )
-                            self.headless = False
-
-                        login_valid = self.wrapSeleniumDriver.driver.find_elements_by_css_selector(
-                            self.home_rules[url_domain]['valid_login']
-                        )
-                        if login_valid.__len__() == 0:
-                            self.wrapSeleniumDriver.get_html(self.home_rules[url_domain]['url_login'])
-
-                            self.wrapSeleniumDriver.driver.execute_script(
-                                "document.getElementsByName('{}')[0].value = '{}';".format(
-                                    self.home_rules[url_domain]['input_username'],
-                                    self.home_rules[url_domain]['username']
-                                )
-                            )
-                            self.wrapSeleniumDriver.driver.execute_script(
-                                "document.getElementsByName('{}')[0].value = '{}';".format(
-                                    self.home_rules[url_domain]['input_password'],
-                                    self.home_rules[url_domain]['password']
-                                )
-                            )
-                            for i in self.wrapSeleniumDriver.driver.find_elements_by_tag_name('input'):
-                                if i.get_attribute('type') == 'submit':
-                                    i.click()
-                                    time.sleep(1)
-                                    break
-                    except Exception as ex:
-                        self.wrapSeleniumDriver.driver.close()
-                        self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
-                        self.headless = True
-                        logger.error_log('Login Exception ' + str(ex))
-                        continue
-
-                else:
-                    if not self.headless:
-                        self.wrapSeleniumDriver.driver.close()
-                        self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
-                        self.headless = True
-
                 url = msg['link']
-                logger.info_log.info('Processing ' + str(url))
-                try:
-                    self.set_page(url)
-                except Exception:
-                    exc_type, exc_obj, exc_tb = sys.exc_info()
-                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                    logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
-                    continue
+                url_domain = url.split('/')[2]
+                logger.info('Processing ' + str(url))
+
+                self.login(url_domain)
+                self.set_page(url)
+
                 if self.domain not in self.dict_rules[msg['type']]:
                     continue
                 rule = self.dict_rules[msg['type']][self.domain]
@@ -201,20 +197,23 @@ class UniversalExtractService:
                     result = normalize_job_crawler(result)
 
                     self.pg_connection.insert_one(self.create_record_to_db(result))
-
-                    logger.info_log.info('Pushed {} to Database'.format(result['title']))
+                    logger.info('Pushed \"{}\" to Database'.format(result['title']))
 
                 self.clear_url_data()
-            except Exception:
+            except Exception as ex:
+                if self.wrapSeleniumDriver.driver is not None:
+                    self.wrapSeleniumDriver.driver.close()
                 self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
                 self.headless = True
-                exc_type, exc_obj, exc_tb = sys.exc_info()
-                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
+                try:
+                    _, _, lineno = sys.exc_info()
+                    logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+                except:
+                    logger.error('Cannot get line error - Error{}'.format(ex))
 
     def get_data_field(self, rule):
         if not self.url:
-            raise ConnectionAbortedError("Page is not exist!", self.url)
+            raise ConnectionAbortedError("Page does not exist!", self.url)
 
         try:
             self.wrapSeleniumDriver.use_selenium(rule['selenium'])

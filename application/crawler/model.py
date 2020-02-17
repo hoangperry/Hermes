@@ -42,7 +42,6 @@ class DatabaseService:
 
         session_maker = sessionmaker(bind=self.engine)
         self.connection = session_maker()
-        print("Engine created!!!")
 
     def create_database(self):
         self.Base.metadata.create_all(bind=self.engine)

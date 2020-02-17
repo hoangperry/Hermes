@@ -7,7 +7,7 @@ from application.crawler.model import DatabaseService
 from application.crawler.services import UniversalExtractService
 
 config = create_environments()
-logger = get_logger('Scaper', logger_name=__name__)
+logger = get_logger('Scraper', logger_name=__name__)
 
 if __name__ == "__main__":
     link_consumer = kafka.KafkaConsumer(
