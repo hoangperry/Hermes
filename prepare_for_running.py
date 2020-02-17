@@ -28,14 +28,14 @@ def create_postgres_db(_config):
 
 
 def create_kafka_topic(_config):
-    logger.info_log.info("Create kafka topic")
-
-    if _config.kafka_user is not None:
+    if _config.kafka_user is None or _config.kafka_user == '':
+        logger.info_log.info("Create kafka topic without sasl")
         admin_client = KafkaAdminClient(
             bootstrap_servers=_config.kafka_hosts,
             client_id=_config.kafka_user
         )
     else:
+        logger.info_log.info("Create kafka topic with sasl")
         admin_client = KafkaAdminClient(
             bootstrap_servers=_config.kafka_hosts,
             client_id=_config.kafka_user,
@@ -59,10 +59,12 @@ def create_kafka_topic(_config):
 
     for topic in topic_list:
         try:
-            admin_client.create_topics(new_topics=[topic_list[topic]], validate_only=True)
+            logger.info_log.info('Creating topic: {}'.format(topic))
+            admin_client.create_topics(new_topics=[topic_list[topic]], validate_only=False)
         except TopicAlreadyExistsError:
-            logger.error_log.error('Topic {} is exist, skip'.format(topic))
+            logger.error_log.error('Topic {} is exist --- skip'.format(topic))
             continue
+
     logger.info_log.info('FINISH\n')
     admin_client.close()
 

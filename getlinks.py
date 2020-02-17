@@ -1,23 +1,21 @@
+import re
+import ssl
+import json
+import time
 import redis
 import kafka
-import time
-import json
-import ssl
-import re
 from kafka import RoundRobinPartitioner
-from application.crawler.environments import create_environments
-from application.crawler.scrapping import WebDriverWrapper
+from selenium.webdriver.support.ui import Select
 from application.helpers import logger
 from application.helpers.text import encode
-from selenium.webdriver.support.ui import Select
 from application.helpers.thread import night_sleep
-
+from application.crawler.scrapping import WebDriverWrapper
+from application.crawler.environments import create_environments
 
 config = create_environments()
 
 
 class LinkScraper:
-
     def __init__(self, _config, sleep_per_step=5):
         self.config = config
         self.redis_connect = self.create_redis_connection()
@@ -48,7 +46,11 @@ class LinkScraper:
                 bootstrap_servers=self.config.kafka_hosts,
                 partitioner=RoundRobinPartitioner(partitions=partitions),
                 value_serializer=lambda x: json.dumps(
-                    x, indent=4, sort_keys=True, default=str, ensure_ascii=False
+                    x,
+                    indent=4,
+                    sort_keys=True,
+                    default=str,
+                    ensure_ascii=False
                 ).encode('utf-8'),
                 compression_type='gzip'
             )
@@ -74,16 +76,21 @@ class LinkScraper:
             )
 
     def restart_webdriver(self):
-        logger.info_log.info("Start/Restart selenium web browser")
+        logger.info_log.info('Start/Restart selenium web browser')
+
+        if self.web_driver is not None:
+            self.web_driver.close_browser()
+        logger.error_log.error('Web driver is not avaiable')
+
         self.web_driver = WebDriverWrapper(self.config.driver_path)
         self.web_driver.use_selenium(True)
 
     def update_homerule(self):
-        logger.info_log.info("Load {} homerule from redis".format(self.config.crawl_type))
-        self.homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + "_homes"))
+        logger.info_log.info('Load {} homerule from redis'.format(self.config.crawl_type))
+        self.homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + '_homes'))
 
     def send_link_to_kafka(self, _link):
-        logger.info_log.info("Add {} to kafka".format(_link))
+        logger.info_log.info('Add {} to kafka'.format(_link))
         self.link_producer.send(
             self.config.kafka_link_topic, {
                 'link': _link,
@@ -97,7 +104,6 @@ class LinkScraper:
             self.restart_webdriver()
             self.update_homerule()
 
-            # for home pages
             for hpg in self.homepage_rules.keys():
                 rule = self.homepage_rules[hpg]
                 rule['start_urls'] = [rule['homepage']] + rule['start_urls']
@@ -109,7 +115,6 @@ class LinkScraper:
                         logger.info_log.info("Process {}".format(url))
                         self.web_driver.selenium = rule['selenium']
 
-                        # start
                         if url.split('/')[2] != hpg:
                             continue
 
@@ -141,15 +146,13 @@ class LinkScraper:
                                     continue
                                 self.redis_connect.set(hashed_link, 0)
                                 self.send_link_to_kafka(link)
-                    except Exception as ex:
-                        logger.error_log.exception(str(ex))
+                    except Exception as _ex:
+                        logger.error_log.exception(str(_ex))
                         continue
 
                 rule['start_urls'] = new_start_urls
                 self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
 
-            # close browser and sleep
-            self.web_driver.close_browser()
             night_sleep(other_case=self.sleep_per_step)
 
 
@@ -161,4 +164,4 @@ if __name__ == "__main__":
         except Exception as ex:
             logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
             logger.error_log.exception(str(ex))
-            time.sleep(150)
+            time.sleep(1200)
