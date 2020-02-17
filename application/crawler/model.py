@@ -40,8 +40,8 @@ class DatabaseService:
         except Exception as ex:
             logger.error_log.exception(str(ex))
 
-        SessionMaker = sessionmaker(bind=self.engine)
-        self.connection = SessionMaker()
+        session_maker = sessionmaker(bind=self.engine)
+        self.connection = session_maker()
         print("Engine created!!!")
 
     def create_database(self):

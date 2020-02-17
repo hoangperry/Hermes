@@ -46,7 +46,7 @@ def normalize_salary(salary):
 
         return re.sub(r'[^0-9]', '', salary) * 23000, 'USD'
 
-    except Exception as ex:
+    except Exception:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)

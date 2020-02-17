@@ -2,7 +2,6 @@ import re
 from datetime import datetime
 import application.helpers.logger as logger
 import application.content.regex as regex
-from application.helpers import to_float
 
 
 def normalize_phone(phone):
@@ -73,7 +72,7 @@ def normalize_phone(phone):
         return None
 
     # Init hash table with keys contain phone prefix and value are replacements
-    prefix_dict = {}
+    prefix_dict = dict()
     # mobiphone
     prefix_dict["0120"] = "070"
     prefix_dict["0121"] = "079"
@@ -220,11 +219,11 @@ def get_salary(text: str):
             max_salary = matcher.group(4)
 
             if min_salary is not None:
-                min_salary = to_float(min_salary)
+                min_salary = float(min_salary)
                 if min_salary > 10000:
                     min_salary = min_salary / 1000000
             if max_salary is not None:
-                max_salary = to_float(max_salary)
+                max_salary = float(max_salary)
                 if max_salary > 10000:
                     max_salary = max_salary / 1000000
 
@@ -263,15 +262,15 @@ def get_price(text, extended=False):
     # first, search billion values
     matcher = re.search(regex.RE_PRICE_BILLION, text)
     if matcher:
-        str_price = re.sub('[^0-9\.\,]+', '', matcher.group(0)).replace(',', '.')
-        price = to_float(str_price)
+        str_price = re.sub(r'[^0-9\.\,]+', '', matcher.group(0)).replace(',', '.')
+        price = float(str_price)
 
     # then, find million values
     matcher = re.search(regex.RE_PRICE_MILLION, text)
     if matcher:
         try:
-            str_price = re.sub('[^0-9\.\,]+', '', matcher.group(0)).replace(',', '.')
-            price_in_million = to_float(str_price)
+            str_price = re.sub(r'[^0-9\.\,]+', '', matcher.group(0)).replace(',', '.')
+            price_in_million = float(str_price)
             # convert to billion
             price = price + price_in_million / 1000
         except Exception as ex:
@@ -281,18 +280,18 @@ def get_price(text, extended=False):
 
     if price == 0 and extended:
         # search price
-        matcher = re.search("([\d{1}(.,)?\d{1}]+)\s?((tri[ệe]u)|(t[ỷỉiy]))?", text)
+        matcher = re.search(r'([\d{1}(.,)?\d{1}]+)\s?((tri[ệe]u)|(t[ỷỉiy]))?', text)
         try:
-            str_price = re.sub('[^0-9\.\,]+', '', matcher.group(0)).replace(',', '.')
-            price = to_float(str_price)
+            str_price = re.sub(r'[^0-9\.\,]+', '', matcher.group(0)).replace(',', '.')
+            price = float(str_price)
             if price < 100000:
                 pass
             else:
                 price = price / 1.0E9
 
         except Exception as ex:
-            # logger.error_log.exception(str(ex))
-            # logger.error_log.error(str_price)
+            logger.error_log.exception(str(ex))
+            logger.error_log.error(str_price)
             pass
 
     return None if price == 0 else price
@@ -325,21 +324,21 @@ def get_width_length(text):
     if matcher:
         width = matcher.group(1).replace(",", ".")
         length = matcher.group(3).replace(",", ".")
-        return to_float(width), to_float(length)
+        return float(width), float(length)
     else:
         return None, None
 
 
-def get_int_patterns(text, type='floors'):
+def get_int_patterns(text, _type='floors'):
     if text is None:
         return None
 
     # else, extract from text
-    if type == 'floors':
+    if _type == 'floors':
         matcher = re.search(regex.RE_FLOORS, text)
-    elif type == 'bedrooms':
+    elif _type == 'bedrooms':
         matcher = re.search(regex.RE_BEDROOMS, text)
-    elif type == 'bathrooms':
+    elif _type == 'bathrooms':
         matcher = re.search(regex.RE_BATHROOMS, text)
     else:
         matcher = None
