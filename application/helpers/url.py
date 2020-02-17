@@ -4,8 +4,6 @@ import urllib.parse
 from urllib.parse import urlparse
 from urllib.parse import urlsplit
 
-#Last commit
-
 
 class UrlFormatter(object):
 
@@ -94,10 +92,10 @@ class UrlFormatter(object):
         return: 8888
         :return:
         """
-        if re.compile(r'\:\d{1,4}\/').findall(self.url.__str__()) is None:
+        if re.compile(r':\d{1,4}/').findall(self.url.__str__()) is None:
             return '8000'
         else:
-            return re.compile(r'\:\d{1,4}\/').findall(self.url.__str__())[0][1:-1]
+            return re.compile(r':\d{1,4}/').findall(self.url.__str__())[0][1:-1]
 
     def get_query(self):
 
@@ -122,13 +120,13 @@ class UrlFormatter(object):
         # return urllib.urlunparse(urlparse(normurl))
         # 1. Remove default port
         # if re.compile(r'\:\d{1,4}\/').search(normurl):
-        normurl = re.sub(r'\:\d{1,4}', '', normurl)
+        normurl = re.sub(r':\d{1,4}', '', normurl)
 
         # 3. Remove fragment
         normurl = re.sub(r'#.+', '', normurl)
 
         # 4. Remove default name
-        normurl = re.sub(r'\/index\.html', '', normurl)
+        normurl = re.sub(r'/index\.html', '', normurl)
 
         # 5. Decode: %xx
         normurl = urllib.parse.unquote(normurl)

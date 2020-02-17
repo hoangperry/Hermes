@@ -1,33 +1,33 @@
 import os
+import re
+import ssl
+import time
+import random
+import requests
+import urllib.parse
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from requests.exceptions import SSLError
 from selenium import webdriver
-import urllib.parse
-import re
-import time
 from selenium.common.exceptions import TimeoutException, WebDriverException
-
-from crawler.application.common.crawler.configs import list_proxies
-from crawler.application.common.helpers import logger
-from crawler.application.common.helpers.url import UrlFormatter
+from application.crawler.configs import list_proxies
+from application.helpers.logger import get_logger
+from application.helpers.url import UrlFormatter
 from selenium.webdriver.chrome.options import Options
-import requests
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-# pip3 install newspaper3k
-import ssl
-import random
-# from newspaper import Article
-
 
 # This restores the same behavior as before.
 context = ssl._create_unverified_context()
+logger = get_logger('Scraping', logger_name=__name__)
 
 
 class WebDriverWrapper:
-    ignore_extension_regex = """.*(\.mng|\.pct|\.bmp|\.gif|\.jpg|\.jpeg|\.png|\.pst|\.psp|\.tif|\.tiff|\.ai|\.drw|\.dxf|\.eps|\.ps|\.svg|\.mp3|\.wma|\.ogg|\.wav|\.rar|\.aac|\.mid|\.au|\.aiff|\.3gp|\.asf|\.asx|\.avi|\.mov|\.mp4|\.mpg|\.qt|\.rm|\.swf|\.wmv|\.m4a|\.css|\.js|\.pdf|\.doc(x)?|\.xls(x)?|\.ppt(x)?|\.exe|\.bin|\.rss|\.zip|\.ra|\.txt)"""
+    ignore_extension_regex = r""".*(\.mng|\.pct|\.bmp|\.gif|\.jpg|\.jpeg|\.png|\.pst|\.psp|\.tif|\.tiff|\.ai|\.drw
+    |\.dxf|\.eps|\.ps|\.svg|\.mp3|\.wma|\.ogg|\.wav|\.rar|\.aac|\.mid|\.au|\.aiff|\.3gp|\.asf|\.asx|\.avi|\.mov|\.mp4
+    |\.mpg|\.qt|\.rm|\.swf|\.wmv|\.m4a|\.css|\.js|\.pdf|\.doc(x)?|\.xls(x)?|\.ppt(
+    x)?|\.exe|\.bin|\.rss|\.zip|\.ra|\.txt)"""
 
     def __init__(self,
                  executable_path=None,
@@ -35,11 +35,7 @@ class WebDriverWrapper:
                  binary_location='/usr/bin/google-chrome',
                  disable_gpu=True,
                  timeout=15):
-        """
 
-        :param executable_path:
-        :param method:
-        """
         prefs = {"profile.managed_default_content_settings.images": 2, 'disk-cache-size': 4096}
         options = Options()
         options.binary_location = binary_location
@@ -57,7 +53,7 @@ class WebDriverWrapper:
         # add execute path and option into driver
         self.executable_path = executable_path
         self.options = options
-
+        self.html = None
         if executable_path is not None:
             self.driver = webdriver.Chrome(executable_path=executable_path, chrome_options=options)
             self.selenium = True
@@ -83,12 +79,12 @@ class WebDriverWrapper:
         :return:
         """
         try:
-            logger.info_log.info("Close driver")
+            logger.info("Close driver")
             # delete all cookies
             self.driver.close()
             self.driver.quit()
         except Exception as ex:
-            logger.error_log.exception("Cannot close browser {}".format(ex))
+            logger.exception("Cannot close browser {}".format(ex))
         finally:
             self.driver = None
             self.selenium = True
@@ -101,7 +97,7 @@ class WebDriverWrapper:
         """
         if self.driver is None:
             try:
-                logger.info_log.info("Open driver")
+                logger.info("Open driver")
 
                 self.driver = webdriver.Chrome(executable_path=self.executable_path,
                                                chrome_options=self.options)
@@ -109,7 +105,7 @@ class WebDriverWrapper:
                 # restart wait
                 self.wait = WebDriverWait(self.driver, 10)
             except WebDriverException as ex:
-                logger.error_log.exception("Cannot open browser {}".format(ex))
+                logger.exception("Cannot open browser {}".format(ex))
                 self.close_browser()
 
     def get(self, url, wait=0):
@@ -122,8 +118,6 @@ class WebDriverWrapper:
 
         # random proxy
         proxy = random.choice(list_proxies)
-
-        logger.info_log.info(url)
 
         url_formatter = UrlFormatter(url)
         self.domain = url_formatter.get_domain()
@@ -138,14 +132,14 @@ class WebDriverWrapper:
 
             try:
                 self.driver.get(url)
-                self.wait.until(EC.visibility_of_element_located((By.TAG_NAME, 'h1')))
+                self.wait.until(expected_conditions.visibility_of_element_located((By.TAG_NAME, 'h1')))
                 time.sleep(wait)
                 text = self.driver.page_source
             except TimeoutException as ex:
-                logger.error_log.error("Time out exception: {}".format(ex))
+                logger.error("Time out exception: {}".format(ex))
                 self.close_browser()
             except Exception as ex:
-                logger.error_log.error("Page load exception {}".format(ex))
+                logger.error("Page load exception {}".format(ex))
                 self.close_browser()
         else:
             text = ''
@@ -177,15 +171,15 @@ class WebDriverWrapper:
                 except Exception as ex:
                     logger.error_log.exception("Pageload exception {}".format(ex))
             except Exception as ex:
-                logger.error_log.exception("Pageload exception {}".format(ex))
-                logger.error_log.error(str(proxy))
+                logger.exception("Pageload exception {}".format(ex))
+                logger.error(str(proxy))
                 # self.response_html = BeautifulSoup(re.sub('<br\s*[\/]?>', '\n', text), "lxml")
 
         self.set_html(text)
 
     def set_html(self, html):
-        html = re.sub('<br\s*[\/]?>', '\n', html)
-        html = re.sub('<\s*\/p>', '\n</p>', html)
+        html = re.sub(r'<br\s*[/]?>', '\n', html)
+        html = re.sub(r'<\s*/p>', '\n</p>', html)
         self.response_html = BeautifulSoup(html, "lxml")
 
     def get_elements(self, query, sep='\n'):
@@ -196,7 +190,7 @@ class WebDriverWrapper:
                 rs_text = rs_text + sep + str(result)
             return rs_text.strip()
         except Exception as ex:
-            logger.error_log.exception(str(ex))
+            logger.exception(str(ex))
             return None
 
     def select_text(self, query, sep=' '):
@@ -244,7 +238,6 @@ class WebDriverWrapper:
 
             if not (not (self.domain in abs_url) or not re.match(allow_pattern, abs_url) or re.match(
                     WebDriverWrapper.ignore_extension_regex, abs_url)):
-
                 selected_links.add(UrlFormatter(abs_url).normalize())
 
         return list(selected_links)
@@ -321,14 +314,14 @@ class WebDriverWrapper:
     def execute_script(self, script):
         if self.selenium:
             self.driver.execute_script(script)
-            self.response_html = BeautifulSoup(re.sub(r'<br\s*[\/]?>', '\n', self.driver.page_source), "lxml")
+            self.response_html = BeautifulSoup(re.sub(r'<br\s*[/]?>', '\n', self.driver.page_source), "lxml")
 
     def get_html(self, url):
         try:
             self.driver.get(url)
             page_source = self.driver.page_source
-            page_source = re.sub('<br\s*[\/]?>', '\n', page_source)
-            page_source = re.sub('<\s*\/p>', '</p>\n', page_source)
+            page_source = re.sub(r'<br\s*[/]?>', '\n', page_source)
+            page_source = re.sub(r'<\s*/p>', '</p>\n', page_source)
 
             self.html = BeautifulSoup(page_source, "lxml")
             time.sleep(0.5)

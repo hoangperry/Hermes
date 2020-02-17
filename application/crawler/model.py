@@ -1,8 +1,8 @@
-from crawler.application.common.crawler.environments import create_environments
+from application.crawler.environments import create_environments
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from crawler.application.common.helpers import logger
+from application.helpers import logger
 from sqlalchemy.sql import func
 import sqlalchemy
 
@@ -40,9 +40,8 @@ class DatabaseService:
         except Exception as ex:
             logger.error_log.exception(str(ex))
 
-        SessionMaker = sessionmaker(bind=self.engine)
-        self.connection = SessionMaker()
-        print("Engine created!!!")
+        session_maker = sessionmaker(bind=self.engine)
+        self.connection = session_maker()
 
     def create_database(self):
         self.Base.metadata.create_all(bind=self.engine)
@@ -62,11 +61,34 @@ class DatabaseService:
 
 class DatabaseModel(DatabaseService.Base):
     __tablename__ = config.crawl_type
-
-    id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
-
-    data = sqlalchemy.Column(JSON)
-    created_time = sqlalchemy.Column(sqlalchemy.DateTime, default=func.now())
+    if config.crawl_type == 'job':
+        id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
+        created_time = sqlalchemy.Column(sqlalchemy.DateTime, default=func.now())
+        currency_unit = sqlalchemy.Column(sqlalchemy.String)
+        salary = sqlalchemy.Column(sqlalchemy.String)
+        salary_normalize = sqlalchemy.Column(sqlalchemy.Float)
+        url = sqlalchemy.Column(sqlalchemy.String)
+        company = sqlalchemy.Column(sqlalchemy.String)
+        location = sqlalchemy.Column(sqlalchemy.String)
+        info = sqlalchemy.Column(sqlalchemy.String)
+        degree_requirements = sqlalchemy.Column(sqlalchemy.String)
+        deadline_submit = sqlalchemy.Column(sqlalchemy.DateTime)
+        experience = sqlalchemy.Column(sqlalchemy.String)
+        no_of_opening = sqlalchemy.Column(sqlalchemy.Integer)
+        formality = sqlalchemy.Column(sqlalchemy.String)
+        position = sqlalchemy.Column(sqlalchemy.String)
+        gender_requirements = sqlalchemy.Column(sqlalchemy.String)
+        career = sqlalchemy.Column(sqlalchemy.String)
+        description = sqlalchemy.Column(sqlalchemy.String)
+        benefit = sqlalchemy.Column(sqlalchemy.String)
+        job_requirements = sqlalchemy.Column(sqlalchemy.String)
+        profile_requirements = sqlalchemy.Column(sqlalchemy.String)
+        contact = sqlalchemy.Column(sqlalchemy.String)
+        other_info = sqlalchemy.Column(sqlalchemy.String)
+    else:
+        id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
+        data = sqlalchemy.Column(JSON)
+        created_time = sqlalchemy.Column(sqlalchemy.DateTime, default=func.now())
 
     # def __init__(self, user=config.pg_user, password=config.pg_password, host=config.pg_host,
     #              port=config.pg_port, db=config.pg_db):

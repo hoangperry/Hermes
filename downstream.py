@@ -1,7 +1,7 @@
 import kafka
 import json
-from crawler.application.common.crawler.environments import create_environments
-from crawler.application.common.helpers import logger
+from application.crawler.environments import create_environments
+from application.helpers import logger
 import time
 
 config = create_environments()

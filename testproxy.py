@@ -1,5 +1,5 @@
 import requests
-from crawler.application.common.crawler.configs import list_proxies
+from application.crawler.configs import list_proxies
 
 
 if __name__ == "__main__":
