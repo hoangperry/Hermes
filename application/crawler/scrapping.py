@@ -118,8 +118,6 @@ class WebDriverWrapper:
         # random proxy
         proxy = random.choice(list_proxies)
 
-        logger.info_log.info(url)
-
         url_formatter = UrlFormatter(url)
         self.domain = url_formatter.get_domain()
         if self.domain is None:

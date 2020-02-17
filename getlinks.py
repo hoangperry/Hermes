@@ -1,4 +1,6 @@
 import re
+import os
+import sys
 import ssl
 import json
 import time
@@ -46,11 +48,7 @@ class LinkScraper:
                 bootstrap_servers=self.config.kafka_hosts,
                 partitioner=RoundRobinPartitioner(partitions=partitions),
                 value_serializer=lambda x: json.dumps(
-                    x,
-                    indent=4,
-                    sort_keys=True,
-                    default=str,
-                    ensure_ascii=False
+                    x, indent=4, sort_keys=True, default=str, ensure_ascii=False
                 ).encode('utf-8'),
                 compression_type='gzip'
             )
@@ -90,7 +88,6 @@ class LinkScraper:
         self.homepage_rules = json.loads(self.redis_connect.get(self.config.crawl_type + '_homes'))
 
     def send_link_to_kafka(self, _link):
-        logger.info_log.info('Add {} to kafka'.format(_link))
         self.link_producer.send(
             self.config.kafka_link_topic, {
                 'link': _link,
@@ -127,15 +124,17 @@ class LinkScraper:
                             self.web_driver.execute_script(rule['start_script'])
 
                         if rule['select_element'] is not None:
-                            select = Select(self.web_driver.driver.find_element_by_css_selector(rule['select_element']))
+                            select = Select(
+                                self.web_driver.driver.find_element_by_css_selector(
+                                    rule['select_element']
+                                )
+                            )
                             select.select_by_index(rule['select_value'])
                             time.sleep(1.5)
                             self.web_driver.set_html(self.web_driver.driver.page_source)
 
-                        # scrape, get all links
                         links = self.web_driver.get_links()
-
-                        # add to redis and kafka
+                        count_link_pushed = 0
                         for link in links:
                             if link.split('/')[2] != hpg:
                                 continue
@@ -146,8 +145,13 @@ class LinkScraper:
                                     continue
                                 self.redis_connect.set(hashed_link, 0)
                                 self.send_link_to_kafka(link)
-                    except Exception as _ex:
-                        logger.error_log.exception(str(_ex))
+                                count_link_pushed += 1
+
+                        logger.info_log.info('Pushed {} link(s) to kafka\n'.format(count_link_pushed))
+                    except Exception:
+                        _exc_type, _exc_obj, _exc_tb = sys.exc_info()
+                        _fname = os.path.split(_exc_tb.tb_frame.f_code.co_filename)[1]
+                        logger.error_log.error(_exc_type + ' | ' + _fname + ' | ' + _exc_tb.tb_lineno)
                         continue
 
                 rule['start_urls'] = new_start_urls
@@ -163,5 +167,7 @@ if __name__ == "__main__":
             link_scraper.run()
         except Exception as ex:
             logger.error_log.error("Some thing went wrong. Application will stop after 1200 seconds")
-            logger.error_log.exception(str(ex))
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
             time.sleep(1200)
