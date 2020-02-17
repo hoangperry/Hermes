@@ -6,13 +6,11 @@ import argparse
 import json
 from crawler.application.common.crawler.environments import create_environments
 
-if __name__ == "__main__":
-    config = create_environments()
 
+def push_all_yaml_to_redis(_config):
     redis_connect = redis.StrictRedis(
         host=config.redis_host, port=config.redis_port, db=config.redis_db, password=config.redis_password
     )
-
     all_data = dict()
     for _crawl_type in config.avaiable_crawl_type:
         for yaml_file in glob.glob(os.path.join(config.yaml_folder, _crawl_type, "pages/**.yaml")):
@@ -31,3 +29,8 @@ if __name__ == "__main__":
             data = json.dumps(yaml_data)
             print(_crawl_type)
             redis_connect.set(_crawl_type + "_homes", data)
+    redis_connect.close()
+
+
+if __name__ == "__main__":
+    config = create_environments()

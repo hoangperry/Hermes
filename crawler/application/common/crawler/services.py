@@ -7,7 +7,6 @@ import base64
 from crawler.application.common.crawler.model import DatabaseModel
 from crawler.application.common.helpers import logger
 from crawler.application.common.helpers.converter import optimize_dict
-from crawler.application.common.helpers.url import UrlFormatter
 from crawler.application.common.crawler.environments import create_environments
 from crawler.application.common.helpers.normalizer import normalize_job_crawler
 import crawler.application.common.crawler.scrapping as scrapping
@@ -20,11 +19,6 @@ def _get_rules(redis_connect):
         _type: json.loads(redis_connect.get(str(_type) + '_rules'))
         for _type in config.avaiable_crawl_type
     }
-    # return {
-    #     'bds': json.loads(redis_connect.get('bds_rules')),
-    #     'candidate': json.loads(redis_connect.get('candidate_rules')),
-    #     'jobs': json.loads(redis_connect.get('jobs_rules')),
-    # }
 
 
 class UniversalExtractService:
@@ -34,8 +28,7 @@ class UniversalExtractService:
                  download_images=False,
                  pg_connection=None):
         """
-
-        :param selenium_driver:
+        :param selenium_driver_path:
         :param redis_connect:
         :param kafka_consumer_bsd_link:
         :param kafka_object_producer:
@@ -183,7 +176,7 @@ class UniversalExtractService:
                 logger.info_log.info('Processing ' + str(url))
                 try:
                     self.set_page(url)
-                except Exception as ex:
+                except Exception:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     logger.error_log.error(exc_type + ' | ' + fname + ' | ' + exc_tb.tb_lineno)
@@ -204,11 +197,7 @@ class UniversalExtractService:
                         continue
                     # add url
                     result['url'] = url
-                    # if extract, then send to another topic
-                    # if self.object_topic is not None:
-                    # self.kafka_object_producer.send(self.object_topic, result)
 
-                    # get base64 image
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
                         salary = self.wrapSeleniumDriver.driver.find_element_by_css_selector('ul.DetailJobNew')
                         salary = salary.find_elements_by_class_name('fl_right')[-2]
@@ -217,17 +206,13 @@ class UniversalExtractService:
                     result['images'] = self.get_image(msg['type'])
                     result['link'] = url
                     result = normalize_job_crawler(result)
-                    # send to database
-                    # model = DatabaseModel()
-                    # model.data = result
-                    # print(result)
+
                     self.pg_connection.insert_one(self.create_record_to_db(result))
 
                     logger.info_log.info('Pushed {} to Database'.format(result['title']))
 
-                # clear url
                 self.clear_url_data()
-            except Exception as ex:
+            except Exception:
                 self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
                 self.headless = True
                 exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -237,8 +222,6 @@ class UniversalExtractService:
     def get_data_field(self, rule):
         if not self.url:
             raise ConnectionAbortedError("Page is not exist!", self.url)
-
-        # rule = self.dict_rules[self.domain]
 
         try:
             self.wrapSeleniumDriver.use_selenium(rule['selenium'])
