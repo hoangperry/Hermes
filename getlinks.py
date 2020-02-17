@@ -8,7 +8,7 @@ from kafka import RoundRobinPartitioner
 from application.crawler.environments import create_environments
 from application.crawler.scrapping import WebDriverWrapper
 from application.helpers import logger
-from application.helpers import encode
+from application.helpers.text import encode
 from selenium.webdriver.support.ui import Select
 from application.helpers.thread import night_sleep
 

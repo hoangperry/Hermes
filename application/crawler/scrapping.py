@@ -10,7 +10,7 @@ from selenium.common.exceptions import TimeoutException, WebDriverException
 
 from application.crawler.configs import list_proxies
 from application.helpers import logger
-from application.helpers import UrlFormatter
+from application.helpers.url import UrlFormatter
 from selenium.webdriver.chrome.options import Options
 import requests
 from selenium.webdriver.support import expected_conditions as EC

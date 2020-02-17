@@ -1,4 +1,6 @@
-from psycopg2 import connect, extensions
+from application.helpers import logger
+from psycopg2 import connect, extensions, errors
+from kafka.errors import TopicAlreadyExistsError
 from kafka.admin import KafkaAdminClient, NewTopic
 from application.helpers.rule import push_all_yaml_to_redis
 from application.crawler.environments import create_environments
@@ -7,6 +9,7 @@ config = create_environments()
 
 
 def create_postgres_db(_config):
+    logger.info_log.info("Create postgres database")
     connection = connect(
         host=_config.pg_host,
         port=_config.pg_port,
@@ -15,12 +18,18 @@ def create_postgres_db(_config):
 
     connection.set_isolation_level(extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = connection.cursor()
-    cursor.execute('CREATE DATABASE ' + _config.pg_db)
+    try:
+        cursor.execute('CREATE DATABASE ' + _config.pg_db)
+    except errors.DuplicateDatabase:
+        logger.error_log.error('Database {} is exist, skip'.format(_config.pg_db))
     cursor.close()
     connection.close()
+    logger.info_log.info('FINISH\n')
 
 
 def create_kafka_topic(_config):
+    logger.info_log.info("Create kafka topic")
+
     if _config.kafka_user is not None:
         admin_client = KafkaAdminClient(
             bootstrap_servers=_config.kafka_hosts,
@@ -35,20 +44,26 @@ def create_kafka_topic(_config):
             sasl_plain_password=_config.kafka_password
         )
 
-    topic_list = [
-        NewTopic(
+    topic_list = {
+        _config.kafka_link_topic: NewTopic(
             name=_config.kafka_link_topic,
             num_partitions=_config.kafka_num_partitions,
             replication_factor=1
         ),
-        NewTopic(
+        _config.kafka_object_topic: NewTopic(
             name=_config.kafka_object_topic,
             num_partitions=_config.kafka_num_partitions,
             replication_factor=1
         )
-    ]
+    }
 
-    admin_client.create_topics(new_topics=topic_list, validate_only=False)
+    for topic in topic_list:
+        try:
+            admin_client.create_topics(new_topics=[topic_list[topic]], validate_only=True)
+        except TopicAlreadyExistsError:
+            logger.error_log.error('Topic {} is exist, skip'.format(topic))
+            continue
+    logger.info_log.info('FINISH\n')
     admin_client.close()
 
 

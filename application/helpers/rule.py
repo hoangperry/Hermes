@@ -3,6 +3,7 @@ import glob
 import os
 import redis
 import json
+from application.helpers import logger
 
 
 def load_from_yaml(yaml_file):
@@ -28,6 +29,8 @@ def load_from_yaml_dir(directory):
 
 
 def push_all_yaml_to_redis(_config):
+    logger.info_log.info("Pushing rules from YAML to RedisDB")
+
     redis_connect = redis.StrictRedis(
         host=_config.redis_host,
         port=_config.redis_port,
@@ -51,7 +54,8 @@ def push_all_yaml_to_redis(_config):
         with open(yaml_file, 'r') as stream:
             yaml_data = yaml.safe_load(stream)
             data = json.dumps(yaml_data)
-            print(_crawl_type)
+            logger.info_log.info("Pushed _{}_ rules RedisDB".format(_crawl_type.upper()))
             redis_connect.set(_crawl_type + "_homes", data)
 
     redis_connect.close()
+    logger.info_log.info('FINISH\n')
