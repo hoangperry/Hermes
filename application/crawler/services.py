@@ -191,8 +191,8 @@ class UniversalExtractService:
 
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
                         salary = self.wrapSeleniumDriver.driver.find_element_by_css_selector('ul.DetailJobNew')
-                        salary = salary.find_elements_by_class_name('fl_right')[-2]
-                        result['salary'] = salary.find_element_by_css_selector('label').text
+                        result['salary'] = salary.find_elements_by_class_name('fl_right')[-2].text
+                        # result['salary'] = salary.find_element_by_css_selector('label').text
 
                     result['images'] = self.get_image(msg['type'])
                     result['link'] = url
