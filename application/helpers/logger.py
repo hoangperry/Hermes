@@ -33,13 +33,13 @@ def get_logger(log_name, max_log_file_in_mb=15, logger_name='default'):
         fh = handlers.RotatingFileHandler(
             log_name + '-' + str(date.today()),
             maxBytes=(1024*1024)*max_log_file_in_mb,
-            backupCount=7
+            backupCount=12
         )
     else:
         fh = handlers.RotatingFileHandler(
             root_dir + log_name + '-' + str(date.today()),
             maxBytes=(1024 * 1024) * max_log_file_in_mb,
-            backupCount=7
+            backupCount=12
         )
 
     fh.setFormatter(log_format)

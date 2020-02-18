@@ -58,6 +58,5 @@ if __name__ == "__main__":
                 pg_connection=pg_service
             )
             real_estate_scraper.scrape_page_streaming()
-            del real_estate_scraper
-        except:
-            continue
+        except Exception as ex:
+            print(ex)
