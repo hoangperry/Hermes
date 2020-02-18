@@ -4,6 +4,7 @@ from kafka.errors import TopicAlreadyExistsError
 from kafka.admin import KafkaAdminClient, NewTopic
 from application.helpers.rule import push_all_yaml_to_redis
 from application.crawler.environments import create_environments
+from application.crawler.get_chromedriver import download_chrome_driver
 
 config = create_environments()
 
@@ -73,3 +74,4 @@ if __name__ == '__main__':
     create_kafka_topic(config)
     push_all_yaml_to_redis(config)
     create_postgres_db(config)
+    download_chrome_driver()

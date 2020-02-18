@@ -1,12 +1,10 @@
 import re
-import os
 import sys
 import ssl
 import json
 import time
 import redis
 import kafka
-from kafka import RoundRobinPartitioner
 from selenium.webdriver.support.ui import Select
 from application.helpers.logger import get_logger
 from application.helpers.text import encode
@@ -39,16 +37,10 @@ class LinkScraper:
 
     def create_kafka_producer(self):
         logger.info("Create Kafka producer")
-        partitions = [
-            kafka.TopicPartition(
-                topic=self.config.kafka_link_topic, partition=i
-            ) for i in range(0, self.config.kafka_num_partitions)
-        ]
 
         if self.config.kafka_user is None:
             return kafka.KafkaProducer(
                 bootstrap_servers=self.config.kafka_hosts,
-                partitioner=RoundRobinPartitioner(partitions=partitions),
                 value_serializer=lambda x: json.dumps(
                     x, indent=4, sort_keys=True, default=str, ensure_ascii=False
                 ).encode('utf-8'),
@@ -63,7 +55,6 @@ class LinkScraper:
 
             return kafka.KafkaProducer(
                 bootstrap_servers=self.config.kafka_hosts,
-                partitioner=RoundRobinPartitioner(partitions=partitions),
                 compression_type='gzip',
                 value_serializer=lambda x: json.dumps(
                     x, indent=4, sort_keys=True, default=str, ensure_ascii=False
@@ -80,7 +71,6 @@ class LinkScraper:
 
         if self.web_driver is not None:
             self.web_driver.close_browser()
-        logger.error('Web driver is not avaiable')
 
         self.web_driver = WebDriverWrapper(self.config.driver_path)
         self.web_driver.use_selenium(True)
@@ -111,7 +101,7 @@ class LinkScraper:
                         self.loop_count_hpg[hpg] += 1
 
                     rule = self.homepage_rules[hpg]
-                    if self.loop_count_hpg[hpg] % 15 == 0:
+                    if self.loop_count_hpg[hpg] % 15 == 1:
                         rule['start_urls'] = [rule['homepage']] + rule['start_urls']
 
                     new_start_urls = rule['start_urls'].copy()
@@ -159,14 +149,25 @@ class LinkScraper:
 
                             logger.info('Pushed {} link(s) from {} to kafka'.format(count_link_pushed, hpg))
                         except Exception as ex:
-                            logger.error(ex)
+                            try:
+                                _, _, lineno = sys.exc_info()
+                                logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+                            except:
+                                logger.error('Cannot get line error - Error{}'.format(ex))
+                            logger.error("Some thing went wrong. Application will stop after 1200 seconds")
+                            time.sleep(1200)
                             continue
 
                     rule['start_urls'] = new_start_urls
                     self.redis_connect.set(self.config.crawl_type + "_homes", json.dumps(self.homepage_rules))
 
                 night_sleep(other_case=self.sleep_per_step)
-        except Exception:
+        except Exception as ex:
+            try:
+                _, _, lineno = sys.exc_info()
+                logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+            except:
+                logger.error('Cannot get line error - Error{}'.format(ex))
             logger.error("Some thing went wrong. Application will stop after 1200 seconds")
             time.sleep(1200)
 
@@ -175,4 +176,3 @@ if __name__ == "__main__":
     while True:
         link_scraper = LinkScraper(config, sleep_per_step=5)
         link_scraper.run()
-        del link_scraper
