@@ -13,6 +13,7 @@ from application.helpers.normalizer import normalize_job_crawler
 
 config = create_environments()
 logger = get_logger('Service', logger_name=__name__)
+sucess_link_log = get_logger('Success link', logger_name='success')
 
 
 def _get_rules(redis_connect):
@@ -74,6 +75,7 @@ class UniversalExtractService:
         if config.crawl_type == 'job':
             model.data = result
             model.currency_unit = result['currency_unit']
+            model.title = result['title']
             model.salary = result['salary']
             model.salary_normalize = result['salary_normalize']
             model.url = result['url']
@@ -198,6 +200,7 @@ class UniversalExtractService:
 
                     self.pg_connection.insert_one(self.create_record_to_db(result))
                     logger.info('Pushed \"{}\" to Database'.format(result['title']))
+                    sucess_link_log.info(url)
 
                 self.clear_url_data()
             except Exception as ex:

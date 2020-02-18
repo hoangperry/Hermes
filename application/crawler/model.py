@@ -63,6 +63,7 @@ class DatabaseModel(DatabaseService.Base):
     __tablename__ = config.crawl_type
     if config.crawl_type == 'job':
         id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
+        title = sqlalchemy.Column(sqlalchemy.String)
         created_time = sqlalchemy.Column(sqlalchemy.DateTime, default=func.now())
         currency_unit = sqlalchemy.Column(sqlalchemy.String)
         salary = sqlalchemy.Column(sqlalchemy.String)
