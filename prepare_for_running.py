@@ -72,6 +72,6 @@ def create_kafka_topic(_config):
 
 if __name__ == '__main__':
     create_kafka_topic(config)
-    push_all_yaml_to_redis(config)
+    # push_all_yaml_to_redis(config)
     create_postgres_db(config)
     download_chrome_driver()
