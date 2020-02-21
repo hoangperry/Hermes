@@ -12,6 +12,6 @@ RUN apt -y install ./google-chrome-stable_current_amd64.deb
 RUN apt-get install -f -y
 RUN apt-get clean
 RUN rm google-chrome-stable_current_amd64.deb
-
 RUN pip install -r requirements.txt
+RUN python3 prepare_for_running.py
 CMD python3 scraper.py
