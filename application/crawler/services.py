@@ -170,7 +170,6 @@ class UniversalExtractService:
                 logger.info('Processing ' + str(url))
 
                 self.login(url_domain)
-                logger.info('Login Success')
                 self.set_page(url)
 
                 if self.domain not in self.dict_rules[msg['type']]:
