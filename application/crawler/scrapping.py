@@ -32,20 +32,21 @@ class WebDriverWrapper:
     def __init__(self,
                  executable_path=None,
                  headless=True,
-                 binary_location='/usr/bin/google-chrome',
+                 # binary_location='/usr/bin/google-chrome',
                  disable_gpu=True,
                  timeout=15):
 
         prefs = {"profile.managed_default_content_settings.images": 2, 'disk-cache-size': 4096}
         options = Options()
-        options.binary_location = binary_location
+        # options.binary_location = binary_location
         if headless:
             options.add_argument('--headless')
 
         if disable_gpu:
             options.add_argument('--disable-gpu')
-
         options.add_argument('--no-sandbox')
+        options.add_argument('--disable-setuid-sandbox')
+        options.add_argument("--disable-extensions")
         options.add_argument('--disable-dev-shm-usage')
         # options.add_experimental_option("detach", True)
         options.add_experimental_option("prefs", prefs)

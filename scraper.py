@@ -1,6 +1,7 @@
 import kafka
 import json
 import redis
+from pyvirtualdisplay import Display
 from application.helpers.logger import get_logger
 from application.crawler.environments import create_environments
 from application.crawler.model import DatabaseService
@@ -42,9 +43,12 @@ if __name__ == "__main__":
         database=config.pg_db
     )
     logger.info("Created postgresql service")
-
+    display = Display(visible=0, size=(800, 600))
+    display.start()
+    logger.info("Created virtual display")
     while True:
         try:
+            logger.info("Initial and Start Scraper")
             real_estate_scraper = UniversalExtractService(
                 selenium_driver_path=config.driver_path,
                 redis_connect=redis_connect,
@@ -59,4 +63,4 @@ if __name__ == "__main__":
             )
             real_estate_scraper.scrape_page_streaming()
         except Exception as ex:
-            print(ex)
+            logger.error(ex)
