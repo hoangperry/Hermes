@@ -14,4 +14,9 @@ RUN apt-get clean
 RUN rm google-chrome-stable_current_amd64.deb
 RUN pip install -r requirements.txt
 RUN python3 prepare_for_running.py
+
+Xvfb :99 -screen 0 640x480x8 -nolisten tcp &
+ENV DISPLAY=:99
+ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
+
 CMD python3 scraper.py
