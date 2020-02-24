@@ -90,6 +90,7 @@ class WebDriverWrapper:
             self.driver = None
             self.selenium = True
             os.system('killall chrome')
+            os.system('killall chromedriver')
 
     def open_browser(self):
         """
