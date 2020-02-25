@@ -1,12 +1,14 @@
-version: '3'
+version: '2.4'
 services:
-  getlink:
-    build: .
+  hoang_job_getlink:
+    build:
       context: .
       dockerfile: Dockerfile_getlink
     restart: always
-  scraper:
-    build: .
+    scale: 2
+  hoang_job_scraper:
+    build:
       context: .
       dockerfile: Dockerfile_scraper
     restart: always
+    scale: 6
