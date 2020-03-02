@@ -6,7 +6,7 @@ import random
 import requests
 import urllib.parse
 from bs4 import BeautifulSoup
-from seleniumwire import webdriver
+from selenium import webdriver
 from requests.exceptions import SSLError
 from urllib.request import Request, urlopen
 from selenium.webdriver.common.by import By
@@ -76,7 +76,7 @@ class WebDriverWrapper:
             self.driver = webdriver.Chrome(
                 executable_path=executable_path,
                 chrome_options=options,
-                seleniumwire_options=selenium_wire_option,
+                # seleniumwire_options=selenium_wire_option,
             )
             self.selenium = True
         else:

@@ -102,7 +102,7 @@ class LinkScraper:
 
                     rule = self.homepage_rules[hpg]
                     if self.loop_count_hpg[hpg] % 15 == 1:
-                        rule['start_urls'] = [rule['homepage']] + rule['start_urls']
+                        rule['start_urls'] = rule['homepage'] + rule['start_urls']
 
                     new_start_urls = rule['start_urls'].copy()
 
@@ -136,14 +136,17 @@ class LinkScraper:
                             links = self.web_driver.get_links()
                             count_link_pushed = 0
                             for link in links:
-                                if link.split('/')[2] != hpg:
+                                try:
+                                    if link.split('/')[2] != hpg:
+                                        continue
+                                except:
                                     continue
                                 hashed_link = encode(link)
                                 if not self.redis_connect.exists(hashed_link):
                                     new_start_urls.append(link)
+                                    self.redis_connect.set(hashed_link, 0)
                                     if not re.match(rule['allow_pattern'], link):
                                         continue
-                                    self.redis_connect.set(hashed_link, 0)
                                     self.send_link_to_kafka(link)
                                     count_link_pushed += 1
 
