@@ -9,6 +9,7 @@ batdongsan.com.vn:
   start_script: null
   selenium: true
   image: div.list-img
+  login_require: false
 
 alonhadat.com.vn:
   allow_pattern: .*\d{4,}.html$
@@ -20,6 +21,7 @@ alonhadat.com.vn:
   start_script: null
   selenium: true
   image: div#ctl00_content_pc_content div.detail
+  login_require: false
 
 bannhasg.com:
   allow_pattern: .*pr\d{5,}.htm$
@@ -31,6 +33,7 @@ bannhasg.com:
   start_script: null
   selenium: true
   image: div.carousel-inner
+  login_require: false
 
 nha.chotot.com:
   allow_pattern: .*\d+.htm$
@@ -42,6 +45,7 @@ nha.chotot.com:
   start_script: null
   selenium: true
   image: div.slick-list
+  login_require: false
 
 diaoconline.vn:
   allow_pattern: .*\d+.htm$
@@ -53,6 +57,7 @@ diaoconline.vn:
   start_script: null
   selenium: true
   image: div.flex-viewport
+  login_require: false
 
 dothi.net:
   allow_pattern: .*pr\d{6,}.htm$
@@ -64,6 +69,7 @@ dothi.net:
   start_script: null
   selenium: true
   image: div.galleria-thumbnails
+  login_require: false
 
 mogi.vn:
   allow_pattern: .*id\d{5,}$
@@ -76,6 +82,7 @@ mogi.vn:
   start_script: null
   selenium: true
   image: div.owl-stage
+  login_require: false
 
 nhabansg.vn:
   allow_pattern: .*nb\d+.html$
@@ -87,6 +94,7 @@ nhabansg.vn:
   start_script: null
   selenium: true
   image: div.carousel-inner
+  login_require: false
 
 muaban.net:
   allow_pattern: .*id\d+$
@@ -98,6 +106,7 @@ muaban.net:
   start_script: null
   selenium: true
   image: div.image__slides
+  login_require: false
 
 dinhgianhadat.vn:
   allow_pattern: .*\d{4,}$
@@ -110,3 +119,4 @@ dinhgianhadat.vn:
   start_script: null
   selenium: true
   image: div#slider div.flex-viewport
+  login_require: false
