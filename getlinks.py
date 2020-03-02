@@ -81,7 +81,7 @@ class LinkScraper:
 
     def send_link_to_kafka(self, _link):
         self.link_producer.send(
-            self.config.kafka_link_topic, {
+            self.config.crawl_type + '_' + self.config.kafka_link_topic, {
                 'link': _link,
                 'type': self.config.crawl_type,
             }

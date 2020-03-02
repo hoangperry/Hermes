@@ -47,7 +47,7 @@ elif DEPLOY == 'dps':
     #####
     '''
     # Kafka default info
-    KAFKA_HOSTS_DEFAULT = '192.168.1.5:9099'
+    KAFKA_HOSTS_DEFAULT = '35.186.148.118:9092'
     KAFKA_USER_DEFAULT = None
     KAFKA_PASSWORD_DEFAULT = None
     KAFKA_NUM_PARTITIONS_DEFAULT = '50'
@@ -56,7 +56,7 @@ elif DEPLOY == 'dps':
     KAFKA_CONSUMER_GROUP_DEFAULT = 'default'
 
     # Redis default info
-    REDIS_HOST_DEFAULT = '192.168.1.5'
+    REDIS_HOST_DEFAULT = '192.168.1.89'
     REDIS_PORT_DEFAULT = '6381'
     REDIS_DB_DEFAULT = '0'
     REDIS_PASSWORD_DEFAULT = None
@@ -66,13 +66,13 @@ elif DEPLOY == 'dps':
     PG_PORT_DEFAULT = '5432'
     PG_USER_DEFAULT = 'hoang'
     PG_PASSWORD_DEFAULT = '4983'
-    PG_DB_DEFAULT = 'jobnet_db'
+    PG_DB_DEFAULT = 'crawler_db'
 
     # Other info
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
-    CRAWL_TYPE_DEFAULT = 'job'
+    CRAWL_TYPE_DEFAULT = 'bds'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 
@@ -108,7 +108,7 @@ elif DEPLOY == 'cloud':
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
-    CRAWL_TYPE_DEFAULT = 'job'
+    CRAWL_TYPE_DEFAULT = 'bds'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 

@@ -27,3 +27,4 @@ tldextract==2.2.1
 urllib3==1.25.3
 psycopg2
 pyvirtualdisplay
+selenium-wire==1.0.11

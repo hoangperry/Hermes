@@ -3,12 +3,12 @@ services:
   hoang_job_getlink:
     build:
       context: .
-      dockerfile: Dockerfile_getlink
+      dockerfile: docker/DockerfileGetlink
     restart: always
     scale: 2
   hoang_job_scraper:
     build:
       context: .
-      dockerfile: Dockerfile_scraper
+      dockerfile: docker/DockerfileScraper
     restart: always
     scale: 6

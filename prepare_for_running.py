@@ -46,13 +46,13 @@ def create_kafka_topic(_config):
         )
 
     topic_list = {
-        _config.kafka_link_topic: NewTopic(
-            name=_config.kafka_link_topic,
+        _config.crawl_type + '_' + _config.kafka_link_topic: NewTopic(
+            name=_config.crawl_type + '_' + _config.kafka_link_topic,
             num_partitions=_config.kafka_num_partitions,
             replication_factor=1
         ),
-        _config.kafka_object_topic: NewTopic(
-            name=_config.kafka_object_topic,
+        _config.crawl_type + '_' + _config.kafka_object_topic: NewTopic(
+            name=_config.crawl_type + '_' + _config.kafka_object_topic,
             num_partitions=_config.kafka_num_partitions,
             replication_factor=1
         )
@@ -72,6 +72,6 @@ def create_kafka_topic(_config):
 
 if __name__ == '__main__':
     create_kafka_topic(config)
-    # push_all_yaml_to_redis(config)
+    push_all_yaml_to_redis(config)
     create_postgres_db(config)
     download_chrome_driver()
