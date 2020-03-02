@@ -6,21 +6,32 @@ import random
 import requests
 import urllib.parse
 from bs4 import BeautifulSoup
-from urllib.request import Request, urlopen
-from requests.exceptions import SSLError
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException, WebDriverException
-from application.crawler.configs import list_proxies
-from application.helpers.logger import get_logger
-from application.helpers.url import UrlFormatter
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support import expected_conditions
+from requests.exceptions import SSLError
+from urllib.request import Request, urlopen
 from selenium.webdriver.common.by import By
+from application.helpers.url import UrlFormatter
+from application.helpers.logger import get_logger
+from application.crawler.configs import list_proxies
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.common.exceptions import TimeoutException, WebDriverException
 
 # This restores the same behavior as before.
 context = ssl._create_unverified_context()
 logger = get_logger('Scraping', logger_name=__name__)
+
+
+def get_list_proxy():
+    return [
+        [
+            'http://kinnt93:147828@{}'.format(line.strip()),
+            'https://kinnt93:147828@{}'.format(line.strip())
+        ]
+        for line in
+        open('proxies.txt', mode='r').readlines()
+    ]
 
 
 class WebDriverWrapper:
@@ -44,19 +55,29 @@ class WebDriverWrapper:
 
         if disable_gpu:
             options.add_argument('--disable-gpu')
+        list_proxy = random.choice(get_list_proxy())
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-setuid-sandbox')
         options.add_argument("--disable-extensions")
         options.add_argument('--disable-dev-shm-usage')
         # options.add_experimental_option("detach", True)
         options.add_experimental_option("prefs", prefs)
-
+        selenium_wire_option = {
+            'proxy': {
+                'http': list_proxy[0],
+                'https': list_proxy[1],
+            },
+        }
         # add execute path and option into driver
         self.executable_path = executable_path
         self.options = options
         self.html = None
         if executable_path is not None:
-            self.driver = webdriver.Chrome(executable_path=executable_path, chrome_options=options)
+            self.driver = webdriver.Chrome(
+                executable_path=executable_path,
+                chrome_options=options,
+                # seleniumwire_options=selenium_wire_option,
+            )
             self.selenium = True
         else:
             # create driver but not use
@@ -82,8 +103,9 @@ class WebDriverWrapper:
         try:
             logger.info("Close driver")
             # delete all cookies
-            self.driver.close()
-            self.driver.quit()
+            if self.driver is not None:
+                self.driver.close()
+                self.driver.quit()
         except Exception as ex:
             logger.exception("Cannot close browser {}".format(ex))
         finally:

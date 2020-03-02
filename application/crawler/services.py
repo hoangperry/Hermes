@@ -1,4 +1,3 @@
-import os
 import sys
 import json
 import time
@@ -196,7 +195,9 @@ class UniversalExtractService:
 
                     result['images'] = self.get_image(msg['type'])
                     result['link'] = url
-                    result = normalize_job_crawler(result)
+
+                    if msg['type'] == 'job':
+                        result = normalize_job_crawler(result)
 
                     self.pg_connection.insert_one(self.create_record_to_db(result))
                     logger.info('Pushed \"{}\" to Database'.format(result['title']))

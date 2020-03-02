@@ -12,7 +12,7 @@ logger = get_logger('Scraper', logger_name=__name__)
 
 if __name__ == "__main__":
     link_consumer = kafka.KafkaConsumer(
-        config.kafka_link_topic,
+        config.crawl_type + '_' + config.kafka_link_topic,
         bootstrap_servers=config.kafka_hosts,
         value_deserializer=lambda x: json.loads(x.decode('utf-8')),
         group_id=config.kafka_consumer_group
@@ -43,8 +43,8 @@ if __name__ == "__main__":
         database=config.pg_db
     )
     logger.info("Created postgresql service")
-    display = Display(visible=0, size=(800, 600))
-    display.start()
+    # display = Display(visible=0, size=(800, 600))
+    # display.start()
     logger.info("Created virtual display")
     while True:
         try:
@@ -54,7 +54,7 @@ if __name__ == "__main__":
                 redis_connect=redis_connect,
                 kafka_consumer_bsd_link=link_consumer,
                 kafka_object_producer=object_producer,
-                object_topic=config.kafka_object_topic,
+                object_topic=config.crawl_type + '_' + config.kafka_object_topic,
                 resume_step=config.resume_step,
                 crawl_type=config.crawl_type,
                 restart_selenium_step=config.restart_selenium_step,

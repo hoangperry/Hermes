@@ -1,89 +1,122 @@
 batdongsan.com.vn:
-  allow_pattern: ".*pr\\d{5,}$"
-  start_urls: ["https://batdongsan.com.vn/nha-dat-ban", "https://batdongsan.com.vn/nha-dat-cho-thue"]
+  allow_pattern: .*pr\d{5,}$
+  homepage:
+    - 'https://batdongsan.com.vn/nha-dat-ban/'
+    - 'https://batdongsan.com.vn/nha-dat-cho-thue/'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.list-img
+  login_require: false
 
 alonhadat.com.vn:
-  allow_pattern: ".*\\d{4,}.html$"
-  start_urls: ["https://alonhadat.com.vn/"]
+  allow_pattern: .*\d{4,}.html$
+  homepage:
+    - 'https://alonhadat.com.vn/'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div#ctl00_content_pc_content div.detail
+  login_require: false
 
 bannhasg.com:
-  allow_pattern: ".*pr\\d{5,}.htm$"
-  start_urls: ["http://bannhasg.com/"]
+  allow_pattern: .*pr\d{5,}.htm$
+  homepage:
+    - 'http://bannhasg.com/'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.carousel-inner
+  login_require: false
 
 nha.chotot.com:
-  allow_pattern: ".*\\d+.htm$"
-  start_urls: ["https://nha.chotot.com/?page=1&f=p"]
+  allow_pattern: .*\d+.htm$
+  homepage:
+    - 'https://nha.chotot.com/?page=1&f=p'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.slick-list
+  login_require: false
 
 diaoconline.vn:
-  allow_pattern: ".*\\d+.htm$"
-  start_urls: ["http://diaoconline.vn/sieu-thi/loc/?tindang=1"]
+  allow_pattern: .*\d+.htm$
+  homepage:
+    - 'http://diaoconline.vn/sieu-thi/loc/?tindang=1'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.flex-viewport
+  login_require: false
 
 dothi.net:
-  allow_pattern: ".*pr\\d{6,}.htm$"
-  start_urls: ["https://dothi.net/nha-dat-ban.htm"]
+  allow_pattern: .*pr\d{6,}.htm$
+  homepage:
+    - 'https://dothi.net/nha-dat-ban.htm'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.galleria-thumbnails
+  login_require: false
 
 mogi.vn:
-  allow_pattern: ".*id\\d{5,}$"
-  start_urls: ["https://mogi.vn/mua-nha-dat", "https://mogi.vn/thue-nha-dat"]
+  allow_pattern: .*id\d{5,}$
+  homepage:
+    - 'https://mogi.vn/mua-nha-dat'
+    - 'https://mogi.vn/thue-nha-dat'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.owl-stage
+  login_require: false
 
 nhabansg.vn:
-  allow_pattern: ".*nb\\d+.html$"
-  start_urls: ["https://nhabansg.vn/"]
+  allow_pattern: .*nb\d+.html$
+  homepage:
+    - 'https://nhabansg.vn/'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.carousel-inner
+  login_require: false
 
 muaban.net:
-  allow_pattern: ".*id\\d+$"
-  start_urls: ["https://muaban.net/mua-ban-nha-dat-cho-thue-toan-quoc-l0-c3"]
+  allow_pattern: .*id\d+$
+  homepage:
+    - 'https://muaban.net/mua-ban-nha-dat-cho-thue-toan-quoc-l0-c3'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div.image__slides
+  login_require: false
 
 dinhgianhadat.vn:
-  allow_pattern: ".*\\d{4,}$"
-  start_urls: ["https://dinhgianhadat.vn/nha-dat-ban", "https://dinhgianhadat.vn/nha-dat-cho-thue"]
+  allow_pattern: .*\d{4,}$
+  homepage:
+    - 'https://dinhgianhadat.vn/nha-dat-ban'
+    - 'https://dinhgianhadat.vn/nha-dat-cho-thue'
+  start_urls: []
   select_element: null
   select_value: null
   start_script: null
   selenium: true
   image: div#slider div.flex-viewport
+  login_require: false
