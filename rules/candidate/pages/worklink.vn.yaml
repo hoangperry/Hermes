@@ -1,0 +1,12 @@
+selenium: true
+name: div.jobsearch_candidate_info h2
+expected_salary: i.careerfy-salary~div small
+academic_level: i.careerfy-degree-cap~div small
+gender: i.careerfy-id-card~div small
+phone_number: i.careerfy-technology~div small
+marital_status: i.careerfy-heart~div small
+experience: i.careerfy-briefcase~div small
+type_of_employment: i.careerfy-clock-hours~div small
+email: i.careerfy-envelope-line~div small
+career: div.jobsearch_candidate_info p:nth-of-type(2)
+date_created: div.jobsearch_candidate_info small

@@ -38,9 +38,9 @@ def push_all_yaml_to_redis(_config):
         password=_config.redis_password
     )
 
-    all_data = dict()
     for _crawl_type in _config.avaiable_crawl_type:
-        for yaml_file in glob.glob(os.path.join(_config.yaml_folder, _crawl_type, "pages/**.yaml")):
+        all_data = dict()
+        for yaml_file in glob.glob(os.path.join(_config.yaml_folder, _crawl_type, "pages/*.yaml")):
             with open(yaml_file, 'r') as stream:
                 yaml_data = yaml.safe_load(stream)
                 key = os.path.basename(os.path.splitext(yaml_file)[0])
