@@ -117,6 +117,11 @@ class UniversalExtractService:
                 )
                 if login_valid.__len__() == 0:
                     self.wrapSeleniumDriver.get_html(self.home_rules[url_domain]['url_login'])
+                    try:
+                        if self.home_rules[url_domain]['require_script'] is not None:
+                            self.wrapSeleniumDriver.execute_script(self.home_rules[url_domain]['require_script'])
+                    except:
+                        raise Exception("can't excute require script")
 
                     self.wrapSeleniumDriver.driver.execute_script(
                         "document.getElementsByName('{}')[0].value = '{}';".format(
@@ -130,11 +135,22 @@ class UniversalExtractService:
                             self.home_rules[url_domain]['password']
                         )
                     )
-                    for i in self.wrapSeleniumDriver.driver.find_elements_by_tag_name('input'):
-                        if i.get_attribute('type') == 'submit':
-                            i.click()
+
+                    if 'login_button' in self.home_rules[url_domain]:
+                        try:
+                            self.wrapSeleniumDriver.execute_script(
+                                self.home_rules[url_domain]['script_submit']
+                            )
                             time.sleep(1)
-                            break
+                        except Exception as ex:
+                            raise Exception('Cant found login button: {}'.format(ex))
+                    else:
+                        for i in self.wrapSeleniumDriver.driver.find_elements_by_tag_name('input'):
+                            if i.get_attribute('type') == 'submit':
+                                i.click()
+                                time.sleep(1)
+                                break
+
             except Exception as ex:
                 if self.wrapSeleniumDriver.driver is not None:
                     self.wrapSeleniumDriver.driver.close()

@@ -9,6 +9,24 @@
 #  selenium: true
 #  login_require: false
 
+worklink.vn:
+  allow_pattern: .+worklink.vn/candidate.+
+  homepage:
+    - "https://worklink.vn/candidate-listing/"
+  start_urls: []
+  select_element: null
+  select_value: null
+  start_script: null
+  selenium: true
+  login_require: true
+  valid_login: .jobsearch-userdash-menumain
+  url_login: https://worklink.vn/candidate-listing/
+  input_username: pt_user_login
+  username: khongtenhvt@gmail.com
+  input_password: pt_user_pass
+  password: 49832214
+  require_script: document.querySelector('a.jobsearch-color.jobsearch-open-signin-tab').click()
+  script_submit: document.querySelector('div.modal-box-area form input.jobsearch-login-submit-btn').click();
 
 muaban.net:
   allow_pattern: .*muaban.net/.*-id\d{1,}$
@@ -21,22 +39,6 @@ muaban.net:
   selenium: true
   login_require: false
 
-worklink.vn:
-  allow_pattern: .+worklink.vn/candidate.+
-  homepage:
-    - "https://worklink.vn/candidate-listing/"
-  start_urls: []
-  select_element: null
-  select_value: null
-  start_script: null
-  selenium: true
-  login_require: true
-  valid_login: .jobsearch-userdash-menumain
-  url_login: https://secure.vietnamworks.com/login/vi?client_id=3
-  input_username: pt_user_login
-  username: khongtenhvt@gmail.com
-  input_password: pt_user_pass
-  password: 49832214
 
 www.chotot.com:
   allow_pattern: .+chotot.com/.+/danh-sach-nguoi-tim-viec/\d{5,}.htm$
