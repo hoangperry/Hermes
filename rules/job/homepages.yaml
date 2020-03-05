@@ -36,6 +36,7 @@ itviec.com:
   username: khongtenhvt@gmail.com
   input_password: user[password]
   password: 49832214
+  require_script: null
 
 www.vietnamworks.com:
   allow_pattern: .*\d{4,}-jv.*
@@ -53,6 +54,7 @@ www.vietnamworks.com:
   username: khongtenhvt@gmail.com
   input_password: password
   password: Hoang123
+  require_script: null
 
 timviec.com.vn:
   allow_pattern: .*\d{4,}\.html

@@ -1,0 +1,8 @@
+selenium: true
+title: div.detail-container__left h1
+name: div.user-info__content div.user-info__fullname
+expected_salary: div.detail-container__left div.price-container__value
+expected_location: div.detail-container__left div.location-clock span
+date_created: div.detail-container__left div.location-clock span:nth-of-type(2)
+phone_number: div.user-info__content div.mobile-container__value span
+info: div.detail-container__left div.body-container

@@ -95,6 +95,7 @@ class LinkScraper:
                 self.update_homerule()
 
                 for hpg in self.homepage_rules.keys():
+                    logger.info('Processing {}'.format(hpg))
                     if hpg not in self.loop_count_hpg:
                         self.loop_count_hpg[hpg] = 1
                     else:
@@ -114,8 +115,12 @@ class LinkScraper:
 
                             if url.split('/')[2] != hpg:
                                 continue
+                            if hpg == 'vieclamonline.com.vn' and config.crawl_type == 'candidate':
+                                time_out = 8
+                            else:
+                                time_out = 5
 
-                            self.web_driver.get(url, 5)
+                            self.web_driver.get(url, time_out)
 
                             if self.web_driver.driver is None:
                                 continue
@@ -135,6 +140,7 @@ class LinkScraper:
 
                             links = self.web_driver.get_links()
                             count_link_pushed = 0
+                            count_link_push_to_start_url = 0
                             for link in links:
                                 try:
                                     if link.split('/')[2] != hpg:
@@ -145,12 +151,19 @@ class LinkScraper:
                                 if not self.redis_connect.exists(hashed_link):
                                     new_start_urls.append(link)
                                     self.redis_connect.set(hashed_link, 0)
+                                    count_link_push_to_start_url += 1
                                     if not re.match(rule['allow_pattern'], link):
                                         continue
                                     self.send_link_to_kafka(link)
                                     count_link_pushed += 1
 
-                            logger.info('Pushed {} link(s) from {} to kafka'.format(count_link_pushed, hpg))
+                            logger.info(
+                                'Pushed {} link(s) from {} to kafka | Pushed {} links to START_URL'.format(
+                                    count_link_pushed,
+                                    hpg,
+                                    count_link_push_to_start_url,
+                                )
+                            )
                         except Exception as ex:
                             try:
                                 _, _, lineno = sys.exc_info()

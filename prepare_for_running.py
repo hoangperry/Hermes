@@ -15,7 +15,8 @@ def create_postgres_db(_config):
         host=_config.pg_host,
         port=_config.pg_port,
         user=_config.pg_user,
-        password=_config.pg_password)
+        password=_config.pg_password
+    )
 
     connection.set_isolation_level(extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = connection.cursor()

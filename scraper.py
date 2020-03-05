@@ -15,7 +15,8 @@ if __name__ == "__main__":
         config.crawl_type + '_' + config.kafka_link_topic,
         bootstrap_servers=config.kafka_hosts,
         value_deserializer=lambda x: json.loads(x.decode('utf-8')),
-        group_id=config.kafka_consumer_group
+        group_id=config.kafka_consumer_group,
+        auto_offset_reset='earliest',
     )
     logger.info("Created kafka comsumer connection")
 

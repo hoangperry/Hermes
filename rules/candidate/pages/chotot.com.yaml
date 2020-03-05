@@ -1,0 +1,10 @@
+selenium: true
+title: div.col-md-8 h1
+name: div.styles__NameDiv-fClOhj.dzrPXg b
+expected_salary: div.AdItem__PriceWrapper-iSokgh.cEWkgd span span
+payment_forms: div.row._1DTCXk4eb6dusdylsQxCos > div.col-xs-12:nth-of-type(1) div.col-xs-12.col-md-6._2E8caC-j61im7lRi5lExI9:nth-of-type(1) span:nth-last-of-type(1)
+type_of_employment: div.row._1DTCXk4eb6dusdylsQxCos > div.col-xs-12:nth-of-type(1) div.col-xs-12.col-md-6._2E8caC-j61im7lRi5lExI9:nth-of-type(2) span:nth-last-of-type(1)
+carrer: div.row._1DTCXk4eb6dusdylsQxCos > div.col-xs-12:nth-of-type(2) div.col-xs-12.col-md-6._2E8caC-j61im7lRi5lExI9:nth-of-type(1) span:nth-last-of-type(1)
+experience: div.row._1DTCXk4eb6dusdylsQxCos > div.col-xs-12:nth-of-type(2) div.col-xs-12.col-md-6._2E8caC-j61im7lRi5lExI9:nth-of-type(2) span:nth-last-of-type(1)
+age: div.row._1DTCXk4eb6dusdylsQxCos > div.col-xs-12:nth-of-type(3) div.col-xs-12.col-md-6._2E8caC-j61im7lRi5lExI9:nth-of-type(1) span:nth-last-of-type(1)
+gender: div.row._1DTCXk4eb6dusdylsQxCos > div.col-xs-12:nth-of-type(3) div.col-xs-12.col-md-6._2E8caC-j61im7lRi5lExI9:nth-of-type(2) span:nth-last-of-type(1)
