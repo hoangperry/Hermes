@@ -17,7 +17,7 @@ sucess_link_log = get_logger('Success link', logger_name='success')
 
 def _get_rules(redis_connect):
     return {
-        _type: json.loads(redis_connect.get(str(_type) + '_rules'))
+        _type: json.loads(redis_connect.get(_type + '_rules'))
         for _type in config.avaiable_crawl_type
     }
 
@@ -174,8 +174,20 @@ class UniversalExtractService:
                 if self.domain not in self.dict_rules[msg['type']]:
                     continue
                 rule = self.dict_rules[msg['type']][self.domain]
+
+                if not self.get_page(rule):
+                    continue
+
+                if config.crawl_type == 'candidate' and url_domain == 'muaban.net':
+                    try:
+                        self.wrapSeleniumDriver.execute_script(
+                            "document.querySelector('div.user-info__content div.mobile-container__value a').click();"
+                        )
+                    except Exception as ex:
+                        print(ex)
+
                 # send rule
-                dbfield = self.get_data_field(rule=rule)
+                dbfield = self.wrapSeleniumDriver.scrape_elements(rule=rule)
 
                 if dbfield is None:
                     continue
@@ -185,7 +197,7 @@ class UniversalExtractService:
                     result = optimize_dict(result)
                     if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
                         continue
-                    # add url
+                    # add url>
                     result['url'] = url
 
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
@@ -193,14 +205,17 @@ class UniversalExtractService:
                         result['salary'] = salary.find_elements_by_class_name('fl_right')[-2].text
                         # result['salary'] = salary.find_element_by_css_selector('label').text
 
-                    result['images'] = self.get_image(msg['type'])
+                    # result['images'] = self.get_image(msg['type'])
                     result['link'] = url
 
                     if msg['type'] == 'job':
                         result = normalize_job_crawler(result)
 
-                    self.pg_connection.insert_one(self.create_record_to_db(result))
-                    logger.info('Pushed \"{}\" to Database'.format(result['title']))
+                    self.pg_connection.insert_one(self.create_record_to_db({'data': result}))
+                    if config.crawl_type == 'candidate':
+                        logger.info('Pushed \"{}\" to Database'.format(result['name']))
+                    else:
+                        logger.info('Pushed \"{}\" to Database'.format(result['title']))
                     sucess_link_log.info(url)
 
                 self.clear_url_data()
@@ -215,7 +230,7 @@ class UniversalExtractService:
                 except:
                     logger.error('Cannot get line error - Error{}'.format(ex))
 
-    def get_data_field(self, rule):
+    def get_page(self, rule):
         if not self.url:
             raise ConnectionAbortedError("Page does not exist!", self.url)
 
@@ -223,9 +238,8 @@ class UniversalExtractService:
             self.wrapSeleniumDriver.use_selenium(rule['selenium'])
             self.wrapSeleniumDriver.get(self.url)
         except:
-            return None
-
-        return self.wrapSeleniumDriver.scrape_elements(rule=rule)
+            return False
+        return True
 
     @staticmethod
     def extract_fields(dbfields):

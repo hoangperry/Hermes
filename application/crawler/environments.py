@@ -2,7 +2,7 @@ import os
 
 
 DRIVER_PATH_DEFAULT = './chromedriver'
-DEPLOY = 'dps'
+DEPLOY = 'local'
 
 if DEPLOY == 'local':
     '''
@@ -30,13 +30,13 @@ if DEPLOY == 'local':
     PG_PORT_DEFAULT = '5432'
     PG_USER_DEFAULT = 'hoang'
     PG_PASSWORD_DEFAULT = '4983'
-    PG_DB_DEFAULT = 'test_crawler'
+    PG_DB_DEFAULT = 'crawler'
 
     # Other info
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
-    CRAWL_TYPE_DEFAULT = 'job'
+    CRAWL_TYPE_DEFAULT = 'candidate'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 
@@ -72,7 +72,7 @@ elif DEPLOY == 'dps':
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
-    CRAWL_TYPE_DEFAULT = 'bds'
+    CRAWL_TYPE_DEFAULT = 'candidate'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 
