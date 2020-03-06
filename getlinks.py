@@ -110,10 +110,10 @@ class LinkScraper:
                     for url in rule['start_urls'][:5]:
                         try:
                             new_start_urls.remove(url)
-                            # logger.info("Process {}".format(url))
                             self.web_driver.selenium = rule['selenium']
 
                             if url.split('/')[2] != hpg:
+                                logger.info("Invalid domain: {}".format(url))
                                 continue
                             if hpg == 'vieclamonline.com.vn' and config.crawl_type == 'candidate':
                                 time_out = 8
