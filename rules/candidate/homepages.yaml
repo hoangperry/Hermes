@@ -10,7 +10,7 @@
 #  login_require: false
 
 worklink.vn:
-  allow_pattern: .+worklink.vn/candidate.+
+  allow_pattern: .+worklink.vn/candidate/.+
   homepage:
     - "https://worklink.vn/candidate-listing/"
   start_urls: []

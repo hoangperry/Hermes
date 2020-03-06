@@ -6,7 +6,7 @@ academic_level: div.viecchitiet table.view-rutgon tr.postd4:nth-of-type(1) td.br
 major: div.viecchitiet table.view-rutgon tr.postd4:nth-of-type(2) td.br-L
 school: div.viecchitiet table.view-rutgon tr:nth-of-type(3) td:nth-of-type(2)
 language: div.viecchitiet table.view-rutgon tr:nth-of-type(4) td:nth-of-type(2)
-computer skill: div.viecchitiet table.view-rutgon tr:nth-of-type(5) td:nth-of-type(2)
+computer_skill: div.viecchitiet table.view-rutgon tr:nth-of-type(5) td:nth-of-type(2)
 degree_certificate: div.viecchitiet table.view-rutgon tr:nth-of-type(6) td:nth-of-type(2)
 year_of_experience: div#main-left div:nth-of-type(10) tr td:nth-of-type(2)
 experience: div#main-left div:nth-of-type(10) tr:nth-of-type(2) td:nth-of-type(2)
