@@ -1,4 +1,3 @@
-selenium: true
 title: div.col-md-8 h1
 name: div.styles__NameDiv-fClOhj.dzrPXg b
 expected_salary: div.AdItem__PriceWrapper-iSokgh.cEWkgd span span

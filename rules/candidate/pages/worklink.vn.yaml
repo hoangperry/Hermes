@@ -1,4 +1,3 @@
-selenium: true
 name: div.jobsearch_candidate_info h2
 expected_salary: i.careerfy-salary~div small
 academic_level: i.careerfy-degree-cap~div small

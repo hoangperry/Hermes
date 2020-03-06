@@ -1,4 +1,3 @@
-selenium: true
 title: div.detail-container__left h1
 name: div.user-info__content div.user-info__fullname
 expected_salary: div.detail-container__left div.price-container__value
