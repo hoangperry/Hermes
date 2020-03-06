@@ -281,6 +281,7 @@ def normalize_job_crawler(job_dict):
         logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
         raise ex
 
+
 def normalize_job(job_dict):
     n_salary, currency_unit = normalize_salary(job_dict['salary'])
     return {
@@ -309,3 +310,46 @@ def normalize_job(job_dict):
         'contact': normalize_contact(job_dict['contact']),
         'other_info': normalize_other_info(job_dict['other_info']),
     }
+
+
+def normalize_candidate_crawler(candidate_dict):
+    list_field = [
+        'title',
+        'name',
+        'expected_salary',
+        'expected_location',
+        'date_created',
+        'phone_number',
+        'info',
+        'url',
+        'link',
+        'payment_forms',
+        'type_of_employment',
+        'career',
+        'experience',
+        'age',
+        'gender',
+        'email',
+        'academic_level',
+        'major',
+        'school',
+        'language',
+        'computer_skill',
+        'degree_certificate',
+        'year_of_experience',
+        'other_skill',
+        'expected_work',
+        'expected_level',
+        'expected_career',
+        'expected_goals',
+        'birthday',
+        'marital_status',
+    ]
+    ret_dict = dict()
+    for _field in list_field:
+        if _field not in candidate_dict:
+            ret_dict[_field] = ''
+        else:
+            ret_dict[_field] = candidate_dict[_field]
+
+    return ret_dict

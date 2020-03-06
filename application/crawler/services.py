@@ -8,7 +8,7 @@ from application.helpers.logger import get_logger
 from application.crawler.model import DatabaseModel
 from application.helpers.converter import optimize_dict
 from application.crawler.environments import create_environments
-from application.helpers.normalizer import normalize_job_crawler
+from application.helpers.normalizer import normalize_job_crawler, normalize_candidate_crawler
 
 config = create_environments()
 logger = get_logger('Service', logger_name=__name__)
@@ -26,8 +26,7 @@ class UniversalExtractService:
     def __init__(self, selenium_driver_path, redis_connect,
                  kafka_consumer_bsd_link, kafka_object_producer,
                  object_topic, resume_step, crawl_type, restart_selenium_step,
-                 download_images=False,
-                 pg_connection=None):
+                 download_images=False, db_connection=None, db_engine='postgresql'):
 
         self.wrapSeleniumDriver = scrapping.WebDriverWrapper(selenium_driver_path)
         self.headless = True
@@ -45,10 +44,11 @@ class UniversalExtractService:
         self.download_images = download_images
         self.home_rules = json.loads(self.redis_connect.get(config.crawl_type + "_homes"))
 
-        if pg_connection is None:
+        if db_connection is None:
             raise ConnectionError
 
-        self.pg_connection = pg_connection
+        self.db_connection = db_connection
+        self.db_engine = db_engine
 
     def set_page(self, url):
         self.url = url
@@ -69,7 +69,7 @@ class UniversalExtractService:
             return list()
 
     @staticmethod
-    def create_record_to_db(result):
+    def create_pg_record_to_db(result):
         model = DatabaseModel()
         if config.crawl_type == 'job':
             model.data = result
@@ -136,12 +136,12 @@ class UniversalExtractService:
                         )
                     )
 
-                    if 'login_button' in self.home_rules[url_domain]:
+                    if 'script_submit' in self.home_rules[url_domain]:
                         try:
                             self.wrapSeleniumDriver.execute_script(
                                 self.home_rules[url_domain]['script_submit']
                             )
-                            time.sleep(1)
+                            time.sleep(7)
                         except Exception as ex:
                             raise Exception('Cant found login button: {}'.format(ex))
                     else:
@@ -156,7 +156,12 @@ class UniversalExtractService:
                     self.wrapSeleniumDriver.driver.close()
                 self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path, headless=True)
                 self.headless = True
-                logger.error('Login Exception ' + str(ex))
+
+                try:
+                    _, _, lineno = sys.exc_info()
+                    logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+                except:
+                    logger.error('Cannot get line error - Error {}'.format(ex))
                 raise Exception('Login Exception ')
 
         else:
@@ -191,6 +196,7 @@ class UniversalExtractService:
                     continue
                 rule = self.dict_rules[msg['type']][self.domain]
 
+                time.sleep(5)
                 if not self.get_page(rule):
                     continue
 
@@ -226,8 +232,14 @@ class UniversalExtractService:
 
                     if msg['type'] == 'job':
                         result = normalize_job_crawler(result)
+                    elif msg['type'] == 'candidate':
+                        result = normalize_candidate_crawler(result)
 
-                    self.pg_connection.insert_one(self.create_record_to_db({'data': result}))
+                    if self.db_engine == 'postgresql':
+                        self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
+                    elif self.db_engine == 'mongodb':
+                        self.db_connection[msg['type']].insert_one(result)
+
                     if config.crawl_type == 'candidate':
                         logger.info('Pushed \"{}\" to Database'.format(result['name']))
                     else:
