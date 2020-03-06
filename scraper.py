@@ -6,9 +6,11 @@ from application.helpers.logger import get_logger
 from application.crawler.environments import create_environments
 from application.crawler.model import DatabaseService
 from application.crawler.services import UniversalExtractService
+from pymongo import MongoClient
 
 config = create_environments()
 logger = get_logger('Scraper', logger_name=__name__)
+
 
 if __name__ == "__main__":
     link_consumer = kafka.KafkaConsumer(
@@ -36,13 +38,27 @@ if __name__ == "__main__":
     )
     logger.info("Created redis connection")
 
-    pg_service = DatabaseService(
-        user=config.pg_user,
-        password=config.pg_password,
-        host=config.pg_host,
-        port=config.pg_port,
-        database=config.pg_db
-    )
+    if config.database_engine == 'postgresql':
+        db_service = DatabaseService(
+            user=config.pg_user,
+            password=config.pg_password,
+            host=config.pg_host,
+            port=config.pg_port,
+            database=config.pg_db
+        )
+    elif config.database_engine == 'mongodb':
+        client = MongoClient(
+            config.mongodb_host,
+            config.mongodb_port
+        )
+        client.admin.authenticate(
+            config.mongodb_user,
+            config.mongodb_password
+        )
+        db_service = client[config.mongodb_db]
+    else:
+        raise Exception("Invalid Database ENGINE ['mongodb'|'postgresql']")
+
     logger.info("Created postgresql service")
     # display = Display(visible=0, size=(800, 600))
     # display.start()
@@ -60,7 +76,8 @@ if __name__ == "__main__":
                 crawl_type=config.crawl_type,
                 restart_selenium_step=config.restart_selenium_step,
                 download_images=config.download_images,
-                pg_connection=pg_service
+                db_connection=db_service,
+                db_engine=config.database_engine
             )
             real_estate_scraper.scrape_page_streaming()
         except Exception as ex:

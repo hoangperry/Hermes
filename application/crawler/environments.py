@@ -32,7 +32,14 @@ if DEPLOY == 'local':
     PG_PASSWORD_DEFAULT = '4983'
     PG_DB_DEFAULT = 'crawler'
 
+    MONGODB_HOST_DEFAULT = 'localhost'
+    MONGODB_PORT_DEFAULT = '27017'
+    MONGODB_USER_DEFAULT = 'hoang'
+    MONGODB_PASSWORD_DEFAULT = '4983'
+    MONGODB_DB_DEFAULT = 'crawler'
+
     # Other info
+    DATABASE_ENGINE_DEFAULT = 'mongodb'
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
@@ -68,7 +75,14 @@ elif DEPLOY == 'dps':
     PG_PASSWORD_DEFAULT = '4983'
     PG_DB_DEFAULT = 'crawler_db'
 
+    MONGODB_HOST_DEFAULT = 'localhost'
+    MONGODB_PORT_DEFAULT = '27017'
+    MONGODB_USER_DEFAULT = 'hoang'
+    MONGODB_PASSWORD_DEFAULT = '4983'
+    MONGODB_DB_DEFAULT = 'crawler'
+
     # Other info
+    DATABASE_ENGINE_DEFAULT = 'postgresql'
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
@@ -104,7 +118,14 @@ elif DEPLOY == 'cloud':
     PG_PASSWORD_DEFAULT = '4983'
     PG_DB_DEFAULT = 'dps_crawler'
 
+    MONGODB_HOST_DEFAULT = 'localhost'
+    MONGODB_PORT_DEFAULT = '27017'
+    MONGODB_USER_DEFAULT = 'hoang'
+    MONGODB_PASSWORD_DEFAULT = '4983'
+    MONGODB_DB_DEFAULT = 'crawler'
+
     # Other info
+    DATABASE_ENGINE_DEFAULT = 'postgresql'
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
@@ -149,7 +170,14 @@ def create_environments():
     configs['pg_password'] = os.environ.get('PG_PASSWORD', PG_PASSWORD_DEFAULT)
     configs['pg_db'] = os.environ.get('PG_DB', PG_DB_DEFAULT)
 
+    configs['mongodb_host'] = os.environ.get('MONGODB_HOST', MONGODB_HOST_DEFAULT)
+    configs['mongodb_port'] = int(os.environ.get('MONGODB_PORT', MONGODB_PORT_DEFAULT))
+    configs['mongodb_user'] = os.environ.get('MONGODB_USER', MONGODB_USER_DEFAULT)
+    configs['mongodb_password'] = os.environ.get('MONGODB_PASSWORD', MONGODB_PASSWORD_DEFAULT)
+    configs['mongodb_db'] = os.environ.get('MONGODB_DB', MONGODB_DB_DEFAULT)
+
     # resume step
+    configs['database_engine'] = os.environ.get('DATABASE_ENGINE', DATABASE_ENGINE_DEFAULT)
     configs['resume_step'] = int(os.environ.get('RESUME_STEP', RESUME_STEP_DEFAULT))
     configs['restart_selenium_step'] = int(os.environ.get('RESTART_SELENIUM_STEP', RESTART_SELENIUM_STEP_DEFAULT))
 
