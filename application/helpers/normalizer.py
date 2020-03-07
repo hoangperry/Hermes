@@ -1,5 +1,6 @@
 import re
 import sys
+import json
 import datetime
 from application.helpers.logger import get_logger
 
@@ -7,8 +8,13 @@ logger = get_logger('Normalizer', logger_name=__name__)
 
 
 class JobNormalizer:
-    def __init__(self):
+    def __init__(self, redis_connection):
         self.job_dict = dict()
+        self.list_field = list(set([
+            i
+            for domain in json.loads(redis_connection.get('job_rules')).values()
+            for i in domain
+        ]))
 
     @staticmethod
     def clean_text(_text):
@@ -237,45 +243,18 @@ class JobNormalizer:
 
 
 class CandidateNormalizer:
-    def __init__(self):
+    def __init__(self, redis_connection):
         self.candidate_dict = dict()
+        self.list_field = list(set([
+            i
+            for domain in json.loads(redis_connection.get('candidate_rules')).values()
+            for i in domain
+        ]))
 
     def normalize(self, candidate_dict):
         self.candidate_dict = candidate_dict
-        list_field = [
-            'title',
-            'name',
-            'expected_salary',
-            'expected_location',
-            'date_created',
-            'phone_number',
-            'info',
-            'url',
-            'link',
-            'payment_forms',
-            'type_of_employment',
-            'career',
-            'experience',
-            'age',
-            'gender',
-            'email',
-            'academic_level',
-            'major',
-            'school',
-            'language',
-            'computer_skill',
-            'degree_certificate',
-            'year_of_experience',
-            'other_skill',
-            'expected_work',
-            'expected_level',
-            'expected_career',
-            'expected_goals',
-            'birthday',
-            'marital_status',
-        ]
         ret_dict = dict()
-        for _field in list_field:
+        for _field in self.list_field:
             if _field not in self.candidate_dict:
                 ret_dict[_field] = ''
             else:
@@ -285,8 +264,13 @@ class CandidateNormalizer:
 
 
 class BdsNormalizer:
-    def __init__(self):
+    def __init__(self, redis_connection):
         self.bds_dict = dict()
+        self.list_field = list(set([
+            i
+            for domain in json.loads(redis_connection.get('candidate_rules')).values()
+            for i in domain
+        ]))
 
     def normalize(self, bds_dict):
         self.bds_dict = bds_dict

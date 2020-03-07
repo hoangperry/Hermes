@@ -39,7 +39,7 @@ if DEPLOY == 'local':
     MONGODB_DB_DEFAULT = 'crawler'
 
     # Other info
-    DATABASE_ENGINE_DEFAULT = 'mongodb'
+    DATABASE_ENGINE_DEFAULT = 'postgresql'
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'

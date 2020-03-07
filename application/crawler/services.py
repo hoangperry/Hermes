@@ -45,9 +45,9 @@ class UniversalExtractService:
         self.restart_selenium_step = restart_selenium_step
         self.download_images = download_images
         self.normalizer = {
-            'job': JobNormalizer(),
-            'candidate': CandidateNormalizer(),
-            'bds': BdsNormalizer(),
+            'job': JobNormalizer(self.redis_connect),
+            'candidate': CandidateNormalizer(self.redis_connect),
+            'bds': BdsNormalizer(self.redis_connect),
         }
         if db_connection is None:
             raise ConnectionError
