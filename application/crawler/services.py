@@ -8,7 +8,7 @@ from application.helpers.logger import get_logger
 from application.crawler.model import DatabaseModel
 from application.helpers.converter import optimize_dict
 from application.crawler.environments import create_environments
-from application.helpers.normalizer import normalize_job_crawler, normalize_candidate_crawler
+from application.helpers.normalizer import JobNormalizer, CandidateNormalizer, BdsNormalizer
 
 config = create_environments()
 logger = get_logger('Service', logger_name=__name__)
@@ -19,13 +19,16 @@ def _get_rules(redis_connect):
     return {
         _type: json.loads(redis_connect.get(_type + '_rules'))
         for _type in config.avaiable_crawl_type
+    }, {
+        _type: json.loads(redis_connect.get(_type + '_homes'))
+        for _type in config.avaiable_crawl_type
     }
 
 
 class UniversalExtractService:
     def __init__(self, selenium_driver_path, redis_connect,
                  kafka_consumer_bsd_link, kafka_object_producer,
-                 object_topic, resume_step, crawl_type, restart_selenium_step,
+                 object_topic, resume_step, restart_selenium_step,
                  download_images=False, db_connection=None, db_engine='postgresql'):
 
         self.wrapSeleniumDriver = scrapping.WebDriverWrapper(selenium_driver_path)
@@ -38,12 +41,14 @@ class UniversalExtractService:
         self.object_topic = object_topic
         self.kafka_object_producer = kafka_object_producer
         self.resume_step = resume_step
-        self.crawl_type = crawl_type
-        self.dict_rules = _get_rules(redis_connect=self.redis_connect)
+        self.dict_rules, self.home_rules = _get_rules(redis_connect=self.redis_connect)
         self.restart_selenium_step = restart_selenium_step
         self.download_images = download_images
-        self.home_rules = json.loads(self.redis_connect.get(config.crawl_type + "_homes"))
-
+        self.normalizer = {
+            'job': JobNormalizer(self.redis_connect),
+            'candidate': CandidateNormalizer(self.redis_connect),
+            'bds': BdsNormalizer(self.redis_connect),
+        }
         if db_connection is None:
             raise ConnectionError
 
@@ -100,8 +105,8 @@ class UniversalExtractService:
 
         return model
 
-    def login(self, url_domain):
-        if self.home_rules[url_domain]['login_require']:
+    def login(self, url_domain, _crawl_type):
+        if self.home_rules[_crawl_type][url_domain]['login_require']:
             logger.info('Login into {}'.format(url_domain))
             try:
                 if self.headless:
@@ -113,35 +118,37 @@ class UniversalExtractService:
                     self.headless = False
 
                 login_valid = self.wrapSeleniumDriver.driver.find_elements_by_css_selector(
-                    self.home_rules[url_domain]['valid_login']
+                    self.home_rules[_crawl_type][url_domain]['valid_login']
                 )
                 if login_valid.__len__() == 0:
-                    self.wrapSeleniumDriver.get_html(self.home_rules[url_domain]['url_login'])
+                    self.wrapSeleniumDriver.get_html(self.home_rules[_crawl_type][url_domain]['url_login'])
                     try:
-                        if self.home_rules[url_domain]['require_script'] is not None:
-                            self.wrapSeleniumDriver.execute_script(self.home_rules[url_domain]['require_script'])
+                        if self.home_rules[_crawl_type][url_domain]['require_script'] is not None:
+                            self.wrapSeleniumDriver.execute_script(
+                                self.home_rules[_crawl_type][url_domain]['require_script']
+                            )
                     except:
                         raise Exception("can't excute require script")
 
                     self.wrapSeleniumDriver.driver.execute_script(
                         "document.getElementsByName('{}')[0].value = '{}';".format(
-                            self.home_rules[url_domain]['input_username'],
-                            self.home_rules[url_domain]['username']
+                            self.home_rules[_crawl_type][url_domain]['input_username'],
+                            self.home_rules[_crawl_type][url_domain]['username']
                         )
                     )
                     self.wrapSeleniumDriver.driver.execute_script(
                         "document.getElementsByName('{}')[0].value = '{}';".format(
-                            self.home_rules[url_domain]['input_password'],
-                            self.home_rules[url_domain]['password']
+                            self.home_rules[_crawl_type][url_domain]['input_password'],
+                            self.home_rules[_crawl_type][url_domain]['password']
                         )
                     )
 
-                    if 'script_submit' in self.home_rules[url_domain]:
+                    if 'script_submit' in self.home_rules[_crawl_type][url_domain]:
                         try:
                             self.wrapSeleniumDriver.execute_script(
-                                self.home_rules[url_domain]['script_submit']
+                                self.home_rules[_crawl_type][url_domain]['script_submit']
                             )
-                            time.sleep(7)
+                            time.sleep(2)
                         except Exception as ex:
                             raise Exception('Cant found login button: {}'.format(ex))
                     else:
@@ -189,15 +196,13 @@ class UniversalExtractService:
                 url_domain = url.split('/')[2]
                 logger.info('Processing ' + str(url))
 
-                self.login(url_domain)
+                self.login(url_domain, msg['type'])
                 self.set_page(url)
 
                 if self.domain not in self.dict_rules[msg['type']]:
                     continue
-                rule = self.dict_rules[msg['type']][self.domain]
 
-                time.sleep(5)
-                if not self.get_page(rule):
+                if not self.get_page(url_domain, msg['type']):
                     continue
 
                 if config.crawl_type == 'candidate' and url_domain == 'muaban.net':
@@ -209,7 +214,7 @@ class UniversalExtractService:
                         print(ex)
 
                 # send rule
-                dbfield = self.wrapSeleniumDriver.scrape_elements(rule=rule)
+                dbfield = self.wrapSeleniumDriver.scrape_elements(rule=self.dict_rules[msg['type']][self.domain])
 
                 if dbfield is None:
                     continue
@@ -230,10 +235,7 @@ class UniversalExtractService:
                     # result['images'] = self.get_image(msg['type'])
                     result['link'] = url
 
-                    if msg['type'] == 'job':
-                        result = normalize_job_crawler(result)
-                    elif msg['type'] == 'candidate':
-                        result = normalize_candidate_crawler(result)
+                    result = self.normalizer[msg['type']].normalize(result)
 
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
@@ -258,12 +260,12 @@ class UniversalExtractService:
                 except:
                     logger.error('Cannot get line error - Error{}'.format(ex))
 
-    def get_page(self, rule):
+    def get_page(self, _url_domain, _crawl_type):
         if not self.url:
             raise ConnectionAbortedError("Page does not exist!", self.url)
 
         try:
-            self.wrapSeleniumDriver.use_selenium(rule['selenium'])
+            self.wrapSeleniumDriver.use_selenium(self.home_rules[_crawl_type][_url_domain]['selenium'])
             self.wrapSeleniumDriver.get(self.url)
         except:
             return False

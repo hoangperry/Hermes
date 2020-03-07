@@ -73,7 +73,6 @@ if __name__ == "__main__":
                 kafka_object_producer=object_producer,
                 object_topic=config.crawl_type + '_' + config.kafka_object_topic,
                 resume_step=config.resume_step,
-                crawl_type=config.crawl_type,
                 restart_selenium_step=config.restart_selenium_step,
                 download_images=config.download_images,
                 db_connection=db_service,
