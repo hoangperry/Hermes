@@ -196,10 +196,13 @@ class UniversalExtractService:
                 url_domain = url.split('/')[2]
                 logger.info('Processing ' + str(url))
 
+                if self.domain in config.ignore_list[msg['type']]:
+                    continue
+
                 self.login(url_domain, msg['type'])
                 self.set_page(url)
 
-                if self.domain not in self.dict_rules[msg['type']] or self.domain in ['worklink.vn']:
+                if self.domain not in self.dict_rules[msg['type']]:
                     continue
 
                 if not self.get_page(url_domain, msg['type']):
@@ -233,9 +236,9 @@ class UniversalExtractService:
                         # result['salary'] = salary.find_element_by_css_selector('label').text
 
                     # result['images'] = self.get_image(msg['type'])
-                    result['link'] = url
 
                     result = self.normalizer[msg['type']].run_normalize(result)
+                    result['url'] = url
 
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))

@@ -192,4 +192,18 @@ def create_environments():
         'candidate',
         'job',
     ]
+
+    configs['ignore_list'] = {
+        'candidate': [
+            'facebook.com',
+            'worklink.vn'
+        ],
+        'bds': [
+            'facebook.com',
+        ],
+        'job': [
+            'facebook.com',
+        ],
+    }
+
     return ConfigDict(configs)

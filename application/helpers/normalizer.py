@@ -457,7 +457,7 @@ class BdsNormalizer:
         self.bds_dict = dict()
         self.list_field = list(set([
             i
-            for domain in json.loads(redis_connection.get('candidate_rules')).values()
+            for domain in json.loads(redis_connection.get('bds_rules')).values()
             for i in domain
         ]))
 
