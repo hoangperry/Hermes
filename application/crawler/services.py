@@ -199,7 +199,7 @@ class UniversalExtractService:
                 self.login(url_domain, msg['type'])
                 self.set_page(url)
 
-                if self.domain not in self.dict_rules[msg['type']]:
+                if self.domain not in self.dict_rules[msg['type']] or self.domain in ['worklink.vn']:
                     continue
 
                 if not self.get_page(url_domain, msg['type']):
@@ -235,7 +235,7 @@ class UniversalExtractService:
                     # result['images'] = self.get_image(msg['type'])
                     result['link'] = url
 
-                    result = self.normalizer[msg['type']].normalize(result)
+                    result = self.normalizer[msg['type']].run_normalize(result)
 
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
