@@ -207,7 +207,7 @@ class JobNormalizer:
             other_info = None
         return other_info
 
-    def normalize(self, job_dict):
+    def run_normalize(self, job_dict):
         try:
             self.job_dict = job_dict
             n_salary, currency_unit = self.normalize_salary()
@@ -245,18 +245,207 @@ class JobNormalizer:
 class CandidateNormalizer:
     def __init__(self, redis_connection):
         self.candidate_dict = dict()
+        self.normalizable = {
+            method_name: getattr(self, method_name) for method_name in dir(self)
+            if callable(getattr(self, method_name)) and method_name.startswith('normalize_candidate')
+        }
+        self.redis_connection = redis_connection
         self.list_field = list(set([
             i
             for domain in json.loads(redis_connection.get('candidate_rules')).values()
             for i in domain
         ]))
 
-    def normalize(self, candidate_dict):
+    @staticmethod
+    def clean_text(_text):
+        if _text is None:
+            return ''
+        _text = re.sub(r'\n+', '\n', _text)
+        _text = re.sub(r'\s+', ' ', _text)
+        return _text.strip()
+
+    def normalize_candidate_title(self):
+        _title = self.candidate_dict['title']
+        _title = self.clean_text(_title)
+
+        return _title
+
+    def normalize_candidate_name(self):
+        _name = self.candidate_dict['name']
+        _name = self.clean_text(_name)
+
+        return _name
+
+    def normalize_candidate_expected_salary(self):
+        _expected_salary = self.candidate_dict['expected_salary']
+        _expected_salary = self.clean_text(_expected_salary)
+
+        return _expected_salary
+
+    def normalize_candidate_expected_location(self):
+        _expected_location = self.candidate_dict['expected_location']
+        _expected_location = self.clean_text(_expected_location)
+
+        return _expected_location
+
+    def normalize_candidate_date_created(self):
+        _date_created = self.candidate_dict['date_created']
+        _date_created = self.clean_text(_date_created)
+
+        return _date_created
+
+    def normalize_candidate_phone_number(self):
+        _phone_number = self.candidate_dict['phone_number']
+        _phone_number = self.clean_text(_phone_number)
+
+        return _phone_number
+
+    def normalize_candidate_info(self):
+        _info = self.candidate_dict['info']
+        _info = self.clean_text(_info)
+
+        return _info
+
+    def normalize_candidate_url(self):
+        _url = self.candidate_dict['url']
+        _url = self.clean_text(_url)
+
+        return _url
+
+    def normalize_candidate_payment_forms(self):
+        _payment_forms = self.candidate_dict['payment_forms']
+        _payment_forms = self.clean_text(_payment_forms)
+
+        return _payment_forms
+
+    def normalize_candidate_type_of_employment(self):
+        _type_of_employment = self.candidate_dict['type_of_employment']
+        _type_of_employment = self.clean_text(_type_of_employment)
+
+        return _type_of_employment
+
+    def normalize_candidate_experience(self):
+        _experience = self.candidate_dict['experience']
+        _experience = self.clean_text(_experience)
+
+        return _experience
+
+    def normalize_candidate_age(self):
+        _age = self.candidate_dict['age']
+        _age = self.clean_text(_age)
+
+        return _age
+
+    def normalize_candidate_gender(self):
+        _gender = self.candidate_dict['gender']
+        _gender = self.clean_text(_gender)
+
+        return _gender
+
+    def normalize_candidate_email(self):
+        _email = self.candidate_dict['email']
+        _email = self.clean_text(_email)
+
+        return _email
+
+    def normalize_candidate_academic_level(self):
+        _academic_level = self.candidate_dict['academic_level']
+        _academic_level = self.clean_text(_academic_level)
+
+        return _academic_level
+
+    def normalize_candidate_major(self):
+        _major = self.candidate_dict['major']
+        _major = self.clean_text(_major)
+
+        return _major
+
+    def normalize_candidate_school(self):
+        _school = self.candidate_dict['school']
+        _school = self.clean_text(_school)
+
+        return _school
+
+    def normalize_candidate_language(self):
+        _language = self.candidate_dict['language']
+        _language = self.clean_text(_language)
+
+        return _language
+
+    def normalize_candidate_computer_skill(self):
+        _computer_skill = self.candidate_dict['computer_skill']
+        _computer_skill = self.clean_text(_computer_skill)
+
+        return _computer_skill
+
+    def normalize_candidate_degree_certificate(self):
+        _degree_certificate = self.candidate_dict['degree_certificate']
+        _degree_certificate = self.clean_text(_degree_certificate)
+
+        return _degree_certificate
+
+    def normalize_candidate_year_of_experience(self):
+        _year_of_experience = self.candidate_dict['year_of_experience']
+        _year_of_experience = self.clean_text(_year_of_experience)
+
+        return _year_of_experience
+
+    def normalize_candidate_other_skill(self):
+        _other_skill = self.candidate_dict['other_skill']
+        _other_skill = self.clean_text(_other_skill)
+
+        return _other_skill
+
+    def normalize_candidate_expected_work(self):
+        _expected_work = self.candidate_dict['expected_work']
+        _expected_work = self.clean_text(_expected_work)
+
+        return _expected_work
+
+    def normalize_candidate_expected_level(self):
+        _expected_level = self.candidate_dict['expected_level']
+        _expected_level = self.clean_text(_expected_level)
+
+        return _expected_level
+
+    def normalize_candidate_expected_career(self):
+        _expected_career = self.candidate_dict['expected_career']
+        _expected_career = self.clean_text(_expected_career)
+
+        return _expected_career
+
+    def normalize_candidate_expected_goals(self):
+        _expected_goals = self.candidate_dict['expected_goals']
+        _expected_goals = self.clean_text(_expected_goals)
+
+        return _expected_goals
+
+    def normalize_candidate_birthday(self):
+        _birthday = self.candidate_dict['birthday']
+        _birthday = self.clean_text(_birthday)
+
+        return _birthday
+
+    def normalize_candidate_marital_status(self):
+        _marital_status = self.candidate_dict['marital_status']
+        _marital_status = self.clean_text(_marital_status)
+
+        return _marital_status
+
+    def normalize_candidate_career(self):
+        _career = self.candidate_dict['career']
+        _career = self.clean_text(_career)
+
+        return _career
+
+    def run_normalize(self, candidate_dict):
         self.candidate_dict = candidate_dict
         ret_dict = dict()
         for _field in self.list_field:
             if _field not in self.candidate_dict:
                 ret_dict[_field] = ''
+            elif 'normalize_candidate_' + _field in self.normalizable:
+                ret_dict[_field] = self.normalizable['normalize_candidate_' + _field]()
             else:
                 ret_dict[_field] = self.candidate_dict[_field]
 
@@ -268,11 +457,11 @@ class BdsNormalizer:
         self.bds_dict = dict()
         self.list_field = list(set([
             i
-            for domain in json.loads(redis_connection.get('candidate_rules')).values()
+            for domain in json.loads(redis_connection.get('bds_rules')).values()
             for i in domain
         ]))
 
-    def normalize(self, bds_dict):
+    def run_normalize(self, bds_dict):
         self.bds_dict = bds_dict
 
         return self. bds_dict
