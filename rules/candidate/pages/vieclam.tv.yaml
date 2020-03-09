@@ -1,5 +1,5 @@
 name: div.dk-info.uv-chitiet tr:nth-of-type(1) td:nth-last-of-type(1)
-email: div.dk-info.uv-chitiet tr:nth-of-type(2) td:nth-last-of-type(1)
+birthday: div.dk-info.uv-chitiet tr:nth-of-type(2) td:nth-last-of-type(1)
 gender: div.dk-info.uv-chitiet tr:nth-of-type(3) td:nth-last-of-type(1)
 academic_level: div.viecchitiet table.view-rutgon tr.postd4:nth-of-type(1) td.br-L
 major: div.viecchitiet table.view-rutgon tr.postd4:nth-of-type(2) td.br-L
@@ -17,5 +17,5 @@ type_of_employment: div#main-left div:nth-of-type(12) tr:nth-of-type(4) td:nth-o
 expected_location: div#main-left div:nth-of-type(12) tr:nth-of-type(5) td:nth-of-type(2)
 expected_salary: div#main-left div:nth-of-type(12) tr:nth-of-type(6) td:nth-of-type(2)
 expected_goals: div#main-left div:nth-of-type(12) tr:nth-of-type(7) td:nth-of-type(2)
-phone_number: div#main-left div:nth-of-type(17) tr:nth-of-type(2) td:nth-of-type(2)
-birthday: div#main-left div:nth-of-type(17) tr:nth-of-type(3) td:nth-of-type(2)
+email: div#main-left div:nth-of-type(17) tr:nth-of-type(2) td:nth-of-type(2)
+phone_number: div#main-left div:nth-of-type(17) tr:nth-of-type(3) td:nth-of-type(2)

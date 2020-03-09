@@ -186,26 +186,32 @@ class UniversalExtractService:
                 resume_step += 1
                 if resume_step % self.resume_step == 0:
                     logger.info("Restart rules")
-                    self.dict_rules = _get_rules(redis_connect=self.redis_connect)
+                    self.dict_rules, _ = _get_rules(redis_connect=self.redis_connect)
                     resume_step = 0
 
                 msg = msg.value
+
                 if msg is None:
-                    pass
+                    logger.info('Message from kafka is NULL >> SKIP')
+                    continue
+
                 url = msg['link']
                 url_domain = url.split('/')[2]
                 logger.info('Processing ' + str(url))
 
-                if self.domain in config.ignore_list[msg['type']]:
+                if url_domain in config.ignore_list[msg['type']]:
+                    logger.info('{} is in ignore list >> SKIP'.format(url_domain))
                     continue
 
                 self.login(url_domain, msg['type'])
                 self.set_page(url)
 
                 if self.domain not in self.dict_rules[msg['type']]:
+                    logger.info('Rule for {} is not exist >> SKIP'.format(self.domain))
                     continue
 
                 if not self.get_page(url_domain, msg['type']):
+                    logger.info('cannot get page >> SKIP')
                     continue
 
                 if config.crawl_type == 'candidate' and url_domain == 'muaban.net':
@@ -214,20 +220,21 @@ class UniversalExtractService:
                             "document.querySelector('div.user-info__content div.mobile-container__value a').click();"
                         )
                     except Exception as ex:
-                        print(ex)
+                        logger.error(ex)
 
                 # send rule
                 dbfield = self.wrapSeleniumDriver.scrape_elements(rule=self.dict_rules[msg['type']][self.domain])
 
                 if dbfield is None:
+                    logger.info('Cannot get any field >> SKIP')
                     continue
                 else:
-                    # result = self.normalize_data(dbfield)
                     result = self.extract_fields(dbfield)
                     result = optimize_dict(result)
                     if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
+                        logger.info('Too few field >> SKIP')
                         continue
-                    # add url>
+
                     result['url'] = url
 
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
