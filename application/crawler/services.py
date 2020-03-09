@@ -26,24 +26,16 @@ def _get_rules(redis_connect):
 
 
 class UniversalExtractService:
-    def __init__(self, selenium_driver_path, redis_connect,
-                 kafka_consumer_bsd_link, kafka_object_producer,
-                 object_topic, resume_step, restart_selenium_step,
-                 download_images=False, db_connection=None, db_engine='postgresql'):
-
-        self.wrapSeleniumDriver = scrapping.WebDriverWrapper(selenium_driver_path)
+    def __init__(self, _config, redis_connect, kafka_consumer_bsd_link, db_connection=None):
+        self.selenium_driver_path = _config.driver_path
+        self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path)
         self.headless = True
-        self.selenium_driver_path = selenium_driver_path
         self.redis_connect = redis_connect
         self.url = None
         self.domain = None
         self.kafka_consumer_bsd_link = kafka_consumer_bsd_link
-        self.object_topic = object_topic
-        self.kafka_object_producer = kafka_object_producer
-        self.resume_step = resume_step
+        self.resume_step = _config.resume_step
         self.dict_rules, self.home_rules = _get_rules(redis_connect=self.redis_connect)
-        self.restart_selenium_step = restart_selenium_step
-        self.download_images = download_images
         self.normalizer = {
             'job': JobNormalizer(self.redis_connect),
             'candidate': CandidateNormalizer(self.redis_connect),
@@ -53,7 +45,7 @@ class UniversalExtractService:
             raise ConnectionError
 
         self.db_connection = db_connection
-        self.db_engine = db_engine
+        self.db_engine = _config.database_engine
 
     def set_page(self, url):
         self.url = url
@@ -231,9 +223,10 @@ class UniversalExtractService:
                 else:
                     result = self.extract_fields(dbfield)
                     result = optimize_dict(result)
-                    if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
-                        logger.info('Too few field >> SKIP')
-                        continue
+
+                    # if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
+                    #     logger.info('Too few field >> SKIP')
+                    #     continue
 
                     result['url'] = url
 
@@ -245,8 +238,6 @@ class UniversalExtractService:
                     # result['images'] = self.get_image(msg['type'])
 
                     result = self.normalizer[msg['type']].run_normalize(result)
-                    result['url'] = url
-
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
                     elif self.db_engine == 'mongodb':

@@ -1,6 +1,6 @@
+import json
 import re
 import sys
-import json
 import datetime
 from application.helpers.logger import get_logger
 
@@ -376,7 +376,7 @@ class CandidateNormalizer:
     def normalize_candidate_date_created(self):
         if self.candidate_dict['date_created'] is None:
             return None
-        _date_created = self.candidate_dict['birthday']
+        _date_created = self.candidate_dict['date_created']
         _date_created = self.clean_text(_date_created)
         match = re.findall(r'^\d{1,2}/\d{1,2}/\d{2,4}$', _date_created)
 
@@ -388,7 +388,7 @@ class CandidateNormalizer:
                     int(date_time_splited[-2]),
                     int(date_time_splited[-3])
                 )
-                return ret_date
+                return ret_date.strftime('%d-%b-%Y')
             except:
                 return None
 
@@ -540,23 +540,26 @@ class CandidateNormalizer:
         return _expected_goals
 
     def normalize_candidate_birthday(self):
-        _birthday = self.candidate_dict['birthday']
-        _birthday = self.clean_text(_birthday)
-        match = re.findall(r'^\d{1,2}/\d{1,2}/\d{2,4}$', _birthday)
+        try:
+            # print(self.candidate_dict['birthday'])
+            _birthday = self.candidate_dict['birthday']
+            _birthday = self.clean_text(_birthday)
+            match = re.findall(r'^\d{1,2}/\d{1,2}/\d{2,4}$', _birthday)
 
-        if match:
-            try:
-                date_time_splited = match[0].split('/')
-                ret_date = datetime.date(
-                    int(date_time_splited[-1]),
-                    int(date_time_splited[-2]),
-                    int(date_time_splited[-3])
-                )
-                return ret_date
-            except:
-                return None
-
-        return None
+            if match:
+                try:
+                    date_time_splited = match[0].split('/')
+                    ret_date = datetime.date(
+                        int(date_time_splited[-1]),
+                        int(date_time_splited[-2]),
+                        int(date_time_splited[-3])
+                    )
+                    return ret_date.strftime('%d-%b-%Y')
+                except:
+                    return None
+            return None
+        except:
+            return None
 
     def normalize_candidate_marital_status(self):
         _marital_status = self.candidate_dict['marital_status']
@@ -586,16 +589,25 @@ class CandidateNormalizer:
             ret_dict['currency_unit'] = ret_dict['expected_salary']['currency_unit']
             ret_dict['salary_normalized'] = ret_dict['expected_salary']['salary_normalized']
             ret_dict['expected_salary'] = candidate_dict['expected_salary']
-
-            ret_dict['salary_value'] = map(
-                lambda x: x * self.exchange_rate[ret_dict['currency_unit']]
-                if x * self.exchange_rate[ret_dict['currency_unit']] else -1,
-                ret_dict['salary_normalized']
-            )
+            if ret_dict['currency_unit'] != -1:
+                ret_dict['salary_value'] = list(map(
+                    lambda x: (
+                        x * self.exchange_rate[
+                            ret_dict['currency_unit']
+                        ] if (x * self.exchange_rate[ret_dict['currency_unit']]) > 0 else -1
+                    ), ret_dict['salary_normalized']
+                ))
+            else:
+                ret_dict['salary_value'] = [-1]
             return ret_dict
         except Exception as ex:
-            print(ex)
-            return None
+            try:
+                _, _, lineno = sys.exc_info()
+                logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+                print(candidate_dict)
+            except:
+                logger.error('Cannot get line error - Error{}'.format(ex))
+            raise ex
 
 
 class BdsNormalizer:
@@ -610,4 +622,4 @@ class BdsNormalizer:
     def run_normalize(self, bds_dict):
         self.bds_dict = bds_dict
 
-        return self. bds_dict
+        return self.bds_dict
