@@ -67,16 +67,10 @@ if __name__ == "__main__":
         try:
             logger.info("Initial and Start Scraper")
             real_estate_scraper = UniversalExtractService(
-                selenium_driver_path=config.driver_path,
+                _config=config,
                 redis_connect=redis_connect,
                 kafka_consumer_bsd_link=link_consumer,
-                kafka_object_producer=object_producer,
-                object_topic=config.crawl_type + '_' + config.kafka_object_topic,
-                resume_step=config.resume_step,
-                restart_selenium_step=config.restart_selenium_step,
-                download_images=config.download_images,
                 db_connection=db_service,
-                db_engine=config.database_engine
             )
             real_estate_scraper.scrape_page_streaming()
         except Exception as ex:
