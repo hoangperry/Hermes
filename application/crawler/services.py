@@ -231,9 +231,10 @@ class UniversalExtractService:
                 else:
                     result = self.extract_fields(dbfield)
                     result = optimize_dict(result)
-                    if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
-                        logger.info('Too few field >> SKIP')
-                        continue
+
+                    # if sum([0 if result[key] is None else 1 for key in result]) / result.__len__() < 0.2:
+                    #     logger.info('Too few field >> SKIP')
+                    #     continue
 
                     result['url'] = url
 
@@ -245,8 +246,6 @@ class UniversalExtractService:
                     # result['images'] = self.get_image(msg['type'])
 
                     result = self.normalizer[msg['type']].run_normalize(result)
-                    result['url'] = url
-
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
                     elif self.db_engine == 'mongodb':
