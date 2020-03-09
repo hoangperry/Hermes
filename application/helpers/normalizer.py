@@ -244,9 +244,14 @@ class JobNormalizer:
 
 class CandidateNormalizer:
     def __init__(self, redis_connection):
+        self.exchange_rate = {
+            'VND': 1,
+            'USD': 23000,
+        }
         self.candidate_dict = dict()
         self.normalizable = {
-            method_name: getattr(self, method_name) for method_name in dir(self)
+            method_name: getattr(self, method_name)
+            for method_name in dir(self)
             if callable(getattr(self, method_name)) and method_name.startswith('normalize_candidate')
         }
         self.redis_connection = redis_connection
@@ -255,6 +260,29 @@ class CandidateNormalizer:
             for domain in json.loads(redis_connection.get('candidate_rules')).values()
             for i in domain
         ]))
+        self.phone_prefix_dict = {
+            '0120': '070',
+            '0121': '079',
+            '0122': '077',
+            '0126': '076',
+            '0128': '078',
+            '0123': '083',
+            '0124': '084',
+            '0125': '085',
+            '0127': '081',
+            '0129': '082',
+            '0162': '032',
+            '0163': '033',
+            '0164': '034',
+            '0165': '035',
+            '0166': '036',
+            '0167': '037',
+            '0168': '038',
+            '0169': '039',
+            '0186': '056',
+            '0188': '058',
+            '0199': '059',
+        }
 
     @staticmethod
     def clean_text(_text):
@@ -274,13 +302,70 @@ class CandidateNormalizer:
         _name = self.candidate_dict['name']
         _name = self.clean_text(_name)
 
-        return _name
+        return _name.capitalize()
 
     def normalize_candidate_expected_salary(self):
         _expected_salary = self.candidate_dict['expected_salary']
         _expected_salary = self.clean_text(_expected_salary)
 
-        return _expected_salary
+        try:
+            if _expected_salary is None or _expected_salary == '':
+                return {
+                    'salary_normalized': [-1, -1],
+                    'currency_unit': -1
+                }
+
+            _expected_salary = re.sub(r"\s+", ' ', re.sub(r"\n+", '\n', _expected_salary.lower()))
+            _expected_salary = re.sub(r"\(.*\)", '', _expected_salary)
+
+            if not re.match(r".*\d.*", _expected_salary):
+                return {
+                    'salary_normalized': [-1, -1],
+                    'currency_unit': -1
+                }
+
+            if '-' in _expected_salary:
+                _expected_salary = [i.strip() for i in _expected_salary.split('-')]
+            else:
+                _expected_salary = [_expected_salary]
+
+            currency = 'VND'
+            for sall in range(_expected_salary.__len__()):
+                if ',' in _expected_salary[sall]:
+                    _expected_salary[sall] = _expected_salary[sall].replace(',', '')
+                elif re.match(r"\.\d{1,2} +", _expected_salary[sall]):
+                    _expected_salary[sall] = re.sub(r"\.\d{1,2} +", ' ', _expected_salary[sall])
+                else:
+                    _expected_salary[sall] = _expected_salary[sall].replace('.', '')
+
+                if re.match(r'.*triệu.*', _expected_salary[sall]):
+                    _expected_salary[sall] = re.sub(r"[^0-9]+", '', _expected_salary[sall])
+                    _expected_salary[sall] = int(_expected_salary[sall].strip()) * 1000000
+                    currency = 'VND'
+                    continue
+
+                _expected_salary[sall] = int(re.sub(r'[^0-9]', '', _expected_salary[sall]))
+                if 100 < _expected_salary[sall] < 100000:
+                    currency = 'USD'
+                elif _expected_salary[sall] < 100:
+                    _expected_salary[sall] = _expected_salary[sall] * 1000000
+            if _expected_salary.__len__() < 2:
+                _expected_salary.append(-1)
+
+            return {
+                'salary_normalized': _expected_salary,
+                'currency_unit': currency
+            }
+
+        except Exception as ex:
+            _, _, lineno = sys.exc_info()
+            try:
+                _, _, lineno = sys.exc_info()
+                print('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+            except:
+                print('Cannot get line error - Error{}'.format(ex))
+            # logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+            # raise ex
 
     def normalize_candidate_expected_location(self):
         _expected_location = self.candidate_dict['expected_location']
@@ -289,16 +374,49 @@ class CandidateNormalizer:
         return _expected_location
 
     def normalize_candidate_date_created(self):
-        _date_created = self.candidate_dict['date_created']
+        if self.candidate_dict['date_created'] is None:
+            return None
+        _date_created = self.candidate_dict['birthday']
         _date_created = self.clean_text(_date_created)
+        match = re.findall(r'^\d{1,2}/\d{1,2}/\d{2,4}$', _date_created)
 
-        return _date_created
+        if match:
+            try:
+                date_time_splited = match[0].split('/')
+                ret_date = datetime.date(
+                    int(date_time_splited[-1]),
+                    int(date_time_splited[-2]),
+                    int(date_time_splited[-3])
+                )
+                return ret_date
+            except:
+                return None
+
+        return None
 
     def normalize_candidate_phone_number(self):
-        _phone_number = self.candidate_dict['phone_number']
-        _phone_number = self.clean_text(_phone_number)
+        if self.candidate_dict['phone_number'] is None:
+            return list()
+        _phone_numbers = self.candidate_dict['phone_number']
+        _phone_numbers = self.clean_text(_phone_numbers)
+        _phone_numbers = re.sub(r'[.,-]', '', _phone_numbers)
+        _phone_numbers = re.findall(r'\d{8,}', _phone_numbers)
 
-        return _phone_number
+        for _phone in range(_phone_numbers.__len__()):
+            _phone_numbers[_phone] = re.sub(r"\D+", "", _phone_numbers[_phone])
+            _phone_numbers[_phone] = re.sub(r"(^[+]?84)", "0", _phone_numbers[_phone])
+            if _phone_numbers[_phone][0] != "0":
+                continue
+
+            _prefix = _phone_numbers[_phone][:4]
+            if _prefix in self.phone_prefix_dict:
+                _phone_numbers[_phone] = re.sub(
+                    _prefix[:4], self.phone_prefix_dict[_prefix], _phone_numbers[_phone]
+                )
+            if len(_phone_numbers[_phone]) != 10:
+                continue
+
+        return _phone_numbers
 
     def normalize_candidate_info(self):
         _info = self.candidate_dict['info']
@@ -306,23 +424,17 @@ class CandidateNormalizer:
 
         return _info
 
-    def normalize_candidate_url(self):
-        _url = self.candidate_dict['url']
-        _url = self.clean_text(_url)
-
-        return _url
-
     def normalize_candidate_payment_forms(self):
         _payment_forms = self.candidate_dict['payment_forms']
         _payment_forms = self.clean_text(_payment_forms)
 
-        return _payment_forms
+        return _payment_forms.lower()
 
     def normalize_candidate_type_of_employment(self):
         _type_of_employment = self.candidate_dict['type_of_employment']
         _type_of_employment = self.clean_text(_type_of_employment)
 
-        return _type_of_employment
+        return _type_of_employment.lower()
 
     def normalize_candidate_experience(self):
         _experience = self.candidate_dict['experience']
@@ -334,37 +446,44 @@ class CandidateNormalizer:
         _age = self.candidate_dict['age']
         _age = self.clean_text(_age)
 
-        return _age
+        if re.match(r'.*\d.*', _age):
+            _age = int(re.sub(r'([^\d])+', '', _age))
+            if _age > 100:
+                return -1
+            return _age
+
+        return -1
 
     def normalize_candidate_gender(self):
         _gender = self.candidate_dict['gender']
         _gender = self.clean_text(_gender)
-
-        return _gender
+        _gender = _gender.lower()
+        return _gender if _gender in ['nam', 'nữ'] else -1
 
     def normalize_candidate_email(self):
         _email = self.candidate_dict['email']
         _email = self.clean_text(_email)
-
-        return _email
+        if re.match(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', _email):
+            return _email
+        return -1
 
     def normalize_candidate_academic_level(self):
         _academic_level = self.candidate_dict['academic_level']
         _academic_level = self.clean_text(_academic_level)
 
-        return _academic_level
+        return _academic_level.lower()
 
     def normalize_candidate_major(self):
         _major = self.candidate_dict['major']
         _major = self.clean_text(_major)
 
-        return _major
+        return _major.lower()
 
     def normalize_candidate_school(self):
         _school = self.candidate_dict['school']
         _school = self.clean_text(_school)
 
-        return _school
+        return _school.capitalize()
 
     def normalize_candidate_language(self):
         _language = self.candidate_dict['language']
@@ -406,13 +525,13 @@ class CandidateNormalizer:
         _expected_level = self.candidate_dict['expected_level']
         _expected_level = self.clean_text(_expected_level)
 
-        return _expected_level
+        return _expected_level.lower()
 
     def normalize_candidate_expected_career(self):
         _expected_career = self.candidate_dict['expected_career']
         _expected_career = self.clean_text(_expected_career)
 
-        return _expected_career
+        return _expected_career.lower()
 
     def normalize_candidate_expected_goals(self):
         _expected_goals = self.candidate_dict['expected_goals']
@@ -423,8 +542,21 @@ class CandidateNormalizer:
     def normalize_candidate_birthday(self):
         _birthday = self.candidate_dict['birthday']
         _birthday = self.clean_text(_birthday)
+        match = re.findall(r'^\d{1,2}/\d{1,2}/\d{2,4}$', _birthday)
 
-        return _birthday
+        if match:
+            try:
+                date_time_splited = match[0].split('/')
+                ret_date = datetime.date(
+                    int(date_time_splited[-1]),
+                    int(date_time_splited[-2]),
+                    int(date_time_splited[-3])
+                )
+                return ret_date
+            except:
+                return None
+
+        return None
 
     def normalize_candidate_marital_status(self):
         _marital_status = self.candidate_dict['marital_status']
@@ -439,17 +571,31 @@ class CandidateNormalizer:
         return _career
 
     def run_normalize(self, candidate_dict):
-        self.candidate_dict = candidate_dict
-        ret_dict = dict()
-        for _field in self.list_field:
-            if _field not in self.candidate_dict:
-                ret_dict[_field] = ''
-            elif 'normalize_candidate_' + _field in self.normalizable:
-                ret_dict[_field] = self.normalizable['normalize_candidate_' + _field]()
-            else:
-                ret_dict[_field] = self.candidate_dict[_field]
+        try:
+            self.candidate_dict = candidate_dict
+            ret_dict = {'url': candidate_dict['url']} if 'url' in candidate_dict else {'url': ''}
 
-        return ret_dict
+            for _field in self.list_field:
+                if _field not in self.candidate_dict:
+                    ret_dict[_field] = ''
+                elif 'normalize_candidate_' + _field in self.normalizable:
+                    ret_dict[_field] = self.normalizable['normalize_candidate_' + _field]()
+                else:
+                    ret_dict[_field] = self.candidate_dict[_field]
+
+            ret_dict['currency_unit'] = ret_dict['expected_salary']['currency_unit']
+            ret_dict['salary_normalized'] = ret_dict['expected_salary']['salary_normalized']
+            ret_dict['expected_salary'] = candidate_dict['expected_salary']
+
+            ret_dict['salary_value'] = map(
+                lambda x: x * self.exchange_rate[ret_dict['currency_unit']]
+                if x * self.exchange_rate[ret_dict['currency_unit']] else -1,
+                ret_dict['salary_normalized']
+            )
+            return ret_dict
+        except Exception as ex:
+            print(ex)
+            return None
 
 
 class BdsNormalizer:
