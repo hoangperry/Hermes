@@ -23,15 +23,15 @@ context = ssl._create_unverified_context()
 logger = get_logger('Scraping', logger_name=__name__)
 
 
-def get_list_proxy():
-    return [
-        [
-            'http://kinnt93:147828@{}'.format(line.strip()),
-            'https://kinnt93:147828@{}'.format(line.strip())
-        ]
-        for line in
-        open('proxies.txt', mode='r').readlines()
-    ]
+# def get_list_proxy():
+#     return [
+#         [
+#             'http://kinnt93:147828@{}'.format(line.strip()),
+#             'https://kinnt93:147828@{}'.format(line.strip())
+#         ]
+#         for line in
+#         open('proxies.txt', mode='r').readlines()
+#     ]
 
 
 class WebDriverWrapper:
@@ -55,7 +55,7 @@ class WebDriverWrapper:
 
         if disable_gpu:
             options.add_argument('--disable-gpu')
-        list_proxy = random.choice(get_list_proxy())
+        # list_proxy = random.choice(get_list_proxy())
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-setuid-sandbox')
         options.add_argument("--disable-extensions")
