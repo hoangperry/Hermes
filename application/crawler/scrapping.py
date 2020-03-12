@@ -62,12 +62,12 @@ class WebDriverWrapper:
         options.add_argument('--disable-dev-shm-usage')
         # options.add_experimental_option("detach", True)
         options.add_experimental_option("prefs", prefs)
-        selenium_wire_option = {
-            'proxy': {
-                'http': list_proxy[0],
-                'https': list_proxy[1],
-            },
-        }
+        # selenium_wire_option = {
+        #     'proxy': {
+        #         'http': list_proxy[0],
+        #         'https': list_proxy[1],
+        #     },
+        # }
         # add execute path and option into driver
         self.executable_path = executable_path
         self.options = options
