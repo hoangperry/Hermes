@@ -234,13 +234,12 @@ class JobNormalizer:
             contact = None
         return contact
 
-    @property
     def normalize_job_other_info(self):
         other_info = self.clean_text(self.job_dict['other_info'])
         if other_info == '':
             other_info = ''
         else:
-            re.sub(r'  +', ' ', re.sub(r'\n\n+', '\n', other_info)).split('\n')
+            other_info = re.sub(r'  +', ' ', re.sub(r'\n\n+', '\n', other_info)).split('\n')
         return other_info
 
     def run_normalize(self, job_dict):
