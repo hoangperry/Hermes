@@ -5,6 +5,7 @@ import json
 import time
 import redis
 import kafka
+from pyvirtualdisplay import Display
 from selenium.webdriver.support.ui import Select
 from application.helpers.logger import get_logger
 from application.helpers.text import encode
@@ -189,6 +190,8 @@ class LinkScraper:
 
 
 if __name__ == "__main__":
+    display = Display(visible=0, size=(800, 600))
+    display.start()
     while True:
         link_scraper = LinkScraper(config, sleep_per_step=5)
         link_scraper.run()
