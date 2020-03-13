@@ -1,6 +1,7 @@
 import kafka
 import json
 import redis
+import sys
 from pyvirtualdisplay import Display
 from application.helpers.logger import get_logger
 from application.crawler.environments import create_environments
@@ -74,4 +75,8 @@ if __name__ == "__main__":
             )
             real_estate_scraper.scrape_page_streaming()
         except Exception as ex:
-            logger.error(ex)
+            try:
+                _, _, lineno = sys.exc_info()
+                logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+            except:
+                logger.error('Cannot get line error - Error{}'.format(ex))

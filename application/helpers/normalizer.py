@@ -7,6 +7,65 @@ from application.helpers.logger import get_logger
 logger = get_logger('Normalizer', logger_name=__name__)
 
 
+def normalize_salary_range(_salary):
+    try:
+        if _salary is None or _salary == '':
+            return {
+                'salary_normalized': [-1, -1],
+                'currency_unit': -1
+            }
+
+        _salary = re.sub(r"\s+", ' ', re.sub(r"\n+", '\n', _salary.lower()))
+        _salary = re.sub(r"\(.*\)", '', _salary)
+
+        if not re.match(r".*\d.*", _salary):
+            return {
+                'salary_normalized': [-1, -1],
+                'currency_unit': -1
+            }
+
+        if '-' in _salary:
+            _salary = [i.strip() for i in _salary.split('-')]
+        else:
+            _salary = [_salary]
+
+        currency = 'VND'
+        for sall in range(_salary.__len__()):
+            if ',' in _salary[sall]:
+                _salary[sall] = _salary[sall].replace(',', '')
+            elif re.match(r"\.\d{1,2} +", _salary[sall]):
+                _salary[sall] = re.sub(r"\.\d{1,2} +", ' ', _salary[sall])
+            else:
+                _salary[sall] = _salary[sall].replace('.', '')
+
+            if re.match(r'.*triệu.*', _salary[sall]):
+                _salary[sall] = re.sub(r"[^0-9]+", '', _salary[sall])
+                _salary[sall] = int(_salary[sall].strip()) * 1000000
+                currency = 'VND'
+                continue
+
+            _salary[sall] = int(re.sub(r'[^0-9]', '', _salary[sall]))
+            if 100 < _salary[sall] < 100000:
+                currency = 'USD'
+            elif _salary[sall] < 100:
+                _salary[sall] = _salary[sall] * 1000000
+        if _salary.__len__() < 2:
+            _salary.append(-1)
+
+        return {
+            'salary_normalized': _salary,
+            'currency_unit': currency
+        }
+
+    except Exception as ex:
+        _, _, lineno = sys.exc_info()
+        try:
+            _, _, lineno = sys.exc_info()
+            print('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
+        except:
+            print('Cannot get line error - Error{}'.format(ex))
+
+
 class JobNormalizer:
     def __init__(self, redis_connection):
         self.job_dict = dict()
@@ -15,6 +74,15 @@ class JobNormalizer:
             for domain in json.loads(redis_connection.get('job_rules')).values()
             for i in domain
         ]))
+        self.exchange_rate = {
+            'VND': 1,
+            'USD': 23000,
+        }
+        self.normalizable = {
+            method_name: getattr(self, method_name)
+            for method_name in dir(self)
+            if callable(getattr(self, method_name)) and method_name.startswith('normalize_job')
+        }
 
     @staticmethod
     def clean_text(_text):
@@ -24,49 +92,14 @@ class JobNormalizer:
         _text = re.sub(r'\s+', ' ', _text)
         return _text.strip()
 
-    def normalize_salary(self):
-        try:
-            salary = self.job_dict['salary']
-            if salary is None:
-                # return -1
-                raise Exception('Invalid Salary, This record might not be job. Del this job\n')
+    def normalize_job_salary(self):
+        _salary = self.job_dict['salary']
+        return normalize_salary_range(self.clean_text(_salary))
 
-            salary = re.sub(r"\s+", ' ', re.sub(r"\n+", '\n', salary.lower()))
-            salary = re.sub(r"\(.*\)", '', salary)
-
-            if not re.match(r".*\d.*", salary):
-                return -1, -1
-
-            if '-' in salary:
-                salary = salary.split('-')[0].strip()
-
-            if ',' in salary:
-                salary = salary.replace(',', '')
-            else:
-                if re.match(r"\.\d{1,2} +", salary):
-                    salary = re.sub(r"\.\d{1,2} +", ' ', salary)
-                else:
-                    salary = salary.replace('.', '')
-
-            if re.match(r'.*triệu.*', salary):
-                salary = re.sub(r"[^0-9]+", '', salary)
-                return int(salary.strip()) * 1000000, 'VND'
-
-            salary = int(re.sub(r'[^0-9]', '', salary))
-            if salary > 100000:
-                return salary, 'VND'
-
-            return salary * 23000, 'USD'
-
-        except Exception as ex:
-            _, _, lineno = sys.exc_info()
-            logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
-            raise ex
-
-    def normalize_info(self):
+    def normalize_job_info(self):
         return self.clean_text(self.job_dict['info'])
 
-    def normalize_deadline_submit(self):
+    def normalize_job_deadline_submit(self):
         try:
             deadline_submit = self.clean_text(self.job_dict['deadline_submit'])
 
@@ -87,14 +120,14 @@ class JobNormalizer:
                 for i in date_to_compare:
                     if i > lastest_date:
                         lastest_date = i
-                return lastest_date
+                return lastest_date.strftime('%d-%b-%Y')
             return None
 
         except Exception as ex:
             print('Normalize deadline_submit ERROR - {}'.format(str(ex)))
-            return ''
+            return None
 
-    def normalize_experience(self):
+    def normalize_job_experience(self):
         experience = self.clean_text(self.job_dict['experience'])
         if ':' in experience:
             experience = experience.split(':')[-1].strip()
@@ -104,19 +137,19 @@ class JobNormalizer:
 
         return experience
 
-    def normalize_title(self):
+    def normalize_job_title(self):
         return self.clean_text(self.job_dict['title'])
 
-    def normalize_company(self):
+    def normalize_job_company(self):
         return self.clean_text(self.job_dict['company'])
 
-    def normalize_location(self):
+    def normalize_job_location(self):
         location = self.clean_text(self.job_dict['location'])
         if ':' in location:
             location = location.split(':')[-1].strip()
         return location
 
-    def normalize_degree_requirements(self):
+    def normalize_job_degree_requirements(self):
         degree_requirements = self.clean_text(self.job_dict['degree_requirements'])
         if ':' in degree_requirements:
             degree_requirements = degree_requirements.split(':')[-1].strip()
@@ -124,7 +157,7 @@ class JobNormalizer:
             degree_requirements = None
         return degree_requirements
 
-    def normalize_no_of_opening(self):
+    def normalize_job_no_of_opening(self):
         try:
             no_of_opening = self.clean_text(self.job_dict['no_of_opening'])
             if no_of_opening == '':
@@ -138,27 +171,27 @@ class JobNormalizer:
         except:
             return -1
 
-    def normalize_formality(self):
+    def normalize_job_formality(self):
         formality = self.clean_text(self.job_dict['formality'])
         if ':' in formality:
             formality = formality.split(':')[-1].strip()
         return formality
 
-    def normalize_position(self):
+    def normalize_job_position(self):
         position = self.clean_text(self.job_dict['position'])
         if ':' in position:
             position = position.split(':')[-1].strip()
         return position
 
-    def normalize_gender_requirements(self):
+    def normalize_job_gender_requirements(self):
         gender_requirements = self.clean_text(self.job_dict['gender_requirements'])
         if ':' in gender_requirements:
             gender_requirements = gender_requirements.split(':')[-1].strip()
         if gender_requirements == '':
             gender_requirements = None
-        return gender_requirements
+        return gender_requirements.lower() if gender_requirements is not None else None
 
-    def normalize_career(self):
+    def normalize_job_career(self):
         career = self.clean_text(self.job_dict['career'])
         if ':' in career:
             career = career.split(':')[-1].strip()
@@ -171,13 +204,13 @@ class JobNormalizer:
             career = None
         return career
 
-    def normalize_description(self):
+    def normalize_job_description(self):
         description = self.clean_text(self.job_dict['description'])
         if description == '':
             description = None
         return description
 
-    def normalize_benefit(self):
+    def normalize_job_benefit(self):
         benefit = self.clean_text(self.job_dict['benefit'])
         if benefit == '':
             benefit = None
@@ -189,55 +222,59 @@ class JobNormalizer:
             job_requirements = None
         return job_requirements
 
-    def normalize_profile_requirements(self):
+    def normalize_job_profile_requirements(self):
         profile_requirements = self.clean_text(self.job_dict['profile_requirements'])
         if profile_requirements == '':
             profile_requirements = None
         return profile_requirements
 
-    def normalize_contact(self):
+    def normalize_job_contact(self):
         contact = self.clean_text(self.job_dict['contact'])
         if contact == '':
             contact = None
         return contact
 
-    def normalize_other_info(self):
+    def normalize_job_other_info(self):
         other_info = self.clean_text(self.job_dict['other_info'])
         if other_info == '':
-            other_info = None
+            other_info = ''
+        else:
+            other_info = re.sub(r'  +', ' ', re.sub(r'\n\n+', '\n', other_info)).split('\n')
         return other_info
 
     def run_normalize(self, job_dict):
         try:
             self.job_dict = job_dict
-            n_salary, currency_unit = self.normalize_salary()
-            ret_dict = {
-                'title': self.job_dict['title'],
-                'salary_normalize': float(n_salary),
-                'currency_unit': currency_unit,
-                'salary': self.job_dict['salary'],
-                'url': self.job_dict['url'],
-                'company': self.normalize_company(),
-                'location': self.normalize_location(),
-                'info': self.normalize_info(),
-                'degree_requirements': self.normalize_degree_requirements(),
-                'deadline_submit': self.normalize_deadline_submit(),
-                'experience': self.normalize_experience(),
-                'no_of_opening': self.normalize_no_of_opening(),
-                'formality': self.normalize_formality(),
-                'position': self.normalize_position(),
-                'gender_requirements': self.normalize_gender_requirements(),
-                'career': self.normalize_career(),
-                'description': self.normalize_description(),
-                'benefit': self.normalize_benefit(),
-                'job_requirements': self.normalize_job_requirements(),
-                'profile_requirements': self.normalize_profile_requirements(),
-                'contact': self.normalize_contact(),
-                'other_info': self.normalize_other_info(),
-            }
+            ret_dict = {'url': job_dict['url']} if 'url' in job_dict else {'url': ''}
+
+            for _field in self.list_field:
+                if _field not in self.job_dict:
+                    ret_dict[_field] = ''
+                elif 'normalize_job_' + _field in self.normalizable:
+                    ret_dict[_field] = self.normalizable['normalize_job_' + _field]()
+                else:
+                    ret_dict[_field] = self.job_dict[_field]
+
+            ret_dict['currency_unit'] = ret_dict['salary']['currency_unit']
+            ret_dict['salary_normalized'] = ret_dict['salary']['salary_normalized']
+            ret_dict['salary_raw'] = job_dict['salary']
+            ret_dict['salary'] = list()
+
+            for _salary in ret_dict['salary_normalized']:
+                _salary_value = _salary * (
+                    self.exchange_rate[ret_dict['currency_unit']]
+                    if ret_dict['currency_unit'] != -1
+                    else 1
+                )
+                if _salary_value > 0:
+                    ret_dict['salary'].append(_salary_value)
+                else:
+                    ret_dict['salary'].append(-1)
+
             return ret_dict
         except Exception as ex:
             _, _, lineno = sys.exc_info()
+            print('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
             logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
             raise ex
 
@@ -254,7 +291,6 @@ class CandidateNormalizer:
             for method_name in dir(self)
             if callable(getattr(self, method_name)) and method_name.startswith('normalize_candidate')
         }
-        self.redis_connection = redis_connection
         self.list_field = list(set([
             i
             for domain in json.loads(redis_connection.get('candidate_rules')).values()
@@ -306,66 +342,7 @@ class CandidateNormalizer:
 
     def normalize_candidate_expected_salary(self):
         _expected_salary = self.candidate_dict['expected_salary']
-        _expected_salary = self.clean_text(_expected_salary)
-
-        try:
-            if _expected_salary is None or _expected_salary == '':
-                return {
-                    'salary_normalized': [-1, -1],
-                    'currency_unit': -1
-                }
-
-            _expected_salary = re.sub(r"\s+", ' ', re.sub(r"\n+", '\n', _expected_salary.lower()))
-            _expected_salary = re.sub(r"\(.*\)", '', _expected_salary)
-
-            if not re.match(r".*\d.*", _expected_salary):
-                return {
-                    'salary_normalized': [-1, -1],
-                    'currency_unit': -1
-                }
-
-            if '-' in _expected_salary:
-                _expected_salary = [i.strip() for i in _expected_salary.split('-')]
-            else:
-                _expected_salary = [_expected_salary]
-
-            currency = 'VND'
-            for sall in range(_expected_salary.__len__()):
-                if ',' in _expected_salary[sall]:
-                    _expected_salary[sall] = _expected_salary[sall].replace(',', '')
-                elif re.match(r"\.\d{1,2} +", _expected_salary[sall]):
-                    _expected_salary[sall] = re.sub(r"\.\d{1,2} +", ' ', _expected_salary[sall])
-                else:
-                    _expected_salary[sall] = _expected_salary[sall].replace('.', '')
-
-                if re.match(r'.*triệu.*', _expected_salary[sall]):
-                    _expected_salary[sall] = re.sub(r"[^0-9]+", '', _expected_salary[sall])
-                    _expected_salary[sall] = int(_expected_salary[sall].strip()) * 1000000
-                    currency = 'VND'
-                    continue
-
-                _expected_salary[sall] = int(re.sub(r'[^0-9]', '', _expected_salary[sall]))
-                if 100 < _expected_salary[sall] < 100000:
-                    currency = 'USD'
-                elif _expected_salary[sall] < 100:
-                    _expected_salary[sall] = _expected_salary[sall] * 1000000
-            if _expected_salary.__len__() < 2:
-                _expected_salary.append(-1)
-
-            return {
-                'salary_normalized': _expected_salary,
-                'currency_unit': currency
-            }
-
-        except Exception as ex:
-            _, _, lineno = sys.exc_info()
-            try:
-                _, _, lineno = sys.exc_info()
-                print('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
-            except:
-                print('Cannot get line error - Error{}'.format(ex))
-            # logger.error('Line error: {} - Error: {}'.format(lineno.tb_lineno, ex))
-            # raise ex
+        return normalize_salary_range(self.clean_text(_expected_salary))
 
     def normalize_candidate_expected_location(self):
         _expected_location = self.candidate_dict['expected_location']
@@ -588,9 +565,9 @@ class CandidateNormalizer:
 
             ret_dict['currency_unit'] = ret_dict['expected_salary']['currency_unit']
             ret_dict['salary_normalized'] = ret_dict['expected_salary']['salary_normalized']
-            ret_dict['expected_salary'] = candidate_dict['expected_salary']
+            ret_dict['expected_salary_raw'] = candidate_dict['expected_salary']
             if ret_dict['currency_unit'] != -1:
-                ret_dict['salary_value'] = list(map(
+                ret_dict['salary'] = list(map(
                     lambda x: (
                         x * self.exchange_rate[
                             ret_dict['currency_unit']

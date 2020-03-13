@@ -68,33 +68,33 @@ class UniversalExtractService:
     @staticmethod
     def create_pg_record_to_db(result):
         model = DatabaseModel()
-        if config.crawl_type == 'job':
-            model.data = result
-            model.currency_unit = result['currency_unit']
-            model.title = result['title']
-            model.salary = result['salary']
-            model.salary_normalize = result['salary_normalize']
-            model.url = result['url']
-            model.company = result['company']
-            model.location = result['location']
-            model.info = result['info']
-            model.degree_requirements = result['degree_requirements']
-            model.deadline_submit = result['deadline_submit']
-            model.experience = result['experience']
-            model.no_of_opening = result['no_of_opening']
-            model.formality = result['formality']
-            model.position = result['position']
-            model.gender_requirements = result['gender_requirements']
-            model.career = result['career']
-            model.description = result['description']
-            model.benefit = result['benefit']
-            model.job_requirements = result['job_requirements']
-            model.profile_requirements = result['profile_requirements']
-            model.contact = result['contact']
-            model.other_info = result['other_info']
-        else:
-            model.data = result
-
+        # if config.crawl_type == 'job':
+        #     model.data = result
+        #     model.currency_unit = result['currency_unit']
+        #     model.title = result['title']
+        #     model.salary = result['salary']
+        #     model.salary_normalize = result['salary_normalize']
+        #     model.url = result['url']
+        #     model.company = result['company']
+        #     model.location = result['location']
+        #     model.info = result['info']
+        #     model.degree_requirements = result['degree_requirements']
+        #     model.deadline_submit = result['deadline_submit']
+        #     model.experience = result['experience']
+        #     model.no_of_opening = result['no_of_opening']
+        #     model.formality = result['formality']
+        #     model.position = result['position']
+        #     model.gender_requirements = result['gender_requirements']
+        #     model.career = result['career']
+        #     model.description = result['description']
+        #     model.benefit = result['benefit']
+        #     model.job_requirements = result['job_requirements']
+        #     model.profile_requirements = result['profile_requirements']
+        #     model.contact = result['contact']
+        #     model.other_info = result['other_info']
+        # else:
+        #     model.data = result
+        model.data = result
         return model
 
     def login(self, url_domain, _crawl_type):
