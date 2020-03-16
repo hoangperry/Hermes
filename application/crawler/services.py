@@ -236,8 +236,11 @@ class UniversalExtractService:
                         # result['salary'] = salary.find_element_by_css_selector('label').text
 
                     # result['images'] = self.get_image(msg['type'])
-
                     result = self.normalizer[msg['type']].run_normalize(result)
+                    if config.crawl_type == 'candidate':
+                        if result['name'] == '' or result['salary_normalized'][0] > 400000000:
+                            continue
+
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
                     elif self.db_engine == 'mongodb':
@@ -287,5 +290,5 @@ class UniversalExtractService:
         return dbfields
 
     def clear_url_data(self):
-        self.url = None,
+        self.url = None
         self.domain = None

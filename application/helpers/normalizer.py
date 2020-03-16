@@ -567,7 +567,7 @@ class CandidateNormalizer:
             ret_dict['salary_normalized'] = ret_dict['expected_salary']['salary_normalized']
             ret_dict['expected_salary_raw'] = candidate_dict['expected_salary']
             if ret_dict['currency_unit'] != -1:
-                ret_dict['salary'] = list(map(
+                ret_dict['expected_salary'] = list(map(
                     lambda x: (
                         x * self.exchange_rate[
                             ret_dict['currency_unit']
