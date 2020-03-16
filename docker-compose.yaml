@@ -18,9 +18,9 @@ services:
       context: .
       dockerfile: docker/DockerfileGetlink
     networks: 
-    #   - crawler_net
-      NETWORK:
-        external: true
+       - host
+#      NETWORK:
+#        external: true
     restart: always
     scale: 1
 
@@ -41,9 +41,7 @@ services:
       context: .
       dockerfile: docker/DockerfileScraper
     networks: 
-      # - crawler_net
-      NETWORK:
-        external: true
+       - host
     restart: always
     scale: 2
 
