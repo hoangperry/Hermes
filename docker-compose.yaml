@@ -3,88 +3,88 @@ version: '2.4'
 services:
   crawler_getlink:
     container_name: crawler_getlink 
-    environment:
-      KAFKA_HOSTS_DEFAULT: "kafka-server:9092"
-      REDIS_HOST_DEFAULT: "crawler-redis"
-      REDIS_PORT_DEFAULT: "6379"
-      PG_HOST_DEFAULT: "crawler-postgres"
-      PG_PORT_DEFAULT: "5432"
-      PG_USER_DEFAULT: hoang
-      PG_PASSWORD_DEFAULT: "4983"
-      DATABASE_ENGINE_DEFAULT: "postgresql"
-      CRAWL_TYPE_DEFAULT: candidate
+    # environment:
+    #   KAFKA_HOSTS_DEFAULT: "kafka_server:9092"
+    #   REDIS_HOST_DEFAULT: "crawler_redis"
+    #   REDIS_PORT_DEFAULT: "6379"
+    #   PG_HOST_DEFAULT: "crawler_postgres"
+    #   PG_PORT_DEFAULT: "5432"
+    #   PG_USER_DEFAULT: hoang
+    #   PG_PASSWORD_DEFAULT: "4983"
+    #   DATABASE_ENGINE_DEFAULT: "postgresql"
+    #   CRAWL_TYPE_DEFAULT: candidate
 
     build:
       context: .
       dockerfile: docker/DockerfileGetlink
-    networks: 
-      - crawler-net
+    # networks: 
+    #   - crawler_net
     restart: always
-    scale: 2
+    scale: 1
 
   crawler_scraper:
     container_name: crawler_scraper
-    environment:
-      KAFKA_HOSTS_DEFAULT: "kafka-server:9092"
-      REDIS_HOST_DEFAULT: "crawler-redis"
-      REDIS_PORT_DEFAULT: "6379"
-      PG_HOST_DEFAULT: "crawler-postgres"
-      PG_PORT_DEFAULT: "5432"
-      PG_USER_DEFAULT: hoang
-      PG_PASSWORD_DEFAULT: "4983"
-      DATABASE_ENGINE_DEFAULT: "postgresql"
-      CRAWL_TYPE_DEFAULT: candidate
+    # environment:
+      # KAFKA_HOSTS_DEFAULT: "kafka_server:9092"
+      # REDIS_HOST_DEFAULT: "crawler_redis"
+      # REDIS_PORT_DEFAULT: "6379"
+      # PG_HOST_DEFAULT: "crawler_postgres"
+      # PG_PORT_DEFAULT: "5432"
+      # PG_USER_DEFAULT: hoang
+      # PG_PASSWORD_DEFAULT: "4983"
+      # DATABASE_ENGINE_DEFAULT: "postgresql"
+      # CRAWL_TYPE_DEFAULT: candidate
 
     build:
       context: .
       dockerfile: docker/DockerfileScraper
-    networks: 
-      - crawler-net
+    # networks: 
+    #   - crawler_net
     restart: always
-    scale: 6
+    scale: 2
 
-  crawler-postgres:
-    container_name: crawler-postgres
-    image: postgres
-    environment:
-      POSTGRES_USER: hoang
-      POSTGRES_PASSWORD: 4983
-    ports:
-      - "5432:5432"
-    networks: 
-      - crawler-net
+#   crawler_postgres:
+#     container_name: crawler_postgres
+#     image: postgres
+#     environment:
+#       POSTGRES_USER: hoang
+#       POSTGRES_PASSWORD: 4983
+#     ports:
+#       - "5432:5432"
+#     networks: 
+#       - crawler_net
 
-  crawler-redis:
-    container_name: crawler-redis
-    image: redis
-    ports:
-      - "6379:6379"
-    networks: 
-      - crawler-net
+#   crawler_redis:
+#     container_name: crawler_redis
+#     image: redis
+#     ports:
+#       - "6379:6379"
+#     networks: 
+#       - crawler_net
 
-  zookeeper-server:
-    container_name: zookeeper-server
-    image: bitnami/zookeeper:latest
-    environment:
-      ALLOW_ANONYMOUS_LOGIN: "yes"
-    ports:
-      - "2181:2181"
-    networks: 
-      - crawler-net
+#   zookeeper_server:
+#     container_name: zookeeper_server
+#     image: bitnami/zookeeper:latest
+#     environment:
+#       ALLOW_ANONYMOUS_LOGIN: "yes"
+#     ports:
+#       - "2181:2181"
+#     networks: 
+#       - crawler_net
 
-  kafka-server:
-    container_name: kafka-server
-    image: bitnami/kafka:latest
-    environment:
-      ALLOW_PLAINTEXT_LISTENER: "yes"
-      KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper-server:2181"
-      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-    ports:
-      - "9092:9092"
-    networks: 
-      - crawler-net
+#   kafka_server:
+#     container_name: kafka_server
+#     image: bitnami/kafka:latest
+#     environment:
+#       ALLOW_PLAINTEXT_LISTENER: "yes"
+#       KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper_server:2181"
+#       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#     ports:
+#       - "9092:9092"
+#     networks: 
+#       - crawler_net
 
-networks:
-  crawler-net:
-    name: crawler-net
-    driver: bridge
+# networks:
+#   crawler_net:
+#     name: crawler_net
+#     driver: bridge
