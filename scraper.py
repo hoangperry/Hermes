@@ -61,8 +61,8 @@ if __name__ == "__main__":
         raise Exception("Invalid Database ENGINE ['mongodb'|'postgresql']")
 
     logger.info("Created postgresql service")
-    # display = Display(visible=0, size=(800, 600))
-    # display.start()
+    display = Display(visible=0, size=(800, 600))
+    display.start()
     logger.info("Created virtual display")
     while True:
         try:
