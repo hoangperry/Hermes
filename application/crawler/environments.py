@@ -11,22 +11,22 @@ if DEPLOY == 'local':
     #####
     '''
     # Kafka default info
-    KAFKA_HOSTS_DEFAULT = '192.168.1.38:9092'
+    KAFKA_HOSTS_DEFAULT = '192.168.1.103:9092'
     KAFKA_USER_DEFAULT = None
     KAFKA_PASSWORD_DEFAULT = None
     KAFKA_NUM_PARTITIONS_DEFAULT = '50'
-    KAFKA_LINK_TOPIC_DEFAULT = 'links'
-    KAFKA_OBJECT_TOPIC_DEFAULT = 'objects'
+    KAFKA_LINK_TOPIC_DEFAULT = 'links_crawler'
+    KAFKA_OBJECT_TOPIC_DEFAULT = 'object_crawler'
     KAFKA_CONSUMER_GROUP_DEFAULT = 'default'
 
     # Redis default info
-    REDIS_HOST_DEFAULT = '192.168.1.38'
+    REDIS_HOST_DEFAULT = '192.168.1.103'
     REDIS_PORT_DEFAULT = '6379'
     REDIS_DB_DEFAULT = '9'
-    REDIS_PASSWORD_DEFAULT = None
+    REDIS_PASSWORD_DEFAULT = 'Dps@123234#'
 
     # Postgre default info
-    PG_HOST_DEFAULT = '192.168.1.38'
+    PG_HOST_DEFAULT = '34.87.189.111'
     PG_PORT_DEFAULT = '5432'
     PG_USER_DEFAULT = 'hoang'
     PG_PASSWORD_DEFAULT = '4983'
