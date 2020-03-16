@@ -43,7 +43,7 @@ if DEPLOY == 'local':
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
-    CRAWL_TYPE_DEFAULT = 'job'
+    CRAWL_TYPE_DEFAULT = 'candidate'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 
