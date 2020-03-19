@@ -228,7 +228,7 @@ class UniversalExtractService:
                     #     logger.info('Too few field >> SKIP')
                     #     continue
 
-                    result['url'] = url
+                    result['source'] = url
 
                     if msg['type'] == 'job' and url_domain == 'careerbuilder.vn':
                         salary = self.wrapSeleniumDriver.driver.find_element_by_css_selector('ul.DetailJobNew')
@@ -242,6 +242,8 @@ class UniversalExtractService:
                             continue
                     elif config.crawl_type == 'bds':
                         result['id'] = int(str(time.time()).replace('.', ''))
+                        result['source'] = url
+                        result['domain'] = url_domain
 
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))
