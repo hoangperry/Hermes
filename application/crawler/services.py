@@ -240,6 +240,8 @@ class UniversalExtractService:
                     if config.crawl_type == 'candidate':
                         if result['name'] == '' or result['salary_normalized'][0] > 400000000:
                             continue
+                    elif config.crawl_type == 'bds':
+                        result['id'] = int(str(time.time()).replace('.', ''))
 
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))

@@ -28,9 +28,12 @@ pre_floors: null
 pre_legal_status: Pháp lý
 pre_price: Giá
 pre_total_area: Diện tích
-pre_total_area_length: null
-pre_total_area_width: null
+total_area_length: null
+total_area_width: null
 price: div.header div.price
 selenium: true
 title: div.header h1
 total_area: div#main div#prop-info ul:nth-of-type(1) li:nth-of-type(3)
+house_type: null
+location: null
+address_number: null

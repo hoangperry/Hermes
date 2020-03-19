@@ -28,9 +28,12 @@ pre_floors: Tầng/Lầu
 pre_legal_status: 'Pháp lý:'
 pre_price: null
 pre_total_area: 'Diện tích đất:'
-pre_total_area_length: null
-pre_total_area_width: null
+total_area_length: null
+total_area_width: null
 price: div.price-top
 selenium: true
 title: h1
 total_area: null
+house_type: null
+location: null
+address_number: null

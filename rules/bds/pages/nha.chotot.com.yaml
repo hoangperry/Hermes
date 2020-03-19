@@ -28,9 +28,12 @@ pre_floors: null
 pre_legal_status: 'Giấy tờ pháp lý: '
 pre_price: 'Giá:'
 pre_total_area: 'Diện tích: '
-pre_total_area_length: null
-pre_total_area_width: null
+total_area_length: null
+total_area_width: null
 price: span.oRSYZ0HPb2tHhHjpVp_2o span
 selenium: true
 title: div.iltDBORq0FT_OjmouT7Ui h1
 total_area: i._11n1A9zf2_G-CHco5Ur5mL + span
+house_type: null
+location: null
+address_number: null

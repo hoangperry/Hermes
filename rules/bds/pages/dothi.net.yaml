@@ -28,9 +28,12 @@ pre_floors: null
 pre_legal_status: null
 pre_price: 'Giá:'
 pre_total_area: 'Diện tích:'
-pre_total_area_length: null
-pre_total_area_width: null
+total_area_length: null
+total_area_width: null
 price: span.spanprice
 selenium: true
 title: div.product-detail h1
 total_area: span.spanprice + span
+house_type: null
+location: null
+address_number: null

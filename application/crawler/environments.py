@@ -21,9 +21,9 @@ if DEPLOY == 'local':
 
     # Redis default info
     REDIS_HOST_DEFAULT = '192.168.1.103'
-    REDIS_PORT_DEFAULT = '6379'
+    REDIS_PORT_DEFAULT = '6381'
     REDIS_DB_DEFAULT = '9'
-    REDIS_PASSWORD_DEFAULT = 'Dps@123234#'
+    REDIS_PASSWORD_DEFAULT = ''
 
     # Postgre default info
     PG_HOST_DEFAULT = '34.87.189.111'

@@ -29,9 +29,12 @@ pre_floors: null
 pre_legal_status: null
 pre_price: 'Giá:'
 pre_total_area: Diện tích
-pre_total_area_length: null
-pre_total_area_width: null
+total_area_length: null
+total_area_width: null
 price: div#columncenter div.col-sm-3:nth-of-type(1) span
 selenium: true
 title: div#columncenter h1
 total_area: div#columncenter div.col-sm-3:nth-of-type(2) span
+house_type: null
+location: null
+address_number: null
