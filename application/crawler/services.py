@@ -26,14 +26,16 @@ def _get_rules(redis_connect):
 
 
 class UniversalExtractService:
-    def __init__(self, _config, redis_connect, kafka_consumer_bsd_link, db_connection=None):
+    def __init__(self, _config, redis_connect, kafka_consumer, kafka_producer, db_connection=None):
         self.selenium_driver_path = _config.driver_path
+        self.crawler_config = _config
         self.wrapSeleniumDriver = scrapping.WebDriverWrapper(self.selenium_driver_path)
         self.headless = True
         self.redis_connect = redis_connect
         self.url = None
         self.domain = None
-        self.kafka_consumer_bsd_link = kafka_consumer_bsd_link
+        self.kafka_consumer = kafka_consumer
+        self.kafka_producer = kafka_producer
         self.resume_step = _config.resume_step
         self.dict_rules, self.home_rules = _get_rules(redis_connect=self.redis_connect)
         self.normalizer = {
@@ -96,6 +98,12 @@ class UniversalExtractService:
         #     model.data = result
         model.data = result
         return model
+
+    def send_link_to_kafka(self, _object):
+        self.kafka_producer.send(
+            self.crawler_config.crawl_type + '_' + self.crawler_config.kafka_object_topic, _object
+        )
+        time.sleep(0.01)
 
     def login(self, url_domain, _crawl_type):
         if self.home_rules[_crawl_type][url_domain]['login_require']:
@@ -173,7 +181,7 @@ class UniversalExtractService:
         logger.info("Start streaming")
         resume_step = 1
 
-        for msg in self.kafka_consumer_bsd_link:
+        for msg in self.kafka_consumer:
             try:
                 resume_step += 1
                 if resume_step % self.resume_step == 0:
@@ -244,6 +252,7 @@ class UniversalExtractService:
                         result['id'] = int(str(time.time()).replace('.', ''))
                         result['source'] = url
                         result['domain'] = url_domain
+                        self.send_link_to_kafka(result)
 
                     if self.db_engine == 'postgresql':
                         self.db_connection.insert_one(self.create_pg_record_to_db({'data': result}))

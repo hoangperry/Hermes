@@ -11,7 +11,7 @@ if DEPLOY == 'local':
     #####
     '''
     # Kafka default info
-    KAFKA_HOSTS_DEFAULT = '192.168.1.103:9092'
+    KAFKA_HOSTS_DEFAULT = 'localhost:9092'
     KAFKA_USER_DEFAULT = None
     KAFKA_PASSWORD_DEFAULT = None
     KAFKA_NUM_PARTITIONS_DEFAULT = '50'
@@ -20,8 +20,8 @@ if DEPLOY == 'local':
     KAFKA_CONSUMER_GROUP_DEFAULT = 'default'
 
     # Redis default info
-    REDIS_HOST_DEFAULT = '192.168.1.103'
-    REDIS_PORT_DEFAULT = '6381'
+    REDIS_HOST_DEFAULT = 'localhost'
+    REDIS_PORT_DEFAULT = '6379'
     REDIS_DB_DEFAULT = '9'
     REDIS_PASSWORD_DEFAULT = ''
 
@@ -43,7 +43,7 @@ if DEPLOY == 'local':
     RESUME_STEP_DEFAULT = '100'
     RESTART_SELENIUM_STEP_DEFAULT = '100'
     USE_AWS_DEFAULT = 'False'
-    CRAWL_TYPE_DEFAULT = 'candidate'
+    CRAWL_TYPE_DEFAULT = 'bds'
     DOWNLOAD_IMAGES_DEFAULT = 'True'
     YAML_FOLDER_DEFAULT = 'rules/'
 
